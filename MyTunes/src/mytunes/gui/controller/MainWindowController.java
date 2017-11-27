@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
+import mytunes.gui.controller.MainWindowModel;
+
 /**
  *
  * @author janvanzetten
