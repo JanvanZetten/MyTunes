@@ -9,6 +9,6 @@ package mytunes.be;
  *
  * @author janvanzetten
  */
-public class song {
+public class Song {
     
 }
