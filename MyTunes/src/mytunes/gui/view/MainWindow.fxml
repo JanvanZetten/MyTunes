@@ -15,7 +15,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" layoutX="-3.0" layoutY="-6.0" stroke="#8ca3bd" strokeType="INSIDE" width="844.0" />
       <Button layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#playSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Play" textFill="#fcfff5" />
       <Button layoutX="92.0" layoutY="48.0" mnemonicParsing="false" onAction="#pauseSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Pause" textFill="#fcfff5" />
-      <Button layoutX="170.0" layoutY="48.0" mnemonicParsing="false" onAction="#previusSongAction" style="-fx-background-color: #3E606F;" text="Previous" textFill="#fcfff5" />
+      <Button layoutX="170.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#previusSongAction" style="-fx-background-color: #3E606F;" text="Previous" textFill="#fcfff5" />
       <Button layoutX="250.0" layoutY="48.0" mnemonicParsing="false" onAction="#nextSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Next" textFill="#fcfff5" />
       <Button layoutX="330.0" layoutY="48.0" mnemonicParsing="false" onAction="#repeatSongsAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Repeat" textFill="#fcfff5" />
       <Button layoutX="409.0" layoutY="48.0" mnemonicParsing="false" onAction="#shuffleSongsAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Shuffle" textFill="#fcfff5" />
