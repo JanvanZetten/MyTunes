@@ -5,10 +5,22 @@
  */
 package mytunes.dal;
 
+import java.util.ArrayList;
+import java.util.List;
+import mytunes.be.Playlist;
+
 /**
  *
  * @author janvanzetten
  */
 public class DALManager {
+
+    public List<Playlist> getAllPlaylists() {
+        List<Playlist> playlists = new ArrayList<>();
+        playlists.add(new Playlist("Test Playlist with no content"));
+        return playlists;
+    }
+
+    
     
 }

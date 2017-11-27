@@ -15,8 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mytunes.be.Playlist;
+import mytunes.be.Song;
+import mytunes.gui.model.MainWindowModel;
 
 /**
  *
@@ -41,10 +45,22 @@ public class MainWindowController implements Initializable {
     private Label lblCurrentTime;
     @FXML
     private Label lblTotalTimeSong;
+    @FXML
+    private ListView<Song> listViewPlaylistContent;
+    @FXML
+    private ListView<Playlist> listViewPlaylists;
+    
+    MainWindowModel model;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        //add the playlists to the view
+        model = new MainWindowModel();
+        model.addAllPlaylistsToGUI();
+        listViewPlaylists.setItems(model.getPlaylists());
+        
+        
     }    
 
     @FXML

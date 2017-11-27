@@ -5,10 +5,19 @@
  */
 package mytunes.bll;
 
+import java.util.List;
+import mytunes.be.Playlist;
+import mytunes.dal.DALManager;
+
 /**
  *
  * @author janvanzetten
  */
 public class BLLManager {
+    DALManager dalManager = new DALManager();
+
+    public List<Playlist> getAllPlaylists() {
+        return dalManager.getAllPlaylists();
+    }
     
 }

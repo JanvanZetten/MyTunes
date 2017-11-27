@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" layoutX="-3.0" layoutY="-6.0" stroke="#8ca3bd" strokeType="INSIDE" width="844.0" />
       <Button layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#playSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Play" textFill="#fcfff5" />
@@ -27,7 +27,7 @@
       <Label fx:id="lblSongTitleTopBar" layoutX="656.0" layoutY="9.0" text="-" textFill="#193441" />
       <Label fx:id="lblSongAlbumTopBar" layoutX="656.0" layoutY="29.0" text="-" textFill="#193441" />
       <Label fx:id="lblSongArtistTopBar" layoutX="656.0" layoutY="50.0" text="-" textFill="#193441" />
-      <ListView layoutX="191.0" layoutY="122.0" prefHeight="439.0" prefWidth="643.0" />
+      <ListView fx:id="listViewPlaylistContent" layoutX="191.0" layoutY="122.0" prefHeight="439.0" prefWidth="643.0" />
       <Label fx:id="lblChosenPlaylist" layoutX="192.0" layoutY="93.0" text="Playliste navn" textFill="#193441">
          <font>
             <Font size="24.0" />
@@ -39,7 +39,7 @@
       <Button layoutX="11.0" layoutY="566.0" mnemonicParsing="false" onAction="#addPlaylistAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Add" textFill="#fcfff5" />
       <Button layoutX="88.0" layoutY="566.0" mnemonicParsing="false" onAction="#deletePlaylistAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Delete" textFill="#fcfff5" />
       <Label fx:id="lblPlaylistInfo" layoutX="795.0" layoutY="571.0" text="info" textAlignment="RIGHT" textFill="#193441" />
-      <ListView layoutX="3.0" layoutY="122.0" prefHeight="439.0" prefWidth="185.0" />
+      <ListView fx:id="listViewPlaylists" layoutX="3.0" layoutY="122.0" prefHeight="439.0" prefWidth="185.0" />
       <Label fx:id="lblChosenPlaylist1" layoutX="8.0" layoutY="93.0" text="My Playlists:" textFill="#193441">
          <font>
             <Font size="24.0" />
