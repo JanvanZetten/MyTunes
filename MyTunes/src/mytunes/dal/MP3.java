@@ -5,6 +5,21 @@
  */
 package mytunes.dal;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.mp3.Mp3Parser;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 /**
  *
  * @author Asbamz
@@ -12,70 +27,190 @@ package mytunes.dal;
 public class MP3 implements AudioMedia
 {
 
+    private String mp3File;
+
+    private String artist;
+    private String title;
+    private String album;
+    private int year;
+    private String genre;
+    private double duration;
+
+    public MP3(String mp3File)
+    {
+        this.mp3File = mp3File;
+        loadMetaData();
+    }
+
     @Override
     public String getArtist()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return artist;
     }
 
     @Override
     public String getTitle()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return title;
     }
 
     @Override
     public String getAlbum()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return album;
     }
 
     @Override
     public int getYear()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return year;
     }
 
     @Override
     public String getGenre()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return genre;
     }
 
     @Override
-    public int getLength()
+    public double getDuration()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return duration;
     }
 
     @Override
-    public void setArtist()
+    public void setArtist(String artist)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.artist = artist;
+        updateMetaData();
     }
 
     @Override
-    public void setTitle()
+    public void setTitle(String title)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.title = title;
+        updateMetaData();
     }
 
     @Override
-    public void setAlbum()
+    public void setAlbum(String album)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.album = album;
+        updateMetaData();
     }
 
     @Override
-    public void setYear()
+    public void setYear(int year)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.year = year;
+        updateMetaData();
     }
 
     @Override
-    public void setGenre()
+    public void setGenre(String genre)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.genre = genre;
+        updateMetaData();
     }
 
+    /**
+     * Load in metadata from file. Using tika-app-1.16.jar.
+     */
+    private void loadMetaData()
+    {
+        try
+        {
+            InputStream input = new FileInputStream(new File(mp3File));
+            ContentHandler handler = new DefaultHandler();
+            Metadata metadata = new Metadata();
+            Parser parser = new Mp3Parser();
+            ParseContext parseCtx = new ParseContext();
+            parser.parse(input, handler, metadata, parseCtx);
+            input.close();
+
+            // List all metadata codes.
+            //String[] metadataNames = metadata.names();
+            //for (String name : metadataNames)
+            //{
+            //    System.out.println(name + ": " + metadata.get(name));
+            //}
+            artist = metadata.get("xmpDM:artist");
+            title = metadata.get("title");
+            album = metadata.get("xmpDM:album");
+            year = Integer.parseInt(metadata.get("xmpDM:releaseDate"));
+            genre = metadata.get("xmpDM:genre");
+            duration = Double.parseDouble(metadata.get("xmpDM:duration"));
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (SAXException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (TikaException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (NumberFormatException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+    }
+
+    /**
+     * Update in metadata from file. Using tika-app-1.16.jar. NOT WORKING
+     */
+    private void updateMetaData()
+    {
+        try
+        {
+            InputStream input = new FileInputStream(new File(mp3File));
+            ContentHandler handler = new DefaultHandler();
+            Metadata metadata = new Metadata();
+            Parser parser = new Mp3Parser();
+            ParseContext parseCtx = new ParseContext();
+            parser.parse(input, handler, metadata, parseCtx);
+            input.close();
+
+            // List all metadata codes.
+            //String[] metadataNames = metadata.names();
+            //for (String name : metadataNames)
+            //{
+            //    System.out.println(name + ": " + metadata.get(name));
+            //}
+            metadata.set("xmpDM:artist", artist);
+            metadata.set("title", title);
+            metadata.set("xmpDM:album", album);
+            metadata.set("xmpDM:releaseDate", String.valueOf(year));
+            metadata.set("xmpDM:genre", genre);
+
+            loadMetaData();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (SAXException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (TikaException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        catch (NumberFormatException e)
+        {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+    }
 }

@@ -12,25 +12,80 @@ package mytunes.dal;
 public interface AudioMedia
 {
 
+    /**
+     * Gets the artist registered in Audio File.
+     *
+     * @return metadata
+     */
     public String getArtist();
 
+    /**
+     * Gets the title registered in Audio File.
+     *
+     * @return metadata
+     */
     public String getTitle();
 
+    /**
+     * Gets the album registered in Audio File.
+     *
+     * @return metadata
+     */
     public String getAlbum();
 
+    /**
+     * Gets the year registered in Audio File.
+     *
+     * @return metadata
+     */
     public int getYear();
 
+    /**
+     * Gets the genre registered in Audio File.
+     *
+     * @return metadata
+     */
     public String getGenre();
 
-    public int getLength();
+    /**
+     * Gets the duration in miliseconds registered in Audio File.
+     *
+     * @return metadata
+     */
+    public double getDuration();
 
-    public void setArtist();
+    /**
+     * Sets the artist in the Audio File.
+     *
+     * @param artist new value.
+     */
+    public void setArtist(String artist);
 
-    public void setTitle();
+    /**
+     * Sets the title in the Audio File.
+     *
+     * @param title new value.
+     */
+    public void setTitle(String title);
 
-    public void setAlbum();
+    /**
+     * Sets the album in the Audio File.
+     *
+     * @param album new value.
+     */
+    public void setAlbum(String album);
 
-    public void setYear();
+    /**
+     * Sets the year in the Audio File.
+     *
+     * @param year new value.
+     */
+    public void setYear(int year);
 
-    public void setGenre();
+    /**
+     * Sets the genre in the Audio File.
+     *
+     * @param genre new value.
+     */
+    public void setGenre(String genre);
 }
