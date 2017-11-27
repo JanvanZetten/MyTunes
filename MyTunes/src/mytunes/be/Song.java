@@ -10,13 +10,13 @@ package mytunes.be;
  * @author janvanzetten
  */
 public class Song {
-    
-    String title;
-    String album;
-    String artist;
-    int year;
-    String genre;
-    String path;
+
+    private String title;
+    private String album;
+    private String artist;
+    private int year;
+    private String genre;
+    private final String path;
 
     public Song(String title, String artist, String path) {
         this.title = title;
@@ -24,13 +24,54 @@ public class Song {
         this.path = path;
     }
 
-    
-    
-    
-    
-    
+    /**
+     * edit the title of the song
+     *
+     * @param title as string
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * set the album of the song
+     *
+     * @param album as string
+     */
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    /**
+     * set the artist of the song
+     *
+     * @param artist as string
+     */
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    /**
+     * set the year of the song
+     *
+     * @param year as int
+     */
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    /**
+     * set th genre of the song
+     *
+     * @param genre as string
+     */
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     /**
      * get the songs title
+     *
      * @return a String with the title
      */
     public String getTitle() {
@@ -38,7 +79,8 @@ public class Song {
     }
 
     /**
-     *get the songs album
+     * get the songs album
+     *
      * @return a String with the album
      */
     public String getAlbum() {
@@ -47,6 +89,7 @@ public class Song {
 
     /**
      * get the songs artist
+     *
      * @return a String with the artist
      */
     public String getArtist() {
@@ -55,6 +98,7 @@ public class Song {
 
     /**
      * get the songs year
+     *
      * @return a int with the year
      */
     public int getYear() {
@@ -63,19 +107,19 @@ public class Song {
 
     /**
      * get the songs genre
+     *
      * @return a String with the genre
      */
     public String getGenre() {
         return genre;
     }
-    
+
     /**
      * returns the path with a file:// prefix
+     *
      * @return string path
      */
-    public String getpath(){
+    public String getpath() {
         return ("file://" + path);
     }
-    
-    
 }
