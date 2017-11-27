@@ -72,7 +72,7 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    private void addSongAction() throws IOException {
+    private void addSongAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSongView.fxml"));
@@ -83,11 +83,22 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    private void addPlaylistAction(ActionEvent event) {
+    private void addPlaylistAction(ActionEvent event) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylistView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
     @FXML
     private void deletePlaylistAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteSongAction(ActionEvent event) {
     }
     
 }
