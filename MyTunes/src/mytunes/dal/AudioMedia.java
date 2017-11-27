@@ -9,7 +9,7 @@ package mytunes.dal;
  *
  * @author Asbamz
  */
-public interface audioMedia
+public interface AudioMedia
 {
 
     public String getArtist();
