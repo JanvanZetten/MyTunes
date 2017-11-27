@@ -16,6 +16,13 @@ public class Song {
     String artist;
     int year;
     String genre;
+    String path;
+
+    public Song(String title, String artist, String path) {
+        this.title = title;
+        this.artist = artist;
+        this.path = path;
+    }
 
     
     
@@ -62,7 +69,13 @@ public class Song {
         return genre;
     }
     
-    
+    /**
+     * returns the path with a file:// prefix
+     * @return string path
+     */
+    public String getpath(){
+        return ("file://" + path);
+    }
     
     
 }
