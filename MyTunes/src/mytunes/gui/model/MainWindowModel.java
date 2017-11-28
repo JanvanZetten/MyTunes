@@ -66,6 +66,10 @@ public class MainWindowModel {
         songs.addAll(selectedItem.getSongs());
         }
 
+    /**
+     * gets the playlist with all the songs
+     * @return playlist with all the known songs
+     */
     public Playlist getAllSongsPlaylist() {
         return bllManager.getAllSongsPlaylist();
     }
