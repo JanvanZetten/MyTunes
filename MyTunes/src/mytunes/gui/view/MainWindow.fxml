@@ -40,7 +40,7 @@
         <Button layoutX="276.0" layoutY="566.0" mnemonicParsing="false" onAction="#deleteSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Delete" textFill="#fcfff5" />
         <Button layoutX="11.0" layoutY="566.0" mnemonicParsing="false" onAction="#addPlaylistAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Add" textFill="#fcfff5" />
         <Button layoutX="88.0" layoutY="566.0" mnemonicParsing="false" onAction="#deletePlaylistAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Delete" textFill="#fcfff5" />
-        <Label fx:id="lblPlaylistInfo" layoutX="691.0" layoutY="571.0" prefHeight="17.0" prefWidth="142.0" textAlignment="RIGHT" textFill="#193441" />
+        <Label fx:id="lblPlaylistInfo" layoutX="691.0" layoutY="571.0" prefHeight="17.0" prefWidth="142.0" textAlignment="RIGHT" textFill="#fcfff5" />
         <ListView fx:id="listViewPlaylists" layoutX="3.0" layoutY="122.0" onMouseClicked="#clickedPlaylist" prefHeight="439.0" prefWidth="185.0" />
         <Label layoutX="8.0" layoutY="93.0" text="My Playlists:" textFill="#fcfff5">
             <font>
