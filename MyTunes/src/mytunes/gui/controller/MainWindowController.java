@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -62,7 +63,9 @@ public class MainWindowController implements Initializable
     private TableColumn<Song, String> tblviewGenre;
     @FXML
     private TableColumn<Song, String> tblviewYear;
-
+    @FXML
+    private Slider volumeSlider;
+    
     MainWindowModel model;
 
     @Override
@@ -90,6 +93,9 @@ public class MainWindowController implements Initializable
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
+        
+        //volumeSlider
+        model.volumeSliderSetup(volumeSlider);
 
     }
 

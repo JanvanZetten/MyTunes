@@ -6,8 +6,11 @@
 package mytunes.gui.model;
 
 import java.io.File;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.Playlist;
@@ -27,6 +30,7 @@ public class MainWindowModel
     Media sound;
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
+    private Double currentVolume = 1.0;
 
     public MainWindowModel()
     {
@@ -162,7 +166,25 @@ public class MainWindowModel
         {
             sound = new Media(new File(songs.get(currentIndex).getpath()).toURI().toString());
             mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(currentVolume);
         }
+        
+    }
+
+    /**
+     * links the volumeslider to the mediaplayers volume
+     * @param volumeSlider the Slider who have to adjust the volume
+     */
+    public void volumeSliderSetup(Slider volumeSlider) {
+        volumeSlider.setValue(mediaPlayer.getVolume() * volumeSlider.getMax());
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
+                currentVolume = (volumeSlider.getValue() / volumeSlider.getMax());
+            }
+        });
+        
     }
 
 }
