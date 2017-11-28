@@ -89,10 +89,16 @@ public class MainWindowModel
         switchSong();
     }
 
+<<<<<<< HEAD
+    public Playlist getAllSongsPlaylist()
+    {
+=======
     /**
      * gets the playlist with all the songs
      * @return playlist with all the known songs
      */
+    public Playlist getAllSongsPlaylist() {
+>>>>>>> 813be25b5c0746ebf80052be5576da3d8170bc40
         return bllManager.getAllSongsPlaylist();
     }
 
