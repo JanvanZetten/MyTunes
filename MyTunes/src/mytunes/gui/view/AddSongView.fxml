@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" fx:controller="mytunes.gui.controller.AddSongViewController">
+<AnchorPane id="AnchorPane" prefHeight="337.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.AddSongViewController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="84.0" layoutX="-2.0" layoutY="-5.0" stroke="#91aab4" strokeType="INSIDE" width="617.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="64.0" layoutX="-2.0" layoutY="-19.0" stroke="#91aab4" strokeType="INSIDE" width="428.0" />
+      <Label layoutX="128.0" layoutY="5.0" text="New / edit song" textFill="#193441">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="92.0" layoutY="83.0" text="Title:" textFill="#193441" />
+      <Label layoutX="84.0" layoutY="154.0" text="Genre:" textFill="#193441" />
+      <Label layoutX="86.0" layoutY="119.0" text="Artist:" textFill="#193441" />
+      <Label layoutX="53.0" layoutY="258.0" text="File location:" textFill="#193441" />
+      <TextField layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="192.0" promptText="Title..." />
+      <Label layoutX="83.0" layoutY="222.0" text="Album:" textFill="#193441" />
+      <Label layoutX="92.0" layoutY="187.0" text="Year:" textFill="#193441" />
+      <TextField layoutX="132.0" layoutY="115.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
+      <TextField layoutX="232.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
+      <TextField layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
+      <Button layoutX="336.0" layoutY="254.0" mnemonicParsing="false" text="Search" />
+      <TextField layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
+      <ComboBox layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
+      <ComboBox layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
    </children>
 </AnchorPane>
