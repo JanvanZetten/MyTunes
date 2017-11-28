@@ -174,6 +174,10 @@ public class MainWindowController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * loads the clikced playlist to the song view
+     * @param event 
+     */
     @FXML
     private void clickedPlaylist(MouseEvent event) {
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
