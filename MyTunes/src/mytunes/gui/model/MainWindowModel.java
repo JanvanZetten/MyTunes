@@ -17,9 +17,16 @@ import mytunes.bll.BLLManager;
  */
 public class MainWindowModel {
     
-    private BLLManager BLLManager = new BLLManager();
-    private ObservableList<Playlist> playlists = FXCollections.observableArrayList();
-    private ObservableList<Song> songs = FXCollections.observableArrayList();
+    private BLLManager BLLManager;
+    private ObservableList<Playlist> playlists;
+    private ObservableList<Song> songs;
+
+    public MainWindowModel() {
+        BLLManager = new BLLManager();
+        playlists = FXCollections.observableArrayList();
+        songs = FXCollections.observableArrayList();
+        BLLManager.loadPlaylistAllSongs();
+    }
     
     
     
@@ -39,12 +46,24 @@ public class MainWindowModel {
     public ObservableList<Playlist> getPlaylists(){
         return playlists;
     }
-
-    public ObservableList<Song> setSongs(Playlist selectedItem) {
-        songs.clear();
-        songs.addAll(selectedItem.getSongs());
+    
+    /**
+     * gets the observablelist with the songs
+     * @return a observablelist with Playlist objects
+     */
+    public ObservableList<Song> getSongs(){
         return songs;
     }
+
+    /**
+     * set the songs from the given playlist in the observablelist. 
+     * remember to add the observablelist to the view with getSong()
+     * @param selectedItem the playlist from which to take the song
+     */
+    public void setSongs(Playlist selectedItem) {
+        songs.clear();
+        songs.addAll(selectedItem.getSongs());
+        }
 
     
     

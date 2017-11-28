@@ -15,13 +15,20 @@ import mytunes.be.Song;
  * @author janvanzetten
  */
 public class DALManager {
+    List<Playlist> playlists = new ArrayList<>();
 
     public List<Playlist> getAllPlaylists() {
-        List<Playlist> playlists = new ArrayList<>();
         Playlist playlist = new Playlist("Test Playlist with no content");
         playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "/noWhere"));
         playlists.add(playlist);
         return playlists;
+    }
+
+    public void loadPlaylistAllSongs() {
+        
+        Playlist playlist = new Playlist("All my songs");
+        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "/noWhere"));
+        playlists.add(playlist);
     }
 
     

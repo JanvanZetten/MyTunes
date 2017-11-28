@@ -19,5 +19,9 @@ public class BLLManager {
     public List<Playlist> getAllPlaylists() {
         return dalManager.getAllPlaylists();
     }
+
+    public void loadPlaylistAllSongs() {
+        dalManager.loadPlaylistAllSongs();
+    }
     
 }

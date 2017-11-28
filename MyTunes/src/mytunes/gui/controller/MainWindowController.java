@@ -67,10 +67,29 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        //add the playlists to the view
+        
         model = new MainWindowModel();
+        
+        //add the playlists to the view
         model.addAllPlaylistsToGUI();
         listViewPlaylists.setItems(model.getPlaylists());
+        
+        
+        //add the songs to the view
+        tblviewSong.setCellValueFactory(
+            new PropertyValueFactory("title"));
+        tblviewArtist.setCellValueFactory(
+            new PropertyValueFactory("artist"));
+        tblviewAlbum.setCellValueFactory(
+            new PropertyValueFactory("album"));
+        tblviewGenre.setCellValueFactory(
+            new PropertyValueFactory("genre"));
+        tblviewYear.setCellValueFactory(
+            new PropertyValueFactory("year"));
+        
+        
+        tblviewMaster.setItems(model.getSongs());
+        
         
         
     }    
@@ -131,18 +150,18 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void clickedPlaylist(MouseEvent event) {
-        tblviewSong.setCellValueFactory(
-            new PropertyValueFactory("title"));
-        tblviewArtist.setCellValueFactory(
-            new PropertyValueFactory("artist"));
-        tblviewAlbum.setCellValueFactory(
-            new PropertyValueFactory("album"));
-        tblviewGenre.setCellValueFactory(
-            new PropertyValueFactory("genre"));
-        tblviewYear.setCellValueFactory(
-            new PropertyValueFactory("year"));
+//        tblviewSong.setCellValueFactory(
+//            new PropertyValueFactory("title"));
+//        tblviewArtist.setCellValueFactory(
+//            new PropertyValueFactory("artist"));
+//        tblviewAlbum.setCellValueFactory(
+//            new PropertyValueFactory("album"));
+//        tblviewGenre.setCellValueFactory(
+//            new PropertyValueFactory("genre"));
+//        tblviewYear.setCellValueFactory(
+//            new PropertyValueFactory("year"));
         
-        tblviewMaster.setItems(model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem()));
+        model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem());
         
         lblChosenPlaylist.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
         lblPlaylistInfo.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getSongs().size() + " song in this playlist");
