@@ -31,7 +31,15 @@ public class MainWindowModel
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
     private Double currentVolume = 1.0;
-
+    private static MainWindowModel instance;
+    
+    public static MainWindowModel getInstance() {
+        if (instance == null) {
+            instance = new MainWindowModel();
+        }
+        return instance;
+    }
+    
     public MainWindowModel()
     {
         bllManager = new BLLManager();

@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import mytunes.gui.model.MainWindowModel;
+
 /**
  * FXML Controller class
  *
@@ -27,13 +29,14 @@ public class DeleteConfirmationViewController implements Initializable {
     private Button btnYes;
     @FXML
     private Button btnNo;
+    MainWindowModel model;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        model = MainWindowModel.getInstance();
     }    
 
     @FXML
