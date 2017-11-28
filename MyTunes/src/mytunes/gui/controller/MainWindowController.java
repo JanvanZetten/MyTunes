@@ -145,6 +145,7 @@ public class MainWindowController implements Initializable {
         tblviewMaster.setItems(model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem()));
         
         lblChosenPlaylist.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
+        lblPlaylistInfo.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getSongs().size() + " song in this playlist");
     }
     
 }
