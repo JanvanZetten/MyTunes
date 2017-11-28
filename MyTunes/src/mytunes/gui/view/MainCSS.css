@@ -20,4 +20,24 @@ and open the template in the editor.
     -fx-background-color: #FCFFF5;
 }
 
+.root {
+    -fx-background-color: #193441;
+    
+}
 
+/*
+.list-cell {
+    -fx-text-fill: #193441;
+}
+
+.list-cell:even {
+    -fx-background-color: #FCFFF5;
+}
+
+.table-view:row-selection .column-header-background .nested-column-header .table-column .label {
+    -fx-background-color: #3e606f;
+}
+
+.list-cell:odd {
+    -fx-background-color: #91AAb4;
+}*/
