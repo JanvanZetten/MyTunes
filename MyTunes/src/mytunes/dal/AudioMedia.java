@@ -34,6 +34,17 @@ public class AudioMedia
     private String genre;
     private double duration;
 
+    /**
+     * Receives an file assumed to be a Audio File.
+     *
+     * @param file
+     * @throws IOException
+     * @throws ReadOnlyFileException
+     * @throws CannotReadException
+     * @throws TagException
+     * @throws ReadOnlyFileException
+     * @throws InvalidAudioFrameException
+     */
     public AudioMedia(File file) throws IOException, ReadOnlyFileException, CannotReadException, TagException, ReadOnlyFileException, InvalidAudioFrameException
     {
         this.file = file;

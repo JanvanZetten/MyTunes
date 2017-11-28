@@ -14,29 +14,32 @@ import mytunes.be.Song;
  *
  * @author janvanzetten
  */
-public class DALManager {
+public class DALManager
+{
+
     List<Playlist> playlists = new ArrayList<>();
 
-    public List<Playlist> getAllPlaylists() {
+    public List<Playlist> getAllPlaylists()
+    {
         Playlist playlist = new Playlist("Test Playlist with no content");
-        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "/noWhere"));
+        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "test.mp3"));
         playlists.add(playlist);
         return playlists;
     }
 
-    public void loadPlaylistAllSongs() {
-        
+    public void loadPlaylistAllSongs()
+    {
+
         Playlist playlist = new Playlist("All my songs");
-        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "/noWhere"));
-        playlist.addSongToPlaylist(new Song("test title2", "En gruppe", "/noWhere"));
-        
+        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "test.mp3"));
+        playlist.addSongToPlaylist(new Song("test title2", "En gruppe", "test.mp3"));
+
         playlists.add(playlist);
     }
 
-    public Playlist getAllSongsPlaylist() {
+    public Playlist getAllSongsPlaylist()
+    {
         return playlists.get(0);
     }
 
-    
-    
 }
