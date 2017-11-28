@@ -5,12 +5,14 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" layoutX="-3.0" layoutY="-6.0" stroke="#8ca3bd" strokeType="INSIDE" width="844.0" />
       <Button layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#playSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Play" textFill="#fcfff5" />
@@ -27,7 +29,6 @@
       <Label fx:id="lblSongTitleTopBar" layoutX="656.0" layoutY="9.0" text="-" textFill="#193441" />
       <Label fx:id="lblSongAlbumTopBar" layoutX="656.0" layoutY="29.0" text="-" textFill="#193441" />
       <Label fx:id="lblSongArtistTopBar" layoutX="656.0" layoutY="50.0" text="-" textFill="#193441" />
-      <ListView fx:id="listViewPlaylistContent" layoutX="191.0" layoutY="122.0" prefHeight="439.0" prefWidth="643.0" />
       <Label fx:id="lblChosenPlaylist" layoutX="192.0" layoutY="93.0" text="Playliste navn" textFill="#193441">
          <font>
             <Font size="24.0" />
@@ -47,5 +48,14 @@
       </Label>
       <Label fx:id="lblCurrentTime" layoutX="31.0" layoutY="17.0" text="-" textAlignment="RIGHT" textFill="#193441" />
       <Label fx:id="lblTotalTimeSong" layoutX="563.0" layoutY="17.0" text="-" textFill="#193441" />
+      <TableView fx:id="tblviewMaster" layoutX="192.0" layoutY="122.0" prefHeight="439.0" prefWidth="641.0">
+        <columns>
+          <TableColumn fx:id="tblviewSong" prefWidth="157.0" text="Song" />
+          <TableColumn fx:id="tblviewArtist" prefWidth="138.0" text="Artist" />
+            <TableColumn fx:id="tblviewAlbum" prefWidth="160.0" text="Album" />
+            <TableColumn fx:id="tblviewGenre" prefWidth="116.0" text="Genre" />
+            <TableColumn fx:id="tblviewYear" prefWidth="69.0" text="Year" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
