@@ -90,6 +90,7 @@ public class MainWindowController implements Initializable {
         
         tblviewMaster.setItems(model.getSongs());
         
+        setSongsOnTableview(model.getAllSongsPlaylist());
         
         
     }    
@@ -180,21 +181,17 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void clickedPlaylist(MouseEvent event) {
-//        tblviewSong.setCellValueFactory(
-//            new PropertyValueFactory("title"));
-//        tblviewArtist.setCellValueFactory(
-//            new PropertyValueFactory("artist"));
-//        tblviewAlbum.setCellValueFactory(
-//            new PropertyValueFactory("album"));
-//        tblviewGenre.setCellValueFactory(
-//            new PropertyValueFactory("genre"));
-//        tblviewYear.setCellValueFactory(
-//            new PropertyValueFactory("year"));
-        
-        model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem());
-        
-        lblChosenPlaylist.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
-        lblPlaylistInfo.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getSongs().size() + " song in this playlist");
+        setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
+    }
+    
+    /**
+     * sets the songs from the given playlist in the table view and updates the labels to match with the playlist
+     * @param playlist the playlist to show
+     */
+    private void setSongsOnTableview(Playlist playlist){
+        model.setSongs(playlist);
+        lblChosenPlaylist.setText(playlist.getName());
+        lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
     }
     
 }
