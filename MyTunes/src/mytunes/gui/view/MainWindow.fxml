@@ -8,12 +8,11 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" layoutX="-3.0" layoutY="-6.0" stroke="#8ca3bd" strokeType="INSIDE" width="844.0" />
         <Button layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#playSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Play" textFill="#fcfff5" />
@@ -22,7 +21,7 @@
         <Button layoutX="250.0" layoutY="48.0" mnemonicParsing="false" onAction="#nextSongAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Next" textFill="#fcfff5" />
         <Button layoutX="330.0" layoutY="48.0" mnemonicParsing="false" onAction="#repeatSongsAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Repeat" textFill="#fcfff5" />
         <Button layoutX="409.0" layoutY="48.0" mnemonicParsing="false" onAction="#shuffleSongsAction" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #3E606F;" text="Shuffle" textFill="#fcfff5" />
-        <Slider layoutX="491.0" layoutY="48.0" prefHeight="16.0" prefWidth="100.0" showTickMarks="true" value="100.0" />
+        <Slider fx:id="volumeSlider" layoutX="491.0" layoutY="48.0" prefHeight="16.0" prefWidth="100.0" showTickMarks="true" value="100.0" />
         <Line endX="50.0" layoutX="574.0" layoutY="38.0" rotate="90.0" stroke="#193441" />
         <Label layoutX="604.0" layoutY="50.0" text="Artist:" textFill="#193441" />
         <Label layoutX="603.0" layoutY="29.0" text="Album:" textFill="#193441" />
