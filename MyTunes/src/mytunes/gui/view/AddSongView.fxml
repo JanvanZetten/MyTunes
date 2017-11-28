@@ -20,15 +20,16 @@
       <Label layoutX="84.0" layoutY="154.0" text="Genre:" textFill="#193441" />
       <Label layoutX="86.0" layoutY="119.0" text="Artist:" textFill="#193441" />
       <Label layoutX="53.0" layoutY="258.0" text="File location:" textFill="#193441" />
-      <TextField layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="192.0" promptText="Title..." />
+      <TextField fx:id="txtfieldTitle" layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="192.0" promptText="Title..." />
       <Label layoutX="83.0" layoutY="222.0" text="Album:" textFill="#193441" />
       <Label layoutX="92.0" layoutY="187.0" text="Year:" textFill="#193441" />
-      <TextField layoutX="132.0" layoutY="115.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
-      <TextField layoutX="232.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
-      <TextField layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
-      <Button layoutX="336.0" layoutY="254.0" mnemonicParsing="false" text="Search" />
-      <TextField layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
-      <ComboBox layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
-      <ComboBox layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
+      <TextField fx:id="txtfieldArtist" layoutX="132.0" layoutY="115.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
+      <TextField fx:id="txtfieldNewGenre" layoutX="232.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
+      <TextField fx:id="txtfieldAlbum" layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
+      <Button fx:id="btnFileLocation" layoutX="336.0" layoutY="254.0" mnemonicParsing="false" text="Search" />
+      <TextField fx:id="txtfieldFileLocation" layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
+      <ComboBox fx:id="cmboboxGenre" layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
+      <ComboBox fx:id="cmboboxYear" layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
+      <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" text="Save changes" />
    </children>
 </AnchorPane>
