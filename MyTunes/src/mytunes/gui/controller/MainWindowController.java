@@ -44,8 +44,6 @@ public class MainWindowController implements Initializable {
     @FXML
     private Label lblPlaylistInfo;
     @FXML
-    private Label lblChosenPlaylist1;
-    @FXML
     private Label lblCurrentTime;
     @FXML
     private Label lblTotalTimeSong;
@@ -145,6 +143,8 @@ public class MainWindowController implements Initializable {
             new PropertyValueFactory("year"));
         
         tblviewMaster.setItems(model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem()));
+        
+        lblChosenPlaylist.setText(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
     }
     
 }
