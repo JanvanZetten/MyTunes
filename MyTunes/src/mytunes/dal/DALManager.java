@@ -28,7 +28,13 @@ public class DALManager {
         
         Playlist playlist = new Playlist("All my songs");
         playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "/noWhere"));
+        playlist.addSongToPlaylist(new Song("test title2", "En gruppe", "/noWhere"));
+        
         playlists.add(playlist);
+    }
+
+    public Playlist getAllSongsPlaylist() {
+        return playlists.get(0);
     }
 
     

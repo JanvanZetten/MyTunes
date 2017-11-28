@@ -17,15 +17,16 @@ import mytunes.bll.BLLManager;
  */
 public class MainWindowModel {
     
-    private BLLManager BLLManager;
+    private BLLManager bllManager;
     private ObservableList<Playlist> playlists;
     private ObservableList<Song> songs;
+    
 
     public MainWindowModel() {
-        BLLManager = new BLLManager();
+        bllManager = new BLLManager();
         playlists = FXCollections.observableArrayList();
         songs = FXCollections.observableArrayList();
-        BLLManager.loadPlaylistAllSongs();
+        bllManager.loadPlaylistAllSongs();
     }
     
     
@@ -36,7 +37,7 @@ public class MainWindowModel {
      */
     public void addAllPlaylistsToGUI(){
         playlists.clear();
-        playlists.addAll(BLLManager.getAllPlaylists());
+        playlists.addAll(bllManager.getAllPlaylists());
     }
     
     /**
@@ -64,6 +65,10 @@ public class MainWindowModel {
         songs.clear();
         songs.addAll(selectedItem.getSongs());
         }
+
+    public Playlist getAllSongsPlaylist() {
+        return bllManager.getAllSongsPlaylist();
+    }
 
     
     
