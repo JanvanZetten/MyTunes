@@ -31,8 +31,7 @@ import mytunes.gui.model.MainWindowModel;
  * @author janvanzetten
  */
 public class MainWindowController implements Initializable {
-    
-    
+
     @FXML
     private Label lblSongTitleTopBar;
     @FXML
@@ -49,7 +48,7 @@ public class MainWindowController implements Initializable {
     private Label lblTotalTimeSong;
     @FXML
     private ListView<Playlist> listViewPlaylists;
-    
+
     MainWindowModel model;
     @FXML
     private TableView<Song> tblviewMaster;
@@ -63,37 +62,33 @@ public class MainWindowController implements Initializable {
     private TableColumn<Song, String> tblviewGenre;
     @FXML
     private TableColumn<Song, String> tblviewYear;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
+
         model = new MainWindowModel();
-        
+
         //add the playlists to the view
         model.addAllPlaylistsToGUI();
         listViewPlaylists.setItems(model.getPlaylists());
-        
-        
+
         //add the songs to the view
         tblviewSong.setCellValueFactory(
-            new PropertyValueFactory("title"));
+                new PropertyValueFactory("title"));
         tblviewArtist.setCellValueFactory(
-            new PropertyValueFactory("artist"));
+                new PropertyValueFactory("artist"));
         tblviewAlbum.setCellValueFactory(
-            new PropertyValueFactory("album"));
+                new PropertyValueFactory("album"));
         tblviewGenre.setCellValueFactory(
-            new PropertyValueFactory("genre"));
+                new PropertyValueFactory("genre"));
         tblviewYear.setCellValueFactory(
-            new PropertyValueFactory("year"));
-        
-        
+                new PropertyValueFactory("year"));
+
         tblviewMaster.setItems(model.getSongs());
-        
+
         setSongsOnTableview(model.getAllSongsPlaylist());
-        
-        
-    }    
+
+    }
 
     @FXML
     private void playSongAction(ActionEvent event) {
@@ -118,7 +113,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void shuffleSongsAction(ActionEvent event) {
     }
-    
+
     /**
      * Clicking the "Add" button under the songlist causes a modal window that
      * assists the user in adding music to the library to appear.
@@ -150,8 +145,8 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * Clicking the "Delete" button under the playlists causes a confirmation 
-     * window to appear. 
+     * Clicking the "Delete" button under the playlists causes a confirmation
+     * window to appear.
      */
     @FXML
     private void deletePlaylistAction(ActionEvent event) throws IOException {
@@ -165,7 +160,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * Clicking the "Delete" button under the songlist causes a confirmation 
+     * Clicking the "Delete" button under the songlist causes a confirmation
      * window to appear.
      */
     @FXML
@@ -181,17 +176,21 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void clickedPlaylist(MouseEvent event) {
-        setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
+        }
     }
-    
+
     /**
-     * sets the songs from the given playlist in the table view and updates the labels to match with the playlist
+     * sets the songs from the given playlist in the table view and updates the
+     * labels to match with the playlist
+     *
      * @param playlist the playlist to show
      */
-    private void setSongsOnTableview(Playlist playlist){
+    private void setSongsOnTableview(Playlist playlist) {
         model.setSongs(playlist);
         lblChosenPlaylist.setText(playlist.getName());
         lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
     }
-    
+
 }
