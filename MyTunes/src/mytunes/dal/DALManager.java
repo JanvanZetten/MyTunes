@@ -21,8 +21,8 @@ public class DALManager
 
     public List<Playlist> getAllPlaylists()
     {
-        Playlist playlist = new Playlist("Test Playlist with no content");
-        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "test.mp3"));
+        Playlist playlist = new Playlist(1, "Test Playlist with no content");
+        playlist.addSongToPlaylist(new Song(1, "test title", "Jan van Zetten", "test.mp3"));
         playlists.add(playlist);
         return playlists;
     }
@@ -30,9 +30,9 @@ public class DALManager
     public void loadPlaylistAllSongs()
     {
 
-        Playlist playlist = new Playlist("All my songs");
-        playlist.addSongToPlaylist(new Song("test title", "Jan van Zetten", "test.mp3"));
-        playlist.addSongToPlaylist(new Song("test title2", "En gruppe", "test.mp3"));
+        Playlist playlist = new Playlist(2, "All my songs");
+        playlist.addSongToPlaylist(new Song(1, "test title", "Jan van Zetten", "test.mp3"));
+        playlist.addSongToPlaylist(new Song(2, "test title2", "En gruppe", "test.mp3"));
 
         playlists.add(playlist);
     }

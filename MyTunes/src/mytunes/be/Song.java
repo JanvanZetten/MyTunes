@@ -12,6 +12,7 @@ package mytunes.be;
 public class Song
 {
 
+    private int songId;
     private String title;
     private String album;
     private String artist;
@@ -19,11 +20,22 @@ public class Song
     private String genre;
     private final String path;
 
-    public Song(String title, String artist, String path)
+    public Song(int songId, String title, String artist, String path)
     {
+        this.songId = songId;
         this.title = title;
         this.artist = artist;
         this.path = path;
+    }
+
+    /**
+     * edit the songId of the song
+     *
+     * @param songId as string
+     */
+    public void setSongId(int songId)
+    {
+        this.songId = songId;
     }
 
     /**
@@ -74,6 +86,16 @@ public class Song
     public void setGenre(String genre)
     {
         this.genre = genre;
+    }
+
+    /**
+     * get the songs songId
+     *
+     * @return a int with the songId
+     */
+    public int getSongId()
+    {
+        return songId;
     }
 
     /**
