@@ -21,7 +21,7 @@ and open the template in the editor.
 }
 
 .root {
-    -fx-background-color: #193441;
+    -fx-background-color: linear-gradient(#3E606F 0%, #193441 100%);
     
 }
 
