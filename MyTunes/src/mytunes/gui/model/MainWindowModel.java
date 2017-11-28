@@ -23,7 +23,7 @@ import mytunes.bll.BLLManager;
  */
 public class MainWindowModel
 {
-
+    private static MainWindowModel instance;
     private BLLManager bllManager;
     private ObservableList<Playlist> playlists;
     private ObservableList<Song> songs;
@@ -31,14 +31,18 @@ public class MainWindowModel
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
     private Double currentVolume = 1.0;
-    private static MainWindowModel instance;
+    private String selectedElement;
     
+    /**
+     * Singleton method which makes sure that two MainWindowModels cannot be 
+     * created by two different classes that make use of the class.
+     */
     public static MainWindowModel getInstance() {
         if (instance == null) {
             instance = new MainWindowModel();
         }
         return instance;
-    }
+    }    
     
     public MainWindowModel()
     {
@@ -193,6 +197,15 @@ public class MainWindowModel
             }
         });
         
+    }
+
+    public String selectedDeletedElements(String SelectedElement) {
+        selectedElement = SelectedElement;
+        return selectedElement;
+    }
+
+    public String getSelectedElement() {
+        return selectedElement;
     }
 
 }
