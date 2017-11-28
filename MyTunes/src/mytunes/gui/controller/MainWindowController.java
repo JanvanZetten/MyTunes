@@ -122,11 +122,25 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    private void deletePlaylistAction(ActionEvent event) {
+    private void deletePlaylistAction(ActionEvent event) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
     @FXML
-    private void deleteSongAction(ActionEvent event) {
+    private void deleteSongAction(ActionEvent event) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
     @FXML

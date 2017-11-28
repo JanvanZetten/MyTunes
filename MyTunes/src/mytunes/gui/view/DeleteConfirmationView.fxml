@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="204.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" fx:controller="mytunes.gui.controller.DeleteConfirmationViewController">
+   <children>
+      <Polygon fill="#ecff1f" layoutX="111.0" layoutY="102.0" stroke="BLACK" strokeType="INSIDE">
+        <points>
+          <Double fx:value="-50.0" />
+          <Double fx:value="40.0" />
+          <Double fx:value="50.0" />
+          <Double fx:value="40.0" />
+          <Double fx:value="0.0" />
+          <Double fx:value="-60.0" />
+        </points>
+      </Polygon>
+      <Label layoutX="99.0" layoutY="42.0" text="!">
+         <font>
+            <Font size="82.0" />
+         </font>
+      </Label>
+      <Label layoutX="181.0" layoutY="71.0" text="Are you sure you want to delete">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDeletedElement" layoutX="181.0" layoutY="92.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnYes" layoutX="212.0" layoutY="156.0" mnemonicParsing="false" text="Proceed" />
+      <Button fx:id="btnNo" layoutX="299.0" layoutY="156.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Back" />
+   </children>
+</AnchorPane>
