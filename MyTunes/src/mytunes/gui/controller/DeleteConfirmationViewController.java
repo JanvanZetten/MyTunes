@@ -10,27 +10,21 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
  *
  * @author Alex
  */
-public class AddPlaylistViewController implements Initializable {
+public class DeleteConfirmationViewController implements Initializable {
 
     @FXML
-    private TextField txtfieldTitle;
+    private Label lblDeletedElement;
     @FXML
-    private TextField txtfieldNewGenre;
+    private Button btnYes;
     @FXML
-    private ComboBox<?> cmboboxGenre;
-    @FXML
-    private CheckBox checkboxAutoAdd;
-    @FXML
-    private Button btnCreatePlaylist;
+    private Button btnNo;
 
     /**
      * Initializes the controller class.

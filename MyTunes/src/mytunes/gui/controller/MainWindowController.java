@@ -117,7 +117,11 @@ public class MainWindowController implements Initializable {
     @FXML
     private void shuffleSongsAction(ActionEvent event) {
     }
-
+    
+    /**
+     * Clicking the "Add" button under the songlist causes a modal window that
+     * assists the user in adding music to the library to appear.
+     */
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
@@ -129,6 +133,10 @@ public class MainWindowController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Clicking the "Add" button under the playlists causes a modal window that
+     * assists the user in making a new playlist to appear.
+     */
     @FXML
     private void addPlaylistAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
@@ -140,12 +148,34 @@ public class MainWindowController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Clicking the "Delete" button under the playlists causes a confirmation 
+     * window to appear. 
+     */
     @FXML
-    private void deletePlaylistAction(ActionEvent event) {
+    private void deletePlaylistAction(ActionEvent event) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
+    /**
+     * Clicking the "Delete" button under the songlist causes a confirmation 
+     * window to appear.
+     */
     @FXML
-    private void deleteSongAction(ActionEvent event) {
+    private void deleteSongAction(ActionEvent event) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
     @FXML
