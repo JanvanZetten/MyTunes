@@ -11,6 +11,8 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import java.net.*?>
+
 
 <AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
     <children>
@@ -58,4 +60,7 @@
             </columns>
         </TableView>
     </children>
+    <stylesheets>
+        <URL value = "@MainCSS.css"/>
+    </stylesheets>
 </AnchorPane>
