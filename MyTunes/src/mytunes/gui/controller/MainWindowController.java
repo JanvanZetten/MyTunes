@@ -96,7 +96,7 @@ public class MainWindowController implements Initializable
         
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
-
+        
     }
 
     @FXML
