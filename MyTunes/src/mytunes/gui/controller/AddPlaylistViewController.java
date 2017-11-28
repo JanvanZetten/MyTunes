@@ -7,7 +7,12 @@ package mytunes.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -15,6 +20,17 @@ import javafx.fxml.Initializable;
  * @author Alex
  */
 public class AddPlaylistViewController implements Initializable {
+
+    @FXML
+    private TextField txtfieldTitle;
+    @FXML
+    private TextField txtfieldNewGenre;
+    @FXML
+    private ComboBox<?> cmboboxGenre;
+    @FXML
+    private CheckBox checkboxAutoAdd;
+    @FXML
+    private Button btnCreatePlaylist;
 
     /**
      * Initializes the controller class.
