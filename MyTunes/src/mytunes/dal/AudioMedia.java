@@ -53,39 +53,4 @@ public interface AudioMedia
      * @return metadata
      */
     public double getDuration();
-
-    /**
-     * Sets the artist in the Audio File.
-     *
-     * @param artist new value.
-     */
-    public void setArtist(String artist);
-
-    /**
-     * Sets the title in the Audio File.
-     *
-     * @param title new value.
-     */
-    public void setTitle(String title);
-
-    /**
-     * Sets the album in the Audio File.
-     *
-     * @param album new value.
-     */
-    public void setAlbum(String album);
-
-    /**
-     * Sets the year in the Audio File.
-     *
-     * @param year new value.
-     */
-    public void setYear(int year);
-
-    /**
-     * Sets the genre in the Audio File.
-     *
-     * @param genre new value.
-     */
-    public void setGenre(String genre);
 }

@@ -78,41 +78,6 @@ public class MP3 implements AudioMedia
         return duration;
     }
 
-    @Override
-    public void setArtist(String artist)
-    {
-        this.artist = artist;
-        updateMetaData();
-    }
-
-    @Override
-    public void setTitle(String title)
-    {
-        this.title = title;
-        updateMetaData();
-    }
-
-    @Override
-    public void setAlbum(String album)
-    {
-        this.album = album;
-        updateMetaData();
-    }
-
-    @Override
-    public void setYear(int year)
-    {
-        this.year = year;
-        updateMetaData();
-    }
-
-    @Override
-    public void setGenre(String genre)
-    {
-        this.genre = genre;
-        updateMetaData();
-    }
-
     /**
      * Load in metadata from file. Using tika-app-1.16.jar.
      */
@@ -140,57 +105,6 @@ public class MP3 implements AudioMedia
             year = Integer.parseInt(metadata.get("xmpDM:releaseDate"));
             genre = metadata.get("xmpDM:genre");
             duration = Double.parseDouble(metadata.get("xmpDM:duration"));
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        catch (SAXException e)
-        {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        catch (TikaException e)
-        {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        catch (NumberFormatException e)
-        {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-    }
-
-    /**
-     * Update in metadata from file. Using tika-app-1.16.jar. NOT WORKING
-     */
-    private void updateMetaData()
-    {
-        try
-        {
-            InputStream input = new FileInputStream(new File(mp3File));
-            ContentHandler handler = new DefaultHandler();
-            Metadata metadata = new Metadata();
-            Parser parser = new Mp3Parser();
-            ParseContext parseCtx = new ParseContext();
-            parser.parse(input, handler, metadata, parseCtx);
-            input.close();
-
-            // List all metadata codes.
-            //String[] metadataNames = metadata.names();
-            //for (String name : metadataNames)
-            //{
-            //    System.out.println(name + ": " + metadata.get(name));
-            //}
-            metadata.set("xmpDM:artist", artist);
-            metadata.set("title", title);
-            metadata.set("xmpDM:album", album);
-            metadata.set("xmpDM:releaseDate", String.valueOf(year));
-            metadata.set("xmpDM:genre", genre);
-
-            loadMetaData();
         }
         catch (FileNotFoundException e)
         {
