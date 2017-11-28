@@ -16,6 +16,8 @@ and open the template in the editor.
     -fx-stroke:#CBDBD7;
 }
 
-.slider.thumb {
-    -fx-background-color: #CBDBD7;
+.slider .thumb {
+    -fx-background-color: #FCFFF5;
 }
+
+
