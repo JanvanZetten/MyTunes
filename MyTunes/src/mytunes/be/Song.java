@@ -12,12 +12,12 @@ package mytunes.be;
 public class Song
 {
 
-    private int songId;
+    private final int songId;
     private String title;
     private String album;
     private String artist;
     private int year;
-    private String genre;
+    private Genre genre;
     private final String path;
 
     public Song(int songId, String title, String artist, String path)
@@ -26,16 +26,6 @@ public class Song
         this.title = title;
         this.artist = artist;
         this.path = path;
-    }
-
-    /**
-     * edit the songId of the song
-     *
-     * @param songId as string
-     */
-    public void setSongId(int songId)
-    {
-        this.songId = songId;
     }
 
     /**
@@ -83,7 +73,7 @@ public class Song
      *
      * @param genre as string
      */
-    public void setGenre(String genre)
+    public void setGenre(Genre genre)
     {
         this.genre = genre;
     }
@@ -141,15 +131,15 @@ public class Song
     /**
      * get the songs genre
      *
-     * @return a String with the genre
+     * @return a Genre with the genre
      */
-    public String getGenre()
+    public Genre getGenre()
     {
         return genre;
     }
 
     /**
-     * returns the path with a file:// prefix
+     * returns the path
      *
      * @return string path
      */
