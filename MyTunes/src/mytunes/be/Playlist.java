@@ -15,7 +15,7 @@ import java.util.List;
 public class Playlist
 {
 
-    private int playlistId;
+    private final int playlistId;
     private List<Song> songs;
     private String name;
 
@@ -29,16 +29,6 @@ public class Playlist
         this.playlistId = playlistId;
         this.name = name;
         songs = new ArrayList<>();
-    }
-
-    /**
-     * give a playlist a new id
-     *
-     * @param playlistId the new id as integer
-     */
-    public void renamePlaylist(int playlistId)
-    {
-        this.playlistId = playlistId;
     }
 
     /**
@@ -59,6 +49,16 @@ public class Playlist
     public void addSongToPlaylist(Song song)
     {
         songs.add(song);
+    }
+
+    /**
+     * add a song object to the playlist
+     *
+     * @param song
+     */
+    public void addAllSongToPlaylist(List<Song> song)
+    {
+        songs.addAll(song);
     }
 
     /**
