@@ -6,7 +6,10 @@
 package mytunes.gui.controller;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -35,16 +38,31 @@ public class AddSongViewController implements Initializable {
     @FXML
     private ComboBox<?> cmboboxGenre;
     @FXML
-    private ComboBox<?> cmboboxYear;
+    private ComboBox<String> cmboboxYear;
     @FXML
     private Button btnSaveChanges;
+    private ObservableList<String> ol = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        yearGenerator();
+        cmboboxYear.setItems(yearGenerator());
     }    
+
+    /**
+     * Takes the current year from the calendar and adds all years down to 1700
+     * to the cmboboxYear.
+     */
+    private ObservableList<String> yearGenerator() {
+        int yearCounter = Calendar.getInstance().get(Calendar.YEAR);
+        ol.add("Unknown");
+        for (int i = yearCounter; i >= 1700; i--) {
+            ol.add(i + "");
+        }
+        return ol;
+    }
     
 }
