@@ -122,4 +122,11 @@ public class Song {
     public String getpath() {
         return ("file://" + path);
     }
+
+    @Override
+    public String toString() {
+        return "Song{" + "title=" + title + ", album=" + album + ", artist=" + artist + ", year=" + year + ", genre=" + genre + '}';
+    }
+    
+    
 }

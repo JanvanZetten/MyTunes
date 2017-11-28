@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -132,6 +133,18 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void clickedPlaylist(MouseEvent event) {
+        tblviewSong.setCellValueFactory(
+            new PropertyValueFactory("title"));
+        tblviewArtist.setCellValueFactory(
+            new PropertyValueFactory("artist"));
+        tblviewAlbum.setCellValueFactory(
+            new PropertyValueFactory("album"));
+        tblviewGenre.setCellValueFactory(
+            new PropertyValueFactory("genre"));
+        tblviewYear.setCellValueFactory(
+            new PropertyValueFactory("year"));
+        
+        tblviewMaster.setItems(model.setSongs(listViewPlaylists.getSelectionModel().getSelectedItem()));
     }
     
 }

@@ -8,6 +8,7 @@ package mytunes.gui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.bll.BLLManager;
 
 /**
@@ -18,6 +19,7 @@ public class MainWindowModel {
     
     private BLLManager BLLManager = new BLLManager();
     private ObservableList<Playlist> playlists = FXCollections.observableArrayList();
+    private ObservableList<Song> songs = FXCollections.observableArrayList();
     
     
     
@@ -37,6 +39,14 @@ public class MainWindowModel {
     public ObservableList<Playlist> getPlaylists(){
         return playlists;
     }
+
+    public ObservableList<Song> setSongs(Playlist selectedItem) {
+        songs.clear();
+        songs.addAll(selectedItem.getSongs());
+        return songs;
+    }
+
+    
     
     
 }
