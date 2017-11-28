@@ -37,6 +37,7 @@ public class DeleteConfirmationViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         model = MainWindowModel.getInstance();
+        lblDeletedElement.setText(model.getSelectedElement() + "?");
     }    
 
     @FXML

@@ -173,6 +173,9 @@ public class MainWindowController implements Initializable
     @FXML
     private void deletePlaylistAction(ActionEvent event) throws IOException
     {
+        String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
+        model.selectedDeletedElements(selectedItem);
+        
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
