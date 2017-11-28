@@ -67,12 +67,13 @@ public class MainWindowController implements Initializable
     private Slider volumeSlider;
     
     MainWindowModel model;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
 
-        model = new MainWindowModel();
+        model = MainWindowModel.getInstance();
 
         //add the playlists to the view
         model.addAllPlaylistsToGUI();
