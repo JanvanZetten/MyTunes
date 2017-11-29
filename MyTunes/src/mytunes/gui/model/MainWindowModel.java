@@ -296,8 +296,6 @@ public class MainWindowModel
             artist.set(songs.get(currentIndex).getArtist());
             title.set(songs.get(currentIndex).getTitle());
             album.set(songs.get(currentIndex).getAlbum());
-            currentTime.set(mediaPlayer.getCurrentTime().toString());
-            durationTime.set(mediaPlayer.getMedia().getDuration().toString());
 
             if (isPlaying)
             {
@@ -308,7 +306,15 @@ public class MainWindowModel
 
     private String sec2minsec(double seconds)
     {
-        return "";
+        System.out.println(seconds);
+        int min;
+        int sec;
+        min = (int) seconds / 60;
+        System.out.println(min);
+        sec = (int) seconds % 60;
+        System.out.println(sec);
+
+        return min + ":" + sec;
     }
 
     /**
@@ -362,7 +368,8 @@ public class MainWindowModel
 
     }
 
-    public void createPlaylist(String text) throws BLLException {
+    public void createPlaylist(String text) throws BLLException
+    {
         bllManager.addPlaylist(text);
     }
 
