@@ -174,32 +174,31 @@ public class MainWindowController implements Initializable
 
     /**
      * Clicking the "Delete" button under the playlists causes a confirmation
-     * window to appear.
+     * window to appear. The all song playlist cannot be deleted.
      */
     @FXML
-    private void deletePlaylistAction(ActionEvent event) throws IOException
-    {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs"){
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
-        }
-        
-        else {
-        String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
-        model.selectedDeletedElements(selectedItem);
-        
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+    private void deletePlaylistAction(ActionEvent event) throws IOException {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs") {
+                Stage newStage = new Stage();
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
+                Parent root = fxLoader.load();
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+                newStage.show();
+            } else {
+                String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
+                model.selectedDeletedElements(selectedItem);
+
+                Stage newStage = new Stage();
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+                Parent root = fxLoader.load();
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+                newStage.show();
+            }
         }
     }
 
@@ -208,15 +207,20 @@ public class MainWindowController implements Initializable
      * window to appear.
      */
     @FXML
-    private void deleteSongAction(ActionEvent event) throws IOException
-    {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+    private void deleteSongAction(ActionEvent event) throws IOException {
+        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            String selectedTitle = tblviewMaster.getSelectionModel().getSelectedItem().getTitle();
+            String selectedArtist = tblviewMaster.getSelectionModel().getSelectedItem().getArtist();
+            model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
+
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
+        }
     }
 
     /**
