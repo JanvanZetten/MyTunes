@@ -333,4 +333,8 @@ public class MainWindowModel
 
     }
 
+    public void createPlaylist(String text) throws BLLException {
+        bllManager.addPlaylist(text);
+    }
+
 }
