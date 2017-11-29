@@ -27,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -261,7 +262,7 @@ public class MainWindowController implements Initializable {
         } else if (playlist.getSongs().size() == 1) {
             lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
         } else if (playlist.getSongs().size() == 0) {
-            lblPlaylistInfo.setText("no songs in this playlist");
+            lblPlaylistInfo.setText("No songs in this playlist");
         } else {
             lblPlaylistInfo.setText("");
         }
@@ -319,6 +320,10 @@ public class MainWindowController implements Initializable {
         contextMenu.setMaxSize(50, 50);
 
         tblviewMaster.setContextMenu(contextMenu);
+    }
+
+    @FXML
+    private void tableKeyreleased(KeyEvent event) {
     }
 
 }
