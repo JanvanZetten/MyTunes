@@ -166,6 +166,27 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void deletePlaylistAction(ActionEvent event) throws IOException {
+<<<<<<< HEAD
+        if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs") {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
+        } else {
+            String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
+            model.selectedDeletedElements(selectedItem);
+
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
+=======
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs") {
                 Stage newStage = new Stage();
@@ -187,6 +208,7 @@ public class MainWindowController implements Initializable {
                 newStage.setScene(scene);
                 newStage.show();
             }
+>>>>>>> 5aca419b35937b69c30b6fe678922b73f2349287
         }
     }
 
@@ -196,6 +218,15 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void deleteSongAction(ActionEvent event) throws IOException {
+<<<<<<< HEAD
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
+=======
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             String selectedTitle = tblviewMaster.getSelectionModel().getSelectedItem().getTitle();
             String selectedArtist = tblviewMaster.getSelectionModel().getSelectedItem().getArtist();
@@ -209,6 +240,7 @@ public class MainWindowController implements Initializable {
             newStage.setScene(scene);
             newStage.show();
         }
+>>>>>>> 5aca419b35937b69c30b6fe678922b73f2349287
     }
 
     /**

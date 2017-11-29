@@ -7,7 +7,6 @@ package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.IOException;
 import java.sql.Connection;
 
 /**

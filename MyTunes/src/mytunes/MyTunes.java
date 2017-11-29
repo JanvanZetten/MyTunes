@@ -15,23 +15,28 @@ import javafx.stage.Stage;
  *
  * @author janvanzetten
  */
-public class MyTunes extends Application {
-    
+public class MyTunes extends Application
+{
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception
+    {
         Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindow.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
+        stage.setTitle("MyTunes");
+        stage.setResizable(false);
         stage.show();
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
-    
+
 }
