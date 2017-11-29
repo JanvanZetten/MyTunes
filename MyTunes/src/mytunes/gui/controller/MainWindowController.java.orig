@@ -8,12 +8,9 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-<<<<<<< HEAD
-import javafx.beans.binding.Bindings;
-=======
 import java.util.logging.Level;
+import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
->>>>>>> 537c3125a448b5795b53066f4e88f11308df10ab
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -292,6 +290,11 @@ public class MainWindowController implements Initializable
         else if (playlist.getSongs().size() == 1)
         {
             lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
+<<<<<<< HEAD
+        } else if (playlist.getSongs().size() == 0) {
+            lblPlaylistInfo.setText("No songs in this playlist");
+        } else {
+=======
         }
         else if (playlist.getSongs().size() == 0)
         {
@@ -299,6 +302,7 @@ public class MainWindowController implements Initializable
         }
         else
         {
+>>>>>>> 2f727a20919a459c21d476b535978dcddb8b5b54
             lblPlaylistInfo.setText("");
         }
 
@@ -330,22 +334,20 @@ public class MainWindowController implements Initializable
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>()
         {
+            @Override
             public void handle(ActionEvent e)
             {
                 model.playMedia();
             }
         });
         MenuItem item2 = new MenuItem("Edit song information");
-<<<<<<< HEAD
         item2.setOnAction(new EventHandler<ActionEvent>()
         {
-            public void handle(ActionEvent e)
+            @Override
+            public void handle(ActionEvent event)
             {
-                System.out.println("Needs to be implemented");
-=======
-        item2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                try {
+                try
+                {
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
                     FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
@@ -353,15 +355,17 @@ public class MainWindowController implements Initializable
                     Scene scene = new Scene(root);
                     newStage.setScene(scene);
                     newStage.show();
-                } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
                     Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                 }
->>>>>>> 537c3125a448b5795b53066f4e88f11308df10ab
             }
         });
         MenuItem item3 = new MenuItem("Add to queue");
         item3.setOnAction(new EventHandler<ActionEvent>()
         {
+            @Override
             public void handle(ActionEvent e)
             {
                 System.out.println("Needs to be implemented");
@@ -372,6 +376,10 @@ public class MainWindowController implements Initializable
         contextMenu.setMaxSize(50, 50);
 
         tblviewMaster.setContextMenu(contextMenu);
+    }
+
+    @FXML
+    private void tableKeyreleased(KeyEvent event) {
     }
 
 }
