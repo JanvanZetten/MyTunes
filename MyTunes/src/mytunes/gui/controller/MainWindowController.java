@@ -110,33 +110,7 @@ public class MainWindowController implements Initializable {
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
 
-        MenuItem item1 = new MenuItem("Edit song information");
-        item1.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                System.out.println("Editing song information");
-            }
-        });
-        MenuItem item2 = new MenuItem("Preferences");
-        item2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                System.out.println("Preferences");
-            }
-        });
-
-        final ContextMenu contextMenu = new ContextMenu(item1, item2);
-        contextMenu.setMaxSize(50, 50);
-
-        contextMenu.setOnShowing(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent e) {
-                System.out.println("1");
-            }
-        });
-        contextMenu.setOnShown(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent e) {
-                System.out.println("2");
-            }
-        });
-        tblviewMaster.setContextMenu(contextMenu);
+        contextMenuHandler();
     }
 
     @FXML
@@ -283,6 +257,33 @@ public class MainWindowController implements Initializable {
             btnFilter.setText("Filter");
         }
 
+    }
+    
+    private void contextMenuHandler() {
+        MenuItem item1 = new MenuItem("Play");
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                model.playMedia();
+            }
+        });
+        MenuItem item2 = new MenuItem("Edit song information");
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                System.out.println("Needs to be implemented");
+            }
+        });
+        MenuItem item3 = new MenuItem("Add to queue");
+        item3.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                System.out.println("Needs to be implemented");
+            }
+        });
+        
+
+        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
+        contextMenu.setMaxSize(50, 50);
+
+        tblviewMaster.setContextMenu(contextMenu);
     }
 
 }
