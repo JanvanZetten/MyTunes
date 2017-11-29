@@ -8,6 +8,7 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -326,6 +327,7 @@ public class MainWindowController implements Initializable
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>()
         {
+            @Override
             public void handle(ActionEvent e)
             {
                 model.playMedia();
@@ -334,7 +336,11 @@ public class MainWindowController implements Initializable
         MenuItem item2 = new MenuItem("Edit song information");
         item2.setOnAction(new EventHandler<ActionEvent>()
         {
-                try {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                try
+                {
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
                     FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
@@ -342,7 +348,9 @@ public class MainWindowController implements Initializable
                     Scene scene = new Scene(root);
                     newStage.setScene(scene);
                     newStage.show();
-                } catch (IOException ex) {
+                }
+                catch (IOException ex)
+                {
                     Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -350,6 +358,7 @@ public class MainWindowController implements Initializable
         MenuItem item3 = new MenuItem("Add to queue");
         item3.setOnAction(new EventHandler<ActionEvent>()
         {
+            @Override
             public void handle(ActionEvent e)
             {
                 System.out.println("Needs to be implemented");
