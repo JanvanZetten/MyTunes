@@ -8,15 +8,16 @@ package mytunes.gui.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
+import javafx.util.Duration;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.BLLException;
@@ -33,6 +34,9 @@ public class MainWindowModel
     private BLLManager bllManager;
     private ObservableList<Playlist> playlists;
     private ObservableList<Song> songs;
+    private SimpleStringProperty artist;
+    private SimpleStringProperty title;
+    private SimpleStringProperty album;
     Media sound;
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
@@ -62,6 +66,9 @@ public class MainWindowModel
             songs = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
             songs.addAll(bllManager.getAllSongs());
+            artist = new SimpleStringProperty("");
+            title = new SimpleStringProperty("");
+            album = new SimpleStringProperty("");
         }
         catch (BLLException ex)
         {
@@ -84,7 +91,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -106,6 +113,33 @@ public class MainWindowModel
     public ObservableList<Song> getSongs()
     {
         return songs;
+    }
+
+    /**
+     * Get observable String
+     * @return
+     */
+    public SimpleStringProperty getArtist()
+    {
+        return artist;
+    }
+
+    /**
+     * Get observable String
+     * @return
+     */
+    public SimpleStringProperty getTitle()
+    {
+        return title;
+    }
+
+    /**
+     * Get observable String
+     * @return
+     */
+    public SimpleStringProperty getAlbum()
+    {
+        return album;
     }
 
     /**
@@ -156,7 +190,14 @@ public class MainWindowModel
     {
         if (currentIndex != -1)
         {
-            mediaPlayer.play();
+            if (mediaPlayer.getStatus().equals(Status.PLAYING) || mediaPlayer.getStatus().equals(Status.STOPPED))
+            {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+            else
+            {
+                mediaPlayer.play();
+            }
         }
     }
 
@@ -178,7 +219,7 @@ public class MainWindowModel
     {
         if (currentIndex - 1 < 0)
         {
-            currentIndex = songs.size();
+            currentIndex = songs.size() - 1;
         }
         else
         {
@@ -210,11 +251,35 @@ public class MainWindowModel
     {
         if (currentIndex != -1)
         {
+            artist.set(songs.get(currentIndex).getArtist());
+            title.set(songs.get(currentIndex).getTitle());
+            album.set(songs.get(currentIndex).getAlbum());
+
+            boolean isPlaying = false;
+            if (mediaPlayer != null)
+            {
+                isPlaying = mediaPlayer.getStatus().equals(Status.PLAYING);
+                mediaPlayer.stop();
+            }
+
             sound = new Media(new File(songs.get(currentIndex).getpath()).toURI().toString());
+
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setVolume(currentVolume);
-        }
+            mediaPlayer.setOnEndOfMedia(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    nextMedia();
+                }
+            });
 
+            if (isPlaying)
+            {
+                mediaPlayer.play();
+            }
+        }
     }
 
     /**
