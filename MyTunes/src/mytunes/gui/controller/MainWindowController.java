@@ -22,7 +22,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,8 +33,7 @@ import mytunes.gui.model.MainWindowModel;
  *
  * @author janvanzetten
  */
-public class MainWindowController implements Initializable
-{
+public class MainWindowController implements Initializable {
 
     @FXML
     private Label lblSongTitleTopBar;
@@ -67,17 +65,15 @@ public class MainWindowController implements Initializable
     private TableColumn<Song, String> tblviewYear;
     @FXML
     private Slider volumeSlider;
-    
+
     MainWindowModel model;
     @FXML
     private TextField textfieldFilter;
     @FXML
     private Button btnFilter;
-    
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
 
@@ -100,44 +96,38 @@ public class MainWindowController implements Initializable
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
-        
+
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
-        
+
     }
 
     @FXML
-    private void playSongAction(ActionEvent event)
-    {
+    private void playSongAction(ActionEvent event) {
         model.playMedia();
     }
 
     @FXML
-    private void pauseSongAction(ActionEvent event)
-    {
+    private void pauseSongAction(ActionEvent event) {
         model.pauseMedia();
     }
 
     @FXML
-    private void previusSongAction(ActionEvent event)
-    {
+    private void previusSongAction(ActionEvent event) {
         model.previousMedia();
     }
 
     @FXML
-    private void nextSongAction(ActionEvent event)
-    {
+    private void nextSongAction(ActionEvent event) {
         model.nextMedia();
     }
 
     @FXML
-    private void repeatSongsAction(ActionEvent event)
-    {
+    private void repeatSongsAction(ActionEvent event) {
     }
 
     @FXML
-    private void shuffleSongsAction(ActionEvent event)
-    {
+    private void shuffleSongsAction(ActionEvent event) {
     }
 
     /**
@@ -145,8 +135,7 @@ public class MainWindowController implements Initializable
      * assists the user in adding music to the library to appear.
      */
     @FXML
-    private void addSongAction(ActionEvent event) throws IOException
-    {
+    private void addSongAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSongView.fxml"));
@@ -161,8 +150,7 @@ public class MainWindowController implements Initializable
      * assists the user in making a new playlist to appear.
      */
     @FXML
-    private void addPlaylistAction(ActionEvent event) throws IOException
-    {
+    private void addPlaylistAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylistView.fxml"));
@@ -177,29 +165,26 @@ public class MainWindowController implements Initializable
      * window to appear.
      */
     @FXML
-    private void deletePlaylistAction(ActionEvent event) throws IOException
-    {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs"){
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
-        }
-        
-        else {
-        String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
-        model.selectedDeletedElements(selectedItem);
-        
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+    private void deletePlaylistAction(ActionEvent event) throws IOException {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs") {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
+        } else {
+            String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
+            model.selectedDeletedElements(selectedItem);
+
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
         }
     }
 
@@ -208,8 +193,7 @@ public class MainWindowController implements Initializable
      * window to appear.
      */
     @FXML
-    private void deleteSongAction(ActionEvent event) throws IOException
-    {
+    private void deleteSongAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
@@ -225,10 +209,8 @@ public class MainWindowController implements Initializable
      * @param event
      */
     @FXML
-    private void clickedPlaylist(MouseEvent event)
-    {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null)
-        {
+    private void clickedPlaylist(MouseEvent event) {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
         }
     }
@@ -239,8 +221,7 @@ public class MainWindowController implements Initializable
      *
      * @param playlist the playlist to show
      */
-    private void setSongsOnTableview(Playlist playlist)
-    {
+    private void setSongsOnTableview(Playlist playlist) {
         model.setSongs(playlist);
         lblChosenPlaylist.setText(playlist.getName());
         lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
@@ -248,6 +229,15 @@ public class MainWindowController implements Initializable
 
     @FXML
     private void FilterButtonAction(ActionEvent event) {
+        if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
+            model.filterSongList(textfieldFilter.getText().trim());
+            btnFilter.setText("Clear");
+        } else if (btnFilter.getText().equals("Clear")) {
+            setSongsOnTableview(model.getAllSongsPlaylist());
+            listViewPlaylists.getSelectionModel().select(0);
+            btnFilter.setText("Filter");
+        }
+
     }
 
 }
