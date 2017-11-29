@@ -106,30 +106,48 @@ public class MainWindowController implements Initializable {
         contextMenuHandler();
     }
 
+    /**
+     * Plays the song on button press.
+     */
     @FXML
     private void playSongAction(ActionEvent event) {
         model.playMedia();
     }
 
+    /**
+     * Pauses the song on button press.
+     */
     @FXML
     private void pauseSongAction(ActionEvent event) {
         model.pauseMedia();
     }
 
+    /**
+     * Plays the previous song on button press.
+     */
     @FXML
     private void previusSongAction(ActionEvent event) {
         model.previousMedia();
     }
 
+    /**
+     * Plays the next song on button press.
+     */
     @FXML
     private void nextSongAction(ActionEvent event) {
         model.nextMedia();
     }
 
+    /**
+     * Repeats the current song on button press.
+     */
     @FXML
     private void repeatSongsAction(ActionEvent event) {
     }
 
+    /**
+     * Selects a random song as the next song on button press.
+     */
     @FXML
     private void shuffleSongsAction(ActionEvent event) {
     }
