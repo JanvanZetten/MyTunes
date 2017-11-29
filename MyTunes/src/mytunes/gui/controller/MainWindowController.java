@@ -75,7 +75,7 @@ public class MainWindowController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
 
         //add the playlists to the view
@@ -176,6 +176,17 @@ public class MainWindowController implements Initializable
     @FXML
     private void deletePlaylistAction(ActionEvent event) throws IOException
     {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs"){
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
+        }
+        
+        else {
         String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
         model.selectedDeletedElements(selectedItem);
         
@@ -186,6 +197,7 @@ public class MainWindowController implements Initializable
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.show();
+        }
     }
 
     /**
