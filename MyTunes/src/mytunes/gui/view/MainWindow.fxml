@@ -59,8 +59,8 @@
                 <TableColumn fx:id="tblviewYear" prefWidth="69.0" text="Year" />
             </columns>
         </TableView>
-      <TextField fx:id="textfieldFilter" layoutX="603.0" layoutY="92.0" onKeyReleased="#filterSearch" promptText="filter..." />
-      <Button layoutX="773.0" layoutY="92.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="59.0" style="-fx-background-color: orange;" text="Filter" textFill="#3e606f" />
+      <TextField fx:id="textfieldFilter" layoutX="603.0" layoutY="92.0" promptText="filter..." />
+      <Button fx:id="btnFilter" layoutX="773.0" layoutY="92.0" mnemonicParsing="false" onAction="#FilterButtonAction" prefHeight="27.0" prefWidth="59.0" style="-fx-background-color: #91aab4;" text="Filter" textFill="#193441" />
     </children>
     <stylesheets>
         <URL value="@MainCSS.css" />

@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -70,6 +71,8 @@ public class MainWindowController implements Initializable
     MainWindowModel model;
     @FXML
     private TextField textfieldFilter;
+    @FXML
+    private Button btnFilter;
     
 
     @Override
@@ -244,7 +247,7 @@ public class MainWindowController implements Initializable
     }
 
     @FXML
-    private void filterSearch(KeyEvent event) {
+    private void FilterButtonAction(ActionEvent event) {
     }
 
 }
