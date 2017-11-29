@@ -21,13 +21,11 @@ import mytunes.be.Song;
  *
  * @author Asbamz
  */
-public class DatabaseDAO implements DAO
-{
+public class DatabaseDAO implements DAO {
 
     private DatabaseConnector dbc;
 
-    public DatabaseDAO() throws DALException
-    {
+    public DatabaseDAO() throws DALException {
         dbc = new DatabaseConnector();
     }
 
@@ -37,10 +35,8 @@ public class DatabaseDAO implements DAO
      * @return A list of Playlist objects.
      * @throws DALException
      */
-    public List<Playlist> getAllPlaylists() throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public List<Playlist> getAllPlaylists() throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "SELECT * FROM Playlist;";
 
             Statement st = con.createStatement();
@@ -48,8 +44,7 @@ public class DatabaseDAO implements DAO
 
             List<Playlist> playlists = new ArrayList<>();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 int id = rs.getInt("playlistId");
                 Playlist playlist = new Playlist(
                         id,
@@ -60,13 +55,7 @@ public class DatabaseDAO implements DAO
             }
 
             return playlists;
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -78,10 +67,8 @@ public class DatabaseDAO implements DAO
      * @return All Song objects in Playlist.
      * @throws DALException
      */
-    private List<Song> getAllSongsInPlaylist(int playlistId) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    private List<Song> getAllSongsInPlaylist(int playlistId) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "SELECT * FROM Song "
                     + "INNER JOIN Genre ON Song.genreId = Genre.genreId "
                     + "INNER JOIN SongsInPlaylist ON SongsInPlaylist.songId = Song.songId "
@@ -93,8 +80,7 @@ public class DatabaseDAO implements DAO
 
             List<Song> songs = new ArrayList<>();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 Song song = new Song(
                         rs.getInt("songId"),
                         rs.getString("title"),
@@ -108,13 +94,7 @@ public class DatabaseDAO implements DAO
             }
 
             return songs;
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -125,10 +105,8 @@ public class DatabaseDAO implements DAO
      * @return A list of Song objects
      * @throws DALException
      */
-    public List<Song> getAllSongs() throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public List<Song> getAllSongs() throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "SELECT * FROM Song INNER JOIN Genre ON Song.genreId = Genre.genreId;";
 
             Statement st = con.createStatement();
@@ -136,8 +114,7 @@ public class DatabaseDAO implements DAO
 
             List<Song> songs = new ArrayList<>();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 Song song = new Song(
                         rs.getInt("songId"),
                         rs.getString("title"),
@@ -151,13 +128,7 @@ public class DatabaseDAO implements DAO
             }
 
             return songs;
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -168,10 +139,8 @@ public class DatabaseDAO implements DAO
      * @return A list of Genre.
      * @throws DALException
      */
-    public List<Genre> GetGenres() throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public List<Genre> GetGenres() throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "SELECT * FROM Genre;";
 
             Statement st = con.createStatement();
@@ -179,20 +148,13 @@ public class DatabaseDAO implements DAO
 
             List<Genre> genres = new ArrayList<>();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 Genre g = new Genre(rs.getInt("genreId"), rs.getString("genre"));
                 genres.add(g);
             }
 
             return genres;
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -204,34 +166,23 @@ public class DatabaseDAO implements DAO
      * @return Genre object with new information.
      * @throws DALException
      */
-    public Genre addGenre(String genre) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Genre addGenre(String genre) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "INSERT INTO Genre VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, genre);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 Genre newGenre = new Genre(rs.getInt("genreId"), genre);
                 return newGenre;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not add genre: " + genre);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -248,10 +199,8 @@ public class DatabaseDAO implements DAO
      * @return Song object with new information.
      * @throws DALException
      */
-    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "INSERT INTO Song VALUES (?, ?, ?, ?, ?, ?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -263,8 +212,7 @@ public class DatabaseDAO implements DAO
             statement.setInt(5, genre.getGenreId());
             statement.setString(6, directory);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 Song newSong = new Song(rs.getInt("songId"), title, artist, directory);
@@ -272,18 +220,10 @@ public class DatabaseDAO implements DAO
                 newSong.setYear(year);
                 newSong.setGenre(genre);
                 return newSong;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not add song: " + artist + " - " + title + ", DIR: " + directory);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -295,34 +235,23 @@ public class DatabaseDAO implements DAO
      * @return Playlist object with new information.
      * @throws DALException
      */
-    public Playlist addPlaylist(String name) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Playlist addPlaylist(String name) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "INSERT INTO Playlist VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, name);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 Playlist newPlaylist = new Playlist(rs.getInt("playlistId"), name);
                 return newPlaylist;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not add playlist: " + name);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -335,10 +264,8 @@ public class DatabaseDAO implements DAO
      * @return true if song was added to playlist.
      * @throws DALException
      */
-    public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "INSERT INTO SongsInPlaylist VALUES (?, ?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -346,21 +273,12 @@ public class DatabaseDAO implements DAO
             statement.setInt(1, song.getSongId());
             statement.setInt(2, playlist.getPlaylistId());
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not add song to playlist: " + playlist.getName() + " to " + song.getArtist() + " - " + song.getTitle());
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -373,10 +291,8 @@ public class DatabaseDAO implements DAO
      * @return updated Genre object.
      * @throws DALException
      */
-    public Genre updateGenre(int genreId, String genre) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Genre updateGenre(int genreId, String genre) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "UPDATE Genre SET genre=? WHERE genreId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -384,22 +300,13 @@ public class DatabaseDAO implements DAO
             statement.setString(1, genre);
             statement.setInt(2, genreId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 Genre newGenre = new Genre(genreId, genre);
                 return newGenre;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not update genre: " + genreId);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -417,10 +324,8 @@ public class DatabaseDAO implements DAO
      * @return Song object with new information.
      * @throws DALException
      */
-    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "UPDATE Song SET artist=?, title=?, album=?, year=?, genreId=?, directory=? WHERE songId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -433,25 +338,16 @@ public class DatabaseDAO implements DAO
             statement.setString(6, directory);
             statement.setInt(7, songId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 Song newSong = new Song(songId, title, artist, directory);
                 newSong.setAlbum(album);
                 newSong.setYear(year);
                 newSong.setGenre(genre);
                 return newSong;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not update song: " + songId + " - " + artist + " - " + title + ", DIR: " + directory);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -464,10 +360,8 @@ public class DatabaseDAO implements DAO
      * @return Playlist object with new information.
      * @throws DALException
      */
-    public Playlist updatePlaylist(int playlistId, String name) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public Playlist updatePlaylist(int playlistId, String name) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "UPDATE Playlist SET name=? WHERE playlistId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -475,22 +369,13 @@ public class DatabaseDAO implements DAO
             statement.setString(1, name);
             statement.setInt(2, playlistId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 Playlist newPlaylist = new Playlist(playlistId, name);
                 return newPlaylist;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not add playlist: " + playlistId + " - " + name);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -502,31 +387,20 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
-    public boolean deleteGenre(int genreId) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public boolean deleteGenre(int genreId) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "DELETE Genre WHERE genreId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, genreId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not delete genre: " + genreId);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -538,10 +412,8 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
-    public boolean deleteSong(int songId) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public boolean deleteSong(int songId) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "DELETE SongsInPlaylist WHERE songId=?; DELETE Song WHERE songId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -549,21 +421,12 @@ public class DatabaseDAO implements DAO
             statement.setInt(1, songId);
             statement.setInt(2, songId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not delete song: " + songId);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -575,10 +438,8 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
-    public boolean deletePlaylist(int playlistId) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public boolean deletePlaylist(int playlistId) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "DELETE SongsInPlaylist WHERE playlistId=?; DELETE Playlist WHERE playlistId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -586,21 +447,12 @@ public class DatabaseDAO implements DAO
             statement.setInt(1, playlistId);
             statement.setInt(2, playlistId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not delete playlist: " + playlistId);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -614,10 +466,8 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
-    public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
-    {
-        try (Connection con = dbc.getConnection())
-        {
+    public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException {
+        try (Connection con = dbc.getConnection()) {
             String sql = "DELETE SongsInPlaylist WHERE songId=? AND playlistId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -625,21 +475,12 @@ public class DatabaseDAO implements DAO
             statement.setInt(1, songId);
             statement.setInt(2, playlistId);
 
-            if (statement.executeUpdate() == 1)
-            {
+            if (statement.executeUpdate() == 1) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
             }
-        }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
