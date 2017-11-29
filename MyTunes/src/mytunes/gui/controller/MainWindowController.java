@@ -243,7 +243,16 @@ public class MainWindowController implements Initializable {
     private void setSongsOnTableview(Playlist playlist) {
         model.setSongs(playlist);
         lblChosenPlaylist.setText(playlist.getName());
-        lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
+        if (playlist.getSongs().size() > 1) {
+            lblPlaylistInfo.setText(playlist.getSongs().size() + " songs in this playlist");
+        } else if (playlist.getSongs().size() == 1) {
+            lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
+        } else if (playlist.getSongs().size() == 0) {
+            lblPlaylistInfo.setText("no songs in this playlist");
+        } else {
+            lblPlaylistInfo.setText("");
+        }
+
     }
 
     @FXML
@@ -258,7 +267,7 @@ public class MainWindowController implements Initializable {
         }
 
     }
-    
+
     private void contextMenuHandler() {
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>() {
@@ -278,7 +287,6 @@ public class MainWindowController implements Initializable {
                 System.out.println("Needs to be implemented");
             }
         });
-        
 
         final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
         contextMenu.setMaxSize(50, 50);
