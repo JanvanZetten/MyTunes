@@ -17,7 +17,7 @@ and open the template in the editor.
 }
 
 .slider .thumb {
-    -fx-background-color: #FCFFF5;
+    -fx-background-color: orange;
 }
 
 .root {

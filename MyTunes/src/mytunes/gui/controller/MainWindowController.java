@@ -5,7 +5,6 @@
  */
 package mytunes.gui.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +19,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -67,6 +68,8 @@ public class MainWindowController implements Initializable
     private Slider volumeSlider;
     
     MainWindowModel model;
+    @FXML
+    private TextField textfieldFilter;
     
 
     @Override
@@ -226,6 +229,10 @@ public class MainWindowController implements Initializable
         model.setSongs(playlist);
         lblChosenPlaylist.setText(playlist.getName());
         lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
+    }
+
+    @FXML
+    private void filterSearch(KeyEvent event) {
     }
 
 }
