@@ -26,7 +26,8 @@ import mytunes.bll.BLLManager;
  *
  * @author Alex
  */
-public class MainWindowModel {
+public class MainWindowModel
+{
 
     private static MainWindowModel instance;
     private BLLManager bllManager;
@@ -73,10 +74,12 @@ public class MainWindowModel {
      * to call the getPlaylists() and assign the observable list to the element
      * in which it has to be shown
      */
-    public void addAllPlaylistsToGUI() {
+    public void addAllPlaylistsToGUI()
+    {
         playlists.clear();
         try
         {
+            playlists.add(getAllSongsPlaylist());
             playlists.addAll(bllManager.getAllPlaylists());
         }
         catch (BLLException ex)
@@ -90,7 +93,8 @@ public class MainWindowModel {
      *
      * @return a observablelist with Playlist objects
      */
-    public ObservableList<Playlist> getPlaylists() {
+    public ObservableList<Playlist> getPlaylists()
+    {
         return playlists;
     }
 
@@ -99,7 +103,8 @@ public class MainWindowModel {
      *
      * @return a observablelist with Playlist objects
      */
-    public ObservableList<Song> getSongs() {
+    public ObservableList<Song> getSongs()
+    {
         return songs;
     }
 
@@ -109,13 +114,17 @@ public class MainWindowModel {
      *
      * @param selectedItem the playlist from which to take the song
      */
-    public void setSongs(Playlist selectedItem) {
+    public void setSongs(Playlist selectedItem)
+    {
         songs.clear();
         songs.addAll(selectedItem.getSongs());
 
-        if (songs.size() > 0) {
+        if (songs.size() > 0)
+        {
             currentIndex = 0;
-        } else {
+        }
+        else
+        {
             currentIndex = -1;
         }
         switchSong();
@@ -128,7 +137,7 @@ public class MainWindowModel {
      */
     public Playlist getAllSongsPlaylist()
     {
-        Playlist playlist = new Playlist(-1, "MyLibrary");
+        Playlist playlist = new Playlist(-1, "My Library");
         try
         {
             playlist.addAllSongToPlaylist(bllManager.getAllSongs());
@@ -143,8 +152,10 @@ public class MainWindowModel {
     /**
      * Play song.
      */
-    public void playMedia() {
-        if (currentIndex != -1) {
+    public void playMedia()
+    {
+        if (currentIndex != -1)
+        {
             mediaPlayer.play();
         }
     }
@@ -152,8 +163,10 @@ public class MainWindowModel {
     /**
      * Pause song.
      */
-    public void pauseMedia() {
-        if (currentIndex != -1) {
+    public void pauseMedia()
+    {
+        if (currentIndex != -1)
+        {
             mediaPlayer.pause();
         }
     }
@@ -161,10 +174,14 @@ public class MainWindowModel {
     /**
      * Change to previous song in list.
      */
-    public void previousMedia() {
-        if (currentIndex - 1 < 0) {
+    public void previousMedia()
+    {
+        if (currentIndex - 1 < 0)
+        {
             currentIndex = songs.size();
-        } else {
+        }
+        else
+        {
             currentIndex--;
         }
         switchSong();
@@ -173,10 +190,14 @@ public class MainWindowModel {
     /**
      * Change to next song in list.
      */
-    public void nextMedia() {
-        if (currentIndex + 1 >= songs.size()) {
+    public void nextMedia()
+    {
+        if (currentIndex + 1 >= songs.size())
+        {
             currentIndex = 0;
-        } else {
+        }
+        else
+        {
             currentIndex++;
         }
         switchSong();
@@ -185,8 +206,10 @@ public class MainWindowModel {
     /**
      * Switch song to current index.
      */
-    private void switchSong() {
-        if (currentIndex != -1) {
+    private void switchSong()
+    {
+        if (currentIndex != -1)
+        {
             sound = new Media(new File(songs.get(currentIndex).getpath()).toURI().toString());
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setVolume(currentVolume);
@@ -198,11 +221,14 @@ public class MainWindowModel {
      * links the volumeslider to the mediaplayers volume
      * @param volumeSlider the Slider who have to adjust the volume
      */
-    public void volumeSliderSetup(Slider volumeSlider) {
+    public void volumeSliderSetup(Slider volumeSlider)
+    {
         volumeSlider.setValue(mediaPlayer.getVolume() * volumeSlider.getMax());
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+        volumeSlider.valueProperty().addListener(new InvalidationListener()
+        {
             @Override
-            public void invalidated(Observable observable) {
+            public void invalidated(Observable observable)
+            {
                 mediaPlayer.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
                 currentVolume = (volumeSlider.getValue() / volumeSlider.getMax());
             }
@@ -210,25 +236,32 @@ public class MainWindowModel {
 
     }
 
-    public String selectedDeletedElements(String SelectedElement) {
+    public String selectedDeletedElements(String SelectedElement)
+    {
         selectedElement = SelectedElement;
         return selectedElement;
     }
 
-    public String getSelectedElement() {
+    public String getSelectedElement()
+    {
         return selectedElement;
     }
 
     /**
-     * takes the current list of songs shown and filters it for songs who contains the text in the title or in the artist
-     * @param text the text which should be found in the songs title or artist for it to be shown
+     * takes the current list of songs shown and filters it for songs who
+     * contains the text in the title or in the artist
+     * @param text the text which should be found in the songs title or artist
+     * for it to be shown
      */
-    public void filterSongList(String text) {
+    public void filterSongList(String text)
+    {
         List<Song> songsList = new ArrayList<>();
         songsList.addAll(songs);
         songs.clear();
-        for (Song song : songsList) {
-            if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase())) {
+        for (Song song : songsList)
+        {
+            if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase()))
+            {
                 songs.add(song);
             }
         }
