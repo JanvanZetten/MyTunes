@@ -178,7 +178,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void deletePlaylistAction(ActionEvent event) throws IOException {
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
-            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "All my songs") {
+            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
                 Stage newStage = new Stage();
                 newStage.initModality(Modality.APPLICATION_MODAL);
                 FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
@@ -268,6 +268,10 @@ public class MainWindowController implements Initializable {
 
     }
 
+    /**
+     * Creates and attaches contect menus to the song list which adds options
+     * all with their own method calls attached.
+     */
     private void contextMenuHandler() {
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>() {
