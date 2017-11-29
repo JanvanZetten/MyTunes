@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +40,7 @@ public class MainWindowModel
     private SimpleStringProperty album;
     private SimpleStringProperty currentTime;
     private SimpleStringProperty durationTime;
+    private SimpleDoubleProperty progress;
     Media sound;
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
@@ -73,6 +75,7 @@ public class MainWindowModel
             album = new SimpleStringProperty("");
             currentTime = new SimpleStringProperty("");
             durationTime = new SimpleStringProperty("");
+            progress = new SimpleDoubleProperty(0.0);
         }
         catch (BLLException ex)
         {
@@ -162,6 +165,15 @@ public class MainWindowModel
     public SimpleStringProperty getDurationTime()
     {
         return durationTime;
+    }
+
+    /**
+     * Get observable Double
+     * @return
+     */
+    public SimpleDoubleProperty getProgress()
+    {
+        return progress;
     }
 
     /**
@@ -273,6 +285,7 @@ public class MainWindowModel
     {
         if (currentIndex != -1)
         {
+            // Check if the mediaplayer was playing.
             boolean isPlaying = false;
             if (mediaPlayer != null)
             {
@@ -280,10 +293,13 @@ public class MainWindowModel
                 mediaPlayer.stop();
             }
 
+            // Load new media.
             sound = new Media(new File(songs.get(currentIndex).getpath()).toURI().toString());
 
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setVolume(currentVolume);
+
+            // When the media ends it should execute nextMedia method.
             mediaPlayer.setOnEndOfMedia(new Runnable()
             {
                 @Override
@@ -293,10 +309,30 @@ public class MainWindowModel
                 }
             });
 
+            // When the media is loaded and ready it should update the duration and current time.
+            mediaPlayer.setOnReady(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
+                    currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
+                }
+            });
+
+            // A listener which checks if the value of currentTime changed. If so update it.
+            mediaPlayer.currentTimeProperty().addListener((observableValue, oldDuration, newDuration) ->
+            {
+                currentTime.set(sec2minsec(newDuration.toSeconds()));
+                progress.set(newDuration.toSeconds() / mediaPlayer.getMedia().getDuration().toSeconds());
+            });
+
+            // Updates information labels for current media
             artist.set(songs.get(currentIndex).getArtist());
             title.set(songs.get(currentIndex).getTitle());
             album.set(songs.get(currentIndex).getAlbum());
 
+            // Auto play if player was already playing.
             if (isPlaying)
             {
                 mediaPlayer.play();
@@ -304,17 +340,27 @@ public class MainWindowModel
         }
     }
 
+    /**
+     * Turns double of seconds into a minutes second format 00:00
+     * @param seconds
+     * @return string formated 00:00.
+     */
     private String sec2minsec(double seconds)
     {
-        System.out.println(seconds);
         int min;
         int sec;
         min = (int) seconds / 60;
-        System.out.println(min);
         sec = (int) seconds % 60;
-        System.out.println(sec);
 
-        return min + ":" + sec;
+        if (sec > 9)
+        {
+            return min + ":" + sec;
+        }
+        else
+        {
+
+            return min + ":0" + sec;
+        }
     }
 
     /**
