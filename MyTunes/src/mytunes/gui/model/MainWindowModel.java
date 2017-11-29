@@ -6,6 +6,8 @@
 package mytunes.gui.model;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -15,6 +17,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.BLLException;
 import mytunes.bll.BLLManager;
 
 /**
@@ -32,24 +35,35 @@ public class MainWindowModel
     int currentIndex = -1;
     private Double currentVolume = 1.0;
     private String selectedElement;
-    
+
     /**
-     * Singleton method which makes sure that two MainWindowModels cannot be 
+     * Singleton method which makes sure that two MainWindowModels cannot be
      * created by two different classes that make use of the class.
+     * @return MainWindowModel
      */
-    public static MainWindowModel getInstance() {
-        if (instance == null) {
+    public static MainWindowModel getInstance()
+    {
+        if (instance == null)
+        {
             instance = new MainWindowModel();
         }
         return instance;
-    }    
-    
+    }
+
     public MainWindowModel()
     {
-        bllManager = new BLLManager();
-        playlists = FXCollections.observableArrayList();
-        songs = FXCollections.observableArrayList();
-        bllManager.loadPlaylistAllSongs();
+        try
+        {
+            bllManager = new BLLManager();
+            playlists = FXCollections.observableArrayList();
+            songs = FXCollections.observableArrayList();
+            playlists.addAll(bllManager.getAllPlaylists());
+            songs.addAll(bllManager.getAllSongs());
+        }
+        catch (BLLException ex)
+        {
+            throw new RuntimeException(ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
@@ -60,7 +74,14 @@ public class MainWindowModel
     public void addAllPlaylistsToGUI()
     {
         playlists.clear();
-        playlists.addAll(bllManager.getAllPlaylists());
+        try
+        {
+            playlists.addAll(bllManager.getAllPlaylists());
+        }
+        catch (BLLException ex)
+        {
+            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -112,7 +133,16 @@ public class MainWindowModel
      */
     public Playlist getAllSongsPlaylist()
     {
-        return bllManager.getAllSongsPlaylist();
+        Playlist playlist = new Playlist(-1, "MyLibrary");
+        try
+        {
+            playlist.addAllSongToPlaylist(bllManager.getAllSongs());
+            return playlist;
+        }
+        catch (BLLException ex)
+        {
+            throw new RuntimeException("Could not read all songs.");
+        }
     }
 
     /**
@@ -180,31 +210,36 @@ public class MainWindowModel
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setVolume(currentVolume);
         }
-        
+
     }
 
     /**
      * links the volumeslider to the mediaplayers volume
      * @param volumeSlider the Slider who have to adjust the volume
      */
-    public void volumeSliderSetup(Slider volumeSlider) {
+    public void volumeSliderSetup(Slider volumeSlider)
+    {
         volumeSlider.setValue(mediaPlayer.getVolume() * volumeSlider.getMax());
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+        volumeSlider.valueProperty().addListener(new InvalidationListener()
+        {
             @Override
-            public void invalidated(Observable observable) {
+            public void invalidated(Observable observable)
+            {
                 mediaPlayer.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
                 currentVolume = (volumeSlider.getValue() / volumeSlider.getMax());
             }
         });
-        
+
     }
 
-    public String selectedDeletedElements(String SelectedElement) {
+    public String selectedDeletedElements(String SelectedElement)
+    {
         selectedElement = SelectedElement;
         return selectedElement;
     }
 
-    public String getSelectedElement() {
+    public String getSelectedElement()
+    {
         return selectedElement;
     }
 

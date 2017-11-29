@@ -21,7 +21,7 @@ import mytunes.be.Song;
  *
  * @author Asbamz
  */
-public class DatabaseDAO
+public class DatabaseDAO implements DAO
 {
 
     private DatabaseConnector dbc;
@@ -41,7 +41,7 @@ public class DatabaseDAO
     {
         try (Connection con = dbc.getConnection())
         {
-            String sql = "SELECT * FROM Playlists;";
+            String sql = "SELECT * FROM Playlist;";
 
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -63,11 +63,11 @@ public class DatabaseDAO
         }
         catch (SQLServerException ex)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
         }
         catch (SQLException ex)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -85,7 +85,7 @@ public class DatabaseDAO
             String sql = "SELECT * FROM Song "
                     + "INNER JOIN Genre ON Song.genreId = Genre.genreId "
                     + "INNER JOIN SongsInPlaylist ON SongsInPlaylist.songId = Song.songId "
-                    + "INNER JOIN Playlist ON Playlist.playlistId = SongsInPlaylist.playlistId"
+                    + "INNER JOIN Playlist ON Playlist.playlistId = SongsInPlaylist.playlistId "
                     + "WHERE Playlist.playlistId = " + playlistId + ";";
 
             Statement st = con.createStatement();
@@ -111,11 +111,11 @@ public class DatabaseDAO
         }
         catch (SQLServerException ex)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
         }
         catch (SQLException ex)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -328,7 +328,7 @@ public class DatabaseDAO
     }
 
     /**
-     * Add a Song to a Playlist in both database and program.
+     * Add a Song to a Playlist in both database.
      *
      * @param playlist wanted to add to.
      * @param song wanted added.
