@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,7 +41,7 @@ import mytunes.gui.model.MainWindowModel;
  *
  * @author janvanzetten
  */
-public class MainWindowController implements Initializable {
+public class MainWindowController implements Initializable, KeyListener {
 
     @FXML
     private Label lblSongTitleTopBar;
@@ -333,6 +334,22 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void tableKeyreleased(KeyEvent event) {
+        //todo find out if this has to be used
+    }
+
+    @Override
+    public void keyTyped(java.awt.event.KeyEvent e) {
+        //something
+    }
+
+    @Override
+    public void keyPressed(java.awt.event.KeyEvent e) {
+        //something
+    }
+
+    @Override
+    public void keyReleased(java.awt.event.KeyEvent e) {
+        //something about what to do when keyreleased
     }
 
 }
