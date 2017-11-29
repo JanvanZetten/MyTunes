@@ -93,6 +93,8 @@ public class MainWindowController implements Initializable
         lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
         lblSongTitleTopBar.textProperty().bind(Bindings.convert(model.getTitle()));
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
+        lblCurrentTime.textProperty().bind(Bindings.convert(model.getCurrentTime()));
+        lblTotalTimeSong.textProperty().bind(Bindings.convert(model.getDurationTime()));
 
         //add the songs to the view
         tblviewSong.setCellValueFactory(

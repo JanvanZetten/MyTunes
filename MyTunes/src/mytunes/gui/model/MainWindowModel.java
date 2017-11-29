@@ -37,6 +37,8 @@ public class MainWindowModel
     private SimpleStringProperty artist;
     private SimpleStringProperty title;
     private SimpleStringProperty album;
+    private SimpleStringProperty currentTime;
+    private SimpleStringProperty durationTime;
     Media sound;
     MediaPlayer mediaPlayer;
     int currentIndex = -1;
@@ -69,6 +71,8 @@ public class MainWindowModel
             artist = new SimpleStringProperty("");
             title = new SimpleStringProperty("");
             album = new SimpleStringProperty("");
+            currentTime = new SimpleStringProperty("");
+            durationTime = new SimpleStringProperty("");
         }
         catch (BLLException ex)
         {
@@ -140,6 +144,24 @@ public class MainWindowModel
     public SimpleStringProperty getAlbum()
     {
         return album;
+    }
+
+    /**
+     * Get observable String
+     * @return
+     */
+    public SimpleStringProperty getCurrentTime()
+    {
+        return currentTime;
+    }
+
+    /**
+     * Get observable String
+     * @return
+     */
+    public SimpleStringProperty getDurationTime()
+    {
+        return durationTime;
     }
 
     /**
@@ -251,10 +273,6 @@ public class MainWindowModel
     {
         if (currentIndex != -1)
         {
-            artist.set(songs.get(currentIndex).getArtist());
-            title.set(songs.get(currentIndex).getTitle());
-            album.set(songs.get(currentIndex).getAlbum());
-
             boolean isPlaying = false;
             if (mediaPlayer != null)
             {
@@ -275,11 +293,22 @@ public class MainWindowModel
                 }
             });
 
+            artist.set(songs.get(currentIndex).getArtist());
+            title.set(songs.get(currentIndex).getTitle());
+            album.set(songs.get(currentIndex).getAlbum());
+            currentTime.set(mediaPlayer.getCurrentTime().toString());
+            durationTime.set(mediaPlayer.getMedia().getDuration().toString());
+
             if (isPlaying)
             {
                 mediaPlayer.play();
             }
         }
+    }
+
+    private String sec2minsec(double seconds)
+    {
+        return "";
     }
 
     /**
