@@ -8,6 +8,8 @@ package mytunes.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -293,7 +295,17 @@ public class MainWindowController implements Initializable {
         MenuItem item2 = new MenuItem("Edit song information");
         item2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                System.out.println("Needs to be implemented");
+                try {
+                    Stage newStage = new Stage();
+                    newStage.initModality(Modality.APPLICATION_MODAL);
+                    FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
+                    Parent root = fxLoader.load();
+                    Scene scene = new Scene(root);
+                    newStage.setScene(scene);
+                    newStage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         MenuItem item3 = new MenuItem("Add to queue");
