@@ -61,10 +61,7 @@ public class DatabaseDAO implements DAO
 
             return playlists;
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
@@ -109,10 +106,7 @@ public class DatabaseDAO implements DAO
 
             return songs;
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException("SQLServerException: " + ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
@@ -152,10 +146,7 @@ public class DatabaseDAO implements DAO
 
             return songs;
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -187,10 +178,7 @@ public class DatabaseDAO implements DAO
 
             return genres;
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -226,10 +214,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not add genre: " + genre);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -278,10 +263,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not add song: " + artist + " - " + title + ", DIR: " + directory);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -317,10 +299,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not add playlist: " + name);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -355,10 +334,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not add song to playlist: " + playlist.getName() + " to " + song.getArtist() + " - " + song.getTitle());
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -394,10 +370,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not update genre: " + genreId);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -446,10 +419,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not update song: " + songId + " - " + artist + " - " + title + ", DIR: " + directory);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -485,10 +455,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not add playlist: " + playlistId + " - " + name);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -521,10 +488,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not delete genre: " + genreId);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -558,10 +522,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not delete song: " + songId);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -595,10 +556,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not delete playlist: " + playlistId);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
@@ -634,10 +592,7 @@ public class DatabaseDAO implements DAO
                 throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
             }
         }
-        catch (SQLServerException ex)
-        {
-            throw new DALException(ex.getMessage(), ex.getCause());
-        }
+        
         catch (SQLException ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
