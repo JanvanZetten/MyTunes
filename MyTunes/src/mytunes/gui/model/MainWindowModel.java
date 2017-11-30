@@ -386,19 +386,26 @@ public class MainWindowModel
 
     }
 
-    public String selectedDeletedElements(String SelectedElement)
+    /**
+     * Sets selectedElement to get what element is currently attempted to
+     * be removed.
+     */
+    public void selectedDeletedElements(String SelectedElement)
     {
         selectedElement = SelectedElement;
-        return selectedElement;
     }
 
+    /**
+     * Sends information about a currently attempted song or playlist to 
+     * be removed.
+     */
     public String getSelectedElement()
     {
         return selectedElement;
     }
 
     /**
-     * takes the current list of songs shown and filters it for songs who
+     * Takes the current list of songs shown and filters it for songs who
      * contains the text in the title or in the artist
      * @param text the text which should be found in the songs title or artist
      * for it to be shown
@@ -415,9 +422,11 @@ public class MainWindowModel
                 songs.add(song);
             }
         }
-
     }
 
+    /**
+     * Creates a playlist with information sent by AddPlaylistView.
+     */
     public void createPlaylist(String text) throws BLLException
     {
         bllManager.addPlaylist(text);
@@ -427,13 +436,33 @@ public class MainWindowModel
         
     }
 
+    /**
+     * First clears the list of genres to stop two lists being fused and then 
+     * adds all genres for a getter to function.
+     * @throws BLLException 
+     */
     public void getAllGenres() throws BLLException {
         genres.clear();
         genres.addAll(bllManager.getAllGenres());
     }
 
+    /**
+     * Returns all genres currently active.
+     */
     public ObservableList<Genre> getGenres() {
         return genres;
+    }
+
+    /**
+     * Sends information to BLL about the song that is being created in
+     * AddSongView.
+     */
+    public void createSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
+        bllManager.addSong(artist, title, album, year, genre, directory);
+    }
+
+    public void cannotCreateSong() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
