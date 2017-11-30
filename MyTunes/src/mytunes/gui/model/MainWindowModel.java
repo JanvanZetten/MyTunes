@@ -7,14 +7,15 @@ package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
@@ -85,7 +86,8 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
+            Alert alert = new Alert(AlertType.WARNING, "Could not add Playlist: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -177,7 +179,8 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -196,7 +199,9 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            throw new RuntimeException("Could not read all songs.");
+            Alert alert = new Alert(AlertType.WARNING, "Could not get Library: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
+            return null;
         }
     }
 
@@ -227,7 +232,8 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -242,7 +248,8 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -257,7 +264,8 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
