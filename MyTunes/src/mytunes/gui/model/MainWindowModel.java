@@ -19,6 +19,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
+import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.BLLException;
@@ -34,6 +35,7 @@ public class MainWindowModel
     private static MainWindowModel instance;
     private BLLManager bllManager;
     private ObservableList<Playlist> playlists;
+    private ObservableList<Genre> genres;
     private ObservableList<Song> songs;
     private SimpleStringProperty artist;
     private SimpleStringProperty title;
@@ -67,6 +69,7 @@ public class MainWindowModel
         {
             bllManager = new BLLManager();
             playlists = FXCollections.observableArrayList();
+            genres = FXCollections.observableArrayList();
             songs = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
             songs.addAll(bllManager.getAllSongs());
@@ -76,6 +79,7 @@ public class MainWindowModel
             currentTime = new SimpleStringProperty("");
             durationTime = new SimpleStringProperty("");
             progress = new SimpleDoubleProperty(0.0);
+            
         }
         catch (BLLException ex)
         {
@@ -422,5 +426,16 @@ public class MainWindowModel
     public void getDeleteConfirmation(boolean YesOrNo) {
         
     }
+
+    public void getAllGenres() throws BLLException {
+        genres.clear();
+        genres.addAll(bllManager.getAllGenres());
+    }
+
+    public ObservableList<Genre> getGenres() {
+        return genres;
+    }
+    
+    
 
 }

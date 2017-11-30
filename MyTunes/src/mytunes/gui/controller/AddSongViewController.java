@@ -8,6 +8,8 @@ package mytunes.gui.controller;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import mytunes.be.Genre;
+import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
 
 /**
@@ -38,7 +42,7 @@ public class AddSongViewController implements Initializable {
     @FXML
     private TextField txtfieldFileLocation;
     @FXML
-    private ComboBox<?> cmboboxGenre;
+    private ComboBox<Genre> cmboboxGenre;
     @FXML
     private ComboBox<String> cmboboxYear;
     @FXML
@@ -54,10 +58,15 @@ public class AddSongViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        model = MainWindowModel.getInstance();
-        yearGenerator();
-        genreGetter();
-        cmboboxYear.setItems(yearGenerator());
+        try {
+            model = MainWindowModel.getInstance();
+            yearGenerator();
+            cmboboxYear.setItems(yearGenerator());
+            model.getAllGenres();
+            genreGetter();
+        } catch (BLLException ex) {
+            Logger.getLogger(AddSongViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,15 +83,17 @@ public class AddSongViewController implements Initializable {
     }
     
     private void genreGetter() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ObservableList<Genre> genreOL = FXCollections.observableArrayList();
+        genreOL = model.getGenres();
+        cmboboxGenre.setItems(genreOL);
     }
 
     private void handleButtonAction() {
 
-        stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
-        cmboboxYear.getSelectionModel().getSelectedItem();
-        model.createSong(txtfieldArtist.getText(), txtfieldTitle.getText(), 
-        txtfieldAlbum.getText(), yearInInt, Genre genre, txtfieldFileLocation.getText());
+//        stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
+//        cmboboxYear.getSelectionModel().getSelectedItem();
+//        model.createSong(txtfieldArtist.getText(), txtfieldTitle.getText(), 
+//        txtfieldAlbum.getText(), yearInInt, Genre genre, txtfieldFileLocation.getText());
     }
 
     private int stringToInt(String s) {
@@ -100,7 +111,7 @@ public class AddSongViewController implements Initializable {
 
     @FXML
     private void handleAddGenreAction(ActionEvent event) {
-        model.addGenre();
+//        model.addGenre();
     }
 
     
