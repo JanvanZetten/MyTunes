@@ -461,8 +461,14 @@ public class MainWindowModel
         bllManager.addSong(artist, title, album, year, genre, directory);
     }
 
+    //Will open a window when all information when a song is attempted created
+    //has not been filled.
     public void cannotCreateSong() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void addGenre(String genre) throws BLLException {
+        bllManager.addGenre(genre);
     }
     
     

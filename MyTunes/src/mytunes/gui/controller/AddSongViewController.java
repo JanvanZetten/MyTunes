@@ -49,6 +49,7 @@ public class AddSongViewController implements Initializable {
     @FXML
     private Button btnSaveChanges;
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
+    private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     @FXML
     private Button btnAddGenre;
     private int yearInInt;
@@ -63,7 +64,6 @@ public class AddSongViewController implements Initializable {
             model = MainWindowModel.getInstance();
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
-            model.getAllGenres();
             genreGetter();
         } catch (BLLException ex) {
             Logger.getLogger(AddSongViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,8 +83,8 @@ public class AddSongViewController implements Initializable {
         return yearOL;
     }
 
-    private void genreGetter() {
-        ObservableList<Genre> genreOL = FXCollections.observableArrayList();
+    private void genreGetter() throws BLLException {
+        model.getAllGenres();
         genreOL = model.getGenres();
         cmboboxGenre.setItems(genreOL);
     }
@@ -140,8 +140,10 @@ public class AddSongViewController implements Initializable {
     }
 
     @FXML
-    private void handleAddGenreAction(ActionEvent event) {
-//        model.addGenre();
+    private void handleAddGenreAction(ActionEvent event) throws BLLException {
+        model.addGenre(txtfieldNewGenre.getText());
+        genreGetter();
+        cmboboxGenre.getSelectionModel().selectLast();
     }
 
 }
