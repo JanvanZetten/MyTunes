@@ -12,7 +12,7 @@
 <AnchorPane id="AnchorPane" prefHeight="242.0" prefWidth="442.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.AddPlaylistViewController">
      <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="63.0" layoutX="-2.0" layoutY="-14.0" stroke="#91aab4" strokeType="INSIDE" width="444.0" />
-      <Label layoutX="125.0" layoutY="8.0" text="New / Edit Playlist" textFill="#193441">
+      <Label layoutX="156.0" layoutY="8.0" text="New playlist" textFill="#193441">
          <font>
             <Font size="24.0" />
          </font></Label>
