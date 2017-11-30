@@ -23,7 +23,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/play.png" />
+                  <Image url="@pictures/play.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -31,7 +31,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/pause.png" />
+                  <Image url="@pictures/pause.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -39,7 +39,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/previous.png" />
+                  <Image url="@pictures/previous.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -47,7 +47,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/next.png" />
+                  <Image url="@pictures/next.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -55,7 +55,7 @@
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/repeat.png" />
+                  <Image url="@pictures/repeat.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -63,7 +63,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/shuffle.png" />
+                  <Image url="@pictures/shuffle.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -72,9 +72,9 @@
         <Label layoutX="604.0" layoutY="50.0" text="Artist:" textFill="#193441" />
         <Label layoutX="603.0" layoutY="29.0" text="Album:" textFill="#193441" />
         <Label layoutX="604.0" layoutY="9.0" text="Title:" textFill="#193441" />
-        <Label fx:id="lblSongTitleTopBar" layoutX="656.0" layoutY="9.0" text="-" textFill="#193441" />
-        <Label fx:id="lblSongAlbumTopBar" layoutX="656.0" layoutY="29.0" text="-" textFill="#193441" />
-        <Label fx:id="lblSongArtistTopBar" layoutX="656.0" layoutY="50.0" text="-" textFill="#193441" />
+        <Label fx:id="lblSongTitleTopBar" layoutX="656.0" layoutY="9.0" prefHeight="17.0" prefWidth="167.0" text="-" textFill="#193441" />
+        <Label fx:id="lblSongAlbumTopBar" layoutX="656.0" layoutY="29.0" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" />
+        <Label fx:id="lblSongArtistTopBar" layoutX="656.0" layoutY="50.0" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" />
         <Label fx:id="lblChosenPlaylist" layoutX="192.0" layoutY="93.0" text="Playliste navn" textFill="#fcfff5">
             <font>
                 <Font size="24.0" />
@@ -85,7 +85,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/add.png" />
+                  <Image url="@pictures/add.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -93,7 +93,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/delete.png" />
+                  <Image url="@pictures/delete.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -101,7 +101,7 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/add.png" />
+                  <Image url="@pictures/add.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -109,18 +109,18 @@
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/delete.png" />
+                  <Image url="@pictures/delete.png" />
                </image>
             </ImageView>
          </graphic></Button>
-        <Label fx:id="lblPlaylistInfo" layoutX="666.0" layoutY="571.0" prefHeight="17.0" prefWidth="167.0" textAlignment="RIGHT" textFill="#fcfff5" />
+        <Label fx:id="lblPlaylistInfo" alignment="CENTER_RIGHT" layoutX="666.0" layoutY="571.0" prefHeight="17.0" prefWidth="167.0" textAlignment="RIGHT" textFill="#fcfff5" />
         <ListView fx:id="listViewPlaylists" layoutX="3.0" layoutY="122.0" onMouseClicked="#clickedPlaylist" prefHeight="439.0" prefWidth="185.0" />
         <Label layoutX="8.0" layoutY="93.0" text="My Playlists:" textFill="#fcfff5">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <Label fx:id="lblCurrentTime" layoutX="31.0" layoutY="17.0" text="-" textAlignment="RIGHT" textFill="#193441" />
+        <Label fx:id="lblCurrentTime" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="17.0" prefHeight="17.0" prefWidth="31.0" text="-" textAlignment="RIGHT" textFill="#193441" />
         <Label fx:id="lblTotalTimeSong" layoutX="563.0" layoutY="17.0" text="-" textFill="#193441" />
         <TableView fx:id="tblviewMaster" layoutX="192.0" layoutY="122.0" onKeyReleased="#tableKeyreleased" prefHeight="439.0" prefWidth="641.0">
             <columns>
@@ -136,7 +136,7 @@
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../pictures/search.png" />
+                  <Image url="@pictures/search.png" />
                </image>
             </ImageView>
          </graphic></Button>
