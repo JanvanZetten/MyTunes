@@ -35,7 +35,7 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
-import java.awt.event.KeyEvent;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -418,7 +418,8 @@ public class MainWindowController implements Initializable {
         }
 
     @FXML
-    private void keyReleasedTable(javafx.scene.input.KeyEvent event) {
+    private void keyReleasedTable(KeyEvent event) {
+        
     }
 
 }
