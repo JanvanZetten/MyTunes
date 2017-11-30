@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -418,7 +419,27 @@ public class MainWindowController implements Initializable {
         }
 
     @FXML
-    private void keyReleasedTable(KeyEvent event) {
+    private void keyReleasedTable(KeyEvent event) throws IOException {
+        KeyCode key = event.getCode();
+        
+        if (null != key)switch (key) {
+            case LEFT:
+                //TODO implement Add Song to playlist
+                break;
+            case UP:
+                //TODO implement move song up
+                break;
+            case DOWN:
+                //TODO implement move song down
+                break;
+            case DELETE:
+                deleteSongWindow();
+                break;
+            default:
+                break;
+        }
+        
+        
         
     }
 
