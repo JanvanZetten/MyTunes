@@ -82,7 +82,7 @@ public class AddSongViewController implements Initializable {
         }
         return yearOL;
     }
-    
+
     private void genreGetter() {
         ObservableList<Genre> genreOL = FXCollections.observableArrayList();
         genreOL = model.getGenres();
@@ -93,17 +93,30 @@ public class AddSongViewController implements Initializable {
     private void handleAddSongAction(ActionEvent event) throws BLLException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
-        
-        model.createSong(
-        txtfieldArtist.getText(), 
-        txtfieldTitle.getText(), 
-        txtfieldAlbum.getText(), 
-        yearInInt, 
-        cmboboxGenre.getSelectionModel().getSelectedItem(), 
-        txtfieldFileLocation.getText());
-        
-        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
-        stage.close();
+
+        if (!txtfieldArtist.getText().isEmpty()) {
+            if (!txtfieldTitle.getText().isEmpty()) {
+                if (!txtfieldAlbum.getText().isEmpty()) {
+                    if (yearInInt != 0) {
+                        if (cmboboxGenre.getSelectionModel().getSelectedItem() == null) {
+                            if (!txtfieldFileLocation.getText().isEmpty()) {
+                                model.createSong(
+                                        txtfieldArtist.getText(),
+                                        txtfieldTitle.getText(),
+                                        txtfieldAlbum.getText(),
+                                        yearInInt,
+                                        cmboboxGenre.getSelectionModel().getSelectedItem(),
+                                        txtfieldFileLocation.getText());
+
+                                Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+                                stage.close();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private int stringToInt(String s) {
@@ -119,7 +132,5 @@ public class AddSongViewController implements Initializable {
     private void handleAddGenreAction(ActionEvent event) {
 //        model.addGenre();
     }
-
-    
 
 }
