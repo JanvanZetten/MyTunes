@@ -42,7 +42,9 @@ public class DeleteConfirmationViewController implements Initializable {
 
     @FXML
     private void handleButtonActionDelete(ActionEvent event) {
-        
+        model.getDeleteConfirmation(true);
+        Stage stage = (Stage) btnYes.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

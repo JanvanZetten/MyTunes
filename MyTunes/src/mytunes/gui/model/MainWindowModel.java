@@ -419,4 +419,8 @@ public class MainWindowModel
         bllManager.addPlaylist(text);
     }
 
+    public void getDeleteConfirmation(boolean YesOrNo) {
+        
+    }
+
 }

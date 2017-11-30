@@ -30,6 +30,7 @@
       <TextField fx:id="txtfieldFileLocation" layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
       <ComboBox fx:id="cmboboxGenre" layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
       <ComboBox fx:id="cmboboxYear" layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
-      <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" text="Add song" />
+      <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleAddSongAction" text="Add song" />
+      <Button fx:id="btnAddGenre" layoutX="336.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleAddGenreAction" prefHeight="25.0" prefWidth="52.0" text="Add" />
    </children>
 </AnchorPane>
