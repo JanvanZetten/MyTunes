@@ -78,7 +78,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().GetGenres();
+            return dalManager.getDAO().getGenres();
         }
         catch (DALException ex)
         {
