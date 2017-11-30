@@ -5,7 +5,7 @@
  */
 package mytunes.gui.controller;
 
-import java.awt.event.KeyListener;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,7 +36,9 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
-import java.awt.event.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 
 /**
  *
@@ -85,6 +87,7 @@ public class MainWindowController implements Initializable, KeyListener {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        addKeyListener(this);
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
 
