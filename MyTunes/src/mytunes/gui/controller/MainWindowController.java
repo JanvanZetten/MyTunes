@@ -345,17 +345,31 @@ public class MainWindowController implements Initializable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        //something
+         int key = e.getExtendedKeyCode();
+        
+        if (key == KeyEvent.VK_LEFT){
+            System.out.println("første tingt");
+        }
+        if (key == KeyEvent.VK_A){
+            System.out.println("anden tingt");
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //something
+         int key = e.getExtendedKeyCode();
+        
+        if (key == KeyEvent.VK_LEFT){
+            System.out.println("første tingp");
+        }
+        if (key == KeyEvent.VK_A){
+            System.out.println("anden tingp");
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
+        int key = e.getExtendedKeyCode();
         
         if (key == KeyEvent.VK_LEFT){
             System.out.println("første ting");
