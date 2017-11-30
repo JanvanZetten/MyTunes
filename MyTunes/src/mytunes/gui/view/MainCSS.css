@@ -24,6 +24,15 @@ and open the template in the editor.
     -fx-background-color: linear-gradient(#3E606F 0%, #193441 100%);
     
 }
+.progress-bar {
+    -fx-background-color: #91aab4;
+}
+.progress-bar .track{
+    -fx-background-color: #Cbdbd7;
+}
+.progress-bar .bar{
+    -fx-background-color: #3E606F;
+}
 
 /*
 .list-cell {
