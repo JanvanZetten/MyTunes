@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
@@ -88,12 +89,21 @@ public class AddSongViewController implements Initializable {
         cmboboxGenre.setItems(genreOL);
     }
 
-    private void handleButtonAction() {
-
-//        stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
-//        cmboboxYear.getSelectionModel().getSelectedItem();
-//        model.createSong(txtfieldArtist.getText(), txtfieldTitle.getText(), 
-//        txtfieldAlbum.getText(), yearInInt, Genre genre, txtfieldFileLocation.getText());
+    @FXML
+    private void handleAddSongAction(ActionEvent event) throws BLLException {
+        stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
+        cmboboxYear.getSelectionModel().getSelectedItem();
+        
+        model.createSong(
+        txtfieldArtist.getText(), 
+        txtfieldTitle.getText(), 
+        txtfieldAlbum.getText(), 
+        yearInInt, 
+        cmboboxGenre.getSelectionModel().getSelectedItem(), 
+        txtfieldFileLocation.getText());
+        
+        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+        stage.close();
     }
 
     private int stringToInt(String s) {
@@ -103,10 +113,6 @@ public class AddSongViewController implements Initializable {
         } catch (NumberFormatException e) {
             return 0;
         }
-    }
-
-    @FXML
-    private void handleAddSongAction(ActionEvent event) {
     }
 
     @FXML

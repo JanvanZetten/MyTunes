@@ -435,6 +435,10 @@ public class MainWindowModel
     public ObservableList<Genre> getGenres() {
         return genres;
     }
+
+    public void createSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
+        bllManager.addSong(artist, title, album, year, genre, directory);
+    }
     
     
 
