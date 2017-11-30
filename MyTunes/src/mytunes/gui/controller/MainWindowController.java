@@ -250,6 +250,14 @@ public class MainWindowController implements Initializable, KeyListener {
     @FXML
     private void deleteSongAction(ActionEvent event) throws IOException
     {
+        deleteSongWindow();
+    }
+    
+    
+    /**
+     * opens a popup window to delete a song
+     */
+    private void deleteSongWindow(){
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null)
         {
             String selectedTitle = tblviewMaster.getSelectionModel().getSelectedItem().getTitle();
@@ -408,7 +416,7 @@ public class MainWindowController implements Initializable, KeyListener {
                 break;
                 
             case java.awt.event.KeyEvent.VK_DELETE:
-                
+                deleteSongWindow();
                 break;
                 
             default:
