@@ -155,7 +155,7 @@ public class DatabaseDAO implements DAO
      * @return A list of Genre.
      * @throws DALException
      */
-    public List<Genre> getGenres() throws DALException
+    public List<Genre> getAllGenres() throws DALException
     {
         try (Connection con = dbc.getConnection())
         {
