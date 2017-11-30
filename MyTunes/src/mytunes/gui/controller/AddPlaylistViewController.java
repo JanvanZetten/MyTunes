@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import mytunes.bll.BLLException;
 
 import mytunes.gui.model.MainWindowModel;
@@ -26,12 +27,6 @@ public class AddPlaylistViewController implements Initializable {
 
     @FXML
     private TextField txtfieldTitle;
-    @FXML
-    private TextField txtfieldNewGenre;
-    @FXML
-    private ComboBox<?> cmboboxGenre;
-    @FXML
-    private CheckBox checkboxAutoAdd;
     @FXML
     private Button btnCreatePlaylist;
     
@@ -48,6 +43,9 @@ public class AddPlaylistViewController implements Initializable {
     @FXML
     public void handleButtonAction() throws BLLException {
         model.createPlaylist(txtfieldTitle.getText());
+        
+        Stage stage = (Stage) btnCreatePlaylist.getScene().getWindow();
+        stage.close();
     }
     
 }
