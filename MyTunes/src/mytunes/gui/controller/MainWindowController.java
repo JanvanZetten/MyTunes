@@ -5,7 +5,6 @@
  */
 package mytunes.gui.controller;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,7 +35,6 @@ import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 
@@ -44,7 +42,7 @@ import java.awt.event.KeyEvent;
  *
  * @author janvanzetten
  */
-public class MainWindowController implements Initializable, KeyListener {
+public class MainWindowController implements Initializable {
 
     @FXML
     private Label lblSongTitleTopBar;
@@ -87,7 +85,7 @@ public class MainWindowController implements Initializable, KeyListener {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        addKeyListener(this);
+        
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
 
@@ -345,7 +343,7 @@ public class MainWindowController implements Initializable, KeyListener {
         tblviewMaster.setContextMenu(contextMenu);
     }
 
-
+/*
     @Override
     public void keyTyped(KeyEvent e) {
          int key = e.getExtendedKeyCode();
@@ -411,12 +409,16 @@ public class MainWindowController implements Initializable, KeyListener {
 
         }
 
-    }
+    }*/
 
     private void setTableItems() {
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
         }
+
+    @FXML
+    private void keyReleasedTable(javafx.scene.input.KeyEvent event) {
+    }
 
 }
