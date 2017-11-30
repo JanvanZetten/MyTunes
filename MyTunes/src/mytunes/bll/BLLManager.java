@@ -74,11 +74,11 @@ public class BLLManager
      * @return A list of Genre.
      * @throws BLLException
      */
-    public List<Genre> GetGenres() throws BLLException
+    public List<Genre> getAllGenres() throws BLLException
     {
         try
         {
-            return dalManager.getDAO().getGenres();
+            return dalManager.getDAO().getAllGenres();
         }
         catch (DALException ex)
         {

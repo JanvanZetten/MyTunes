@@ -38,7 +38,7 @@ public interface DAO
      * @return A list of Genre.
      * @throws DALException
      */
-    public List<Genre> getGenres() throws DALException;
+    public List<Genre> getAllGenres() throws DALException;
 
     /**
      * Add new Genre to data and return the new genre.
