@@ -30,13 +30,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
+import java.awt.event.*;
 
 /**
  *
@@ -342,44 +342,52 @@ public class MainWindowController implements Initializable, KeyListener {
         tblviewMaster.setContextMenu(contextMenu);
     }
 
-    @FXML
-    private void tableKeyreleased(KeyEvent event) {
-        //todo find out if this has to be used
-    }
 
     @Override
-    public void keyTyped(java.awt.event.KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
         //something
     }
 
     @Override
-    public void keyPressed(java.awt.event.KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         //something
     }
 
     @Override
-    public void keyReleased(java.awt.event.KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
+        
+        if (key == KeyEvent.VK_LEFT){
+            System.out.println("første ting");
+        }
+        if (key == KeyEvent.VK_A){
+            System.out.println("anden ting");
+        }
 
         switch (key) {
-            case java.awt.event.KeyEvent.VK_LEFT:
+            case KeyEvent.VK_LEFT:{
+                System.out.println("Left pressed");
+                break;
+            }
+            case KeyEvent.VK_UP:{
 
                 break;
-            case java.awt.event.KeyEvent.VK_UP:
+            }
+            case KeyEvent.VK_DOWN:{
 
                 break;
-            case java.awt.event.KeyEvent.VK_DOWN:
-
-                break;
-
-            case java.awt.event.KeyEvent.VK_DELETE: {
+            }
+            case KeyEvent.VK_DELETE: {
+                System.out.println("Delete pressed");
                 try {
                     deleteSongWindow();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                break;
             }
-            break;
+           
+            
 
             default:
                 break;
