@@ -38,6 +38,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
 
+
 /**
  *
  * @author janvanzetten
@@ -393,7 +394,31 @@ public class MainWindowController implements Initializable, KeyListener {
 
     @Override
     public void keyReleased(java.awt.event.KeyEvent e) {
-        //something about what to do when keyreleased
+        int key = e.getKeyCode();
+        
+        switch(key){
+            case java.awt.event.KeyEvent.VK_LEFT:
+                    
+                break;
+            case java.awt.event.KeyEvent.VK_UP:
+                
+                break;
+            case java.awt.event.KeyEvent.VK_DOWN:
+                
+                break;
+                
+            case java.awt.event.KeyEvent.VK_DELETE:
+                
+                break;
+                
+            default:
+                break;
+                    
+                    
+                    
+        }
+            
+        
     }
 
 }
