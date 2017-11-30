@@ -23,7 +23,7 @@ public class MyTunes extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindow.fxml"));
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 826, 596);
 
         stage.setScene(scene);
         stage.setTitle("MyTunes");
