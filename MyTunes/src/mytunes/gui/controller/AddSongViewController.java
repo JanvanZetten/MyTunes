@@ -89,6 +89,12 @@ public class AddSongViewController implements Initializable {
         cmboboxGenre.setItems(genreOL);
     }
 
+    /**
+     * Handles the funtion to add songs to the database. The if statements make
+     * sure no fields are left empty.
+     * Also handles the function to convert year strings into int so they can
+     * be used by the database. Closes the window when used.
+     */
     @FXML
     private void handleAddSongAction(ActionEvent event) throws BLLException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
@@ -98,7 +104,7 @@ public class AddSongViewController implements Initializable {
             if (!txtfieldTitle.getText().isEmpty()) {
                 if (!txtfieldAlbum.getText().isEmpty()) {
                     if (yearInInt != 0) {
-                        if (cmboboxGenre.getSelectionModel().getSelectedItem() == null) {
+                        if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
                             if (!txtfieldFileLocation.getText().isEmpty()) {
                                 model.createSong(
                                         txtfieldArtist.getText(),
@@ -115,13 +121,18 @@ public class AddSongViewController implements Initializable {
                     }
                 }
             }
+        } else {
+            model.cannotCreateSong();
         }
 
     }
 
+    /**
+     * Converts the year strings into int for database use.
+     */
     private int stringToInt(String s) {
         try {
-            Integer.valueOf(s);
+            yearInInt = Integer.parseInt(s);
             return yearInInt;
         } catch (NumberFormatException e) {
             return 0;

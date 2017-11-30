@@ -111,10 +111,8 @@ public class MainWindowController implements Initializable, KeyListener {
                 new PropertyValueFactory("genre"));
         tblviewYear.setCellValueFactory(
                 new PropertyValueFactory("year"));
-
-        tblviewMaster.setItems(model.getSongs());
-
-        setSongsOnTableview(model.getAllSongsPlaylist());
+        
+        setTableItems();
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
@@ -180,7 +178,8 @@ public class MainWindowController implements Initializable, KeyListener {
         Parent root = fxLoader.load();
         Scene scene = new Scene(root);
         newStage.setScene(scene);
-        newStage.show();
+        newStage.showAndWait();
+        setTableItems();
     }
 
     /**
@@ -388,5 +387,11 @@ public class MainWindowController implements Initializable, KeyListener {
         }
 
     }
+
+    private void setTableItems() {
+        tblviewMaster.setItems(model.getSongs());
+
+        setSongsOnTableview(model.getAllSongsPlaylist());
+        }
 
 }
