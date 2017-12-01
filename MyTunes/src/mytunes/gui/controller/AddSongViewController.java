@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
@@ -14,11 +15,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javax.swing.JFileChooser;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
@@ -54,6 +62,8 @@ public class AddSongViewController implements Initializable {
     private Button btnAddGenre;
     private int yearInInt;
     MainWindowModel model;
+    private String testString = "hello";
+    private Window fileChooserStage;
 
     /**
      * Initializes the controller class.
@@ -91,12 +101,13 @@ public class AddSongViewController implements Initializable {
 
     /**
      * Handles the funtion to add songs to the database. The if statements make
-     * sure no fields are left empty.
-     * Also handles the function to convert year strings into int so they can
-     * be used by the database. Closes the window when used.
+     * sure no fields are left empty. Also handles the function to convert year
+     * strings into int so they can be used by the database. Closes the window
+     * when used. If all fields haven't been filled, it will instead open an
+     * area telling the user to fill out all fields.
      */
     @FXML
-    private void handleAddSongAction(ActionEvent event) throws BLLException {
+    private void handleAddSongAction(ActionEvent event) throws BLLException, IOException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
 
@@ -122,7 +133,13 @@ public class AddSongViewController implements Initializable {
                 }
             }
         } else {
-            model.cannotCreateSong();
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotAddView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
         }
 
     }
@@ -139,11 +156,22 @@ public class AddSongViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles the button that adds a new genre to the database.
+     */
     @FXML
     private void handleAddGenreAction(ActionEvent event) throws BLLException {
         model.addGenre(txtfieldNewGenre.getText());
         genreGetter();
         cmboboxGenre.getSelectionModel().selectLast();
+    }
+
+    
+    @FXML
+    private void handleFileLocationSearcher(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Upload song");
+        fileChooser.showOpenDialog(fileChooserStage);
     }
 
 }

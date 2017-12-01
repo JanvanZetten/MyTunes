@@ -31,6 +31,9 @@ public class CannotDeleteViewController implements Initializable {
         // TODO
     }    
 
+    /**
+     * Closes the window on button press.
+     */
     @FXML
     private void handleBackButtonAction(ActionEvent event) {
         Stage stage = (Stage) btnBack.getScene().getWindow();

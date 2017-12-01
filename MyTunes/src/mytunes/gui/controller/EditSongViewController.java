@@ -7,6 +7,7 @@ package mytunes.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,5 +47,17 @@ public class EditSongViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void handleFileLocationSearcher(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleEditSongView(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleAddGenreAction(ActionEvent event) {
+    }
     
 }
