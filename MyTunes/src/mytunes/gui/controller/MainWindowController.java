@@ -38,6 +38,7 @@ import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
 import mytunes.be.Genre;
+import mytunes.bll.BLLException;
 
 /**
  *
@@ -319,13 +320,14 @@ public class MainWindowController implements Initializable {
         item2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    model.getCurrentSongId(tblviewMaster.getSelectionModel().getSelectedItem().getSongId());
-                    model.getCurrentSongTitle(tblviewMaster.getSelectionModel().getSelectedItem().getTitle());
-                    model.getCurrentSongArtist(tblviewMaster.getSelectionModel().getSelectedItem().getArtist());
-                    model.getCurrentSongAlbum(tblviewMaster.getSelectionModel().getSelectedItem().getAlbum());
-                    model.getCurrentSongYear(tblviewMaster.getSelectionModel().getSelectedItem().getYear());
-                    model.getCurrentSongGenre(tblviewMaster.getSelectionModel().getSelectedItem().getGenre());
-                    model.getCurrentSongPath(tblviewMaster.getSelectionModel().getSelectedItem().getpath());
+                    model.setCurrentSongInformation(
+                            tblviewMaster.getSelectionModel().getSelectedItem().getSongId(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getTitle(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getArtist(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getAlbum(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getYear(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getGenre(),
+                            tblviewMaster.getSelectionModel().getSelectedItem().getpath());
                     
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
@@ -393,7 +395,7 @@ public class MainWindowController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void keyReleasedTable(KeyEvent event) throws IOException {
+    private void keyReleasedTable(KeyEvent event) throws IOException, BLLException {
         KeyCode key = event.getCode();
 
         if (null != key) {

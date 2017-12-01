@@ -413,32 +413,42 @@ public class MainWindowModel {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
 
-    public int getCurrentSongId(int songId) {
-        return songId;
+    public void setCurrentSongInformation (int songId, String title, String artist, String album, int year, Genre genre, String path) {
+        currentSongId = songId;
+        currentSongTitle = title;
+        currentSongArtist = artist;
+        currentSongAlbum = album;
+        currentSongYear = year;
+        currentSongGenre = genre;
+        currentSongPath = path;
+    }
+    
+    public int getCurrentSongId() {
+        return currentSongId;
+    }
+    
+    public String getCurrentSongTitle() {
+        return currentSongTitle;
     }
 
-    public String getCurrentSongTitle(String title) {
-        return title;
+    public String getCurrentSongArtist() {
+        return currentSongArtist;
     }
 
-    public String getCurrentSongArtist(String artist) {
-        return artist;
+    public String getCurrentSongAlbum() {
+        return currentSongAlbum;
     }
 
-    public String getCurrentSongAlbum(String album) {
-        return album;
+    public int getCurrentSongYear() {
+        return currentSongYear;
     }
 
-    public int getCurrentSongYear(int year) {
-        return year;
+    public Genre getCurrentSongGenre() {
+        return currentSongGenre;
     }
 
-    public Genre getCurrentSongGenre(Genre genre) {
-        return genre;
-    }
-
-    public String getCurrentSongPath(String path) {
-        return path;
+    public String getCurrentSongPath() {
+        return currentSongPath;
     }
     
     

@@ -56,7 +56,6 @@ public class EditSongViewController implements Initializable {
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;
-    private int currentSongId;
 
     /**
      * Initializes the controller class.
@@ -68,22 +67,18 @@ public class EditSongViewController implements Initializable {
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
-            
+            textSetter();
         } catch (BLLException ex) {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void getAndSetAllSongInformation() {
-//        model.getAllSongInformation();
-    }
 
     @FXML
-    private void handleEditSongView(ActionEvent event) throws BLLException {
+    private void handleEditSongAction(ActionEvent event) throws BLLException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
         
-        model.editSongInformation(currentSongId,
+        model.editSongInformation(model.getCurrentSongId(),
                                   txtfieldArtist.getText(),
                                   txtfieldTitle.getText(),
                                   txtfieldAlbum.getText(),
@@ -128,6 +123,15 @@ public class EditSongViewController implements Initializable {
         model.getAllGenres();
         genreOL = model.getGenres();
         cmboboxGenre.setItems(genreOL);
+    }
+
+    private void textSetter() {
+        txtfieldTitle.setText(model.getCurrentSongTitle());
+        txtfieldArtist.setText(model.getCurrentSongArtist());
+        txtfieldAlbum.setText(model.getCurrentSongAlbum());
+        cmboboxGenre.setValue(model.getCurrentSongGenre());
+        cmboboxYear.setValue(model.getCurrentSongYear() + "");
+        txtfieldFileLocation.setText(model.getCurrentSongPath());
     }
 
 }
