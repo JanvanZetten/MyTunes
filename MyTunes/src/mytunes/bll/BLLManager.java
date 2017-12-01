@@ -312,6 +312,15 @@ public class BLLManager
         }
     }
     
+    
+    /**
+     * swab the placement of two songs in a playlist in the database
+     * @param firstSongId
+     * @param secondSongId
+     * @param playlistId
+     * @return 
+     * @throws BLLException 
+     */
      public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException{
         try {
             return dalManager.getDAO().swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
