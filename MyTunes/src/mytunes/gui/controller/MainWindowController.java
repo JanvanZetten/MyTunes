@@ -344,80 +344,18 @@ public class MainWindowController implements Initializable {
         tblviewMaster.setContextMenu(contextMenu);
     }
 
-/*
-    @Override
-    public void keyTyped(KeyEvent e) {
-         int key = e.getExtendedKeyCode();
-        
-        if (key == KeyEvent.VK_LEFT){
-            System.out.println("første tingt");
-        }
-        if (key == KeyEvent.VK_A){
-            System.out.println("anden tingt");
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-         int key = e.getExtendedKeyCode();
-        
-        if (key == KeyEvent.VK_LEFT){
-            System.out.println("første tingp");
-        }
-        if (key == KeyEvent.VK_A){
-            System.out.println("anden tingp");
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getExtendedKeyCode();
-        
-        if (key == KeyEvent.VK_LEFT){
-            System.out.println("første ting");
-        }
-        if (key == KeyEvent.VK_A){
-            System.out.println("anden ting");
-        }
-
-        switch (key) {
-            case KeyEvent.VK_LEFT:{
-                System.out.println("Left pressed");
-                break;
-            }
-            case KeyEvent.VK_UP:{
-
-                break;
-            }
-            case KeyEvent.VK_DOWN:{
-
-                break;
-            }
-            case KeyEvent.VK_DELETE: {
-                System.out.println("Delete pressed");
-                try {
-                    deleteSongWindow();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            }
-           
-            
-
-            default:
-                break;
-
-        }
-
-    }*/
-
+    
     private void setTableItems() {
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
         }
 
+    /**
+     * Keylistener
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void keyReleasedTable(KeyEvent event) throws IOException {
         KeyCode key = event.getCode();

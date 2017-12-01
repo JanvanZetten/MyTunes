@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="319.0" prefWidth="551.0" style="-fx-background-color: #91aab4;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="mytunes.gui.controller.AddSongToPlaylistController">
+   <children>
+      <ListView fx:id="listviewPlaylist" layoutX="14.0" layoutY="14.0" prefHeight="292.0" prefWidth="257.0" />
+      <Label layoutX="286.0" layoutY="16.0" text="Add song to a playlist" textFill="#193441">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="416.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnAddToPLaylistAction" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #3e606f;" text="Add to playlist" textFill="#fcfff5" />
+      <Button layoutX="286.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnCancelAction" prefHeight="27.0" prefWidth="123.0" style="-fx-background-color: #3e606f;" text="Cancel" textFill="#fcfff5" />
+   </children>
+</AnchorPane>
