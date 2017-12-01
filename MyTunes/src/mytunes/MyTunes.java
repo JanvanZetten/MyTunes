@@ -27,7 +27,8 @@ public class MyTunes extends Application
 
         stage.setScene(scene);
         stage.setTitle("MyTunes");
-        stage.setResizable(false);
+        stage.setMinWidth(836);
+        stage.setMinHeight(606);
         stage.show();
     }
 
