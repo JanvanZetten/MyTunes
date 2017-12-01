@@ -37,6 +37,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
+import mytunes.be.Genre;
 
 /**
  *
@@ -318,6 +319,14 @@ public class MainWindowController implements Initializable {
         item2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
+                    model.getCurrentSongId(tblviewMaster.getSelectionModel().getSelectedItem().getSongId());
+                    model.getCurrentSongTitle(tblviewMaster.getSelectionModel().getSelectedItem().getTitle());
+                    model.getCurrentSongArtist(tblviewMaster.getSelectionModel().getSelectedItem().getArtist());
+                    model.getCurrentSongAlbum(tblviewMaster.getSelectionModel().getSelectedItem().getAlbum());
+                    model.getCurrentSongYear(tblviewMaster.getSelectionModel().getSelectedItem().getYear());
+                    model.getCurrentSongGenre(tblviewMaster.getSelectionModel().getSelectedItem().getGenre());
+                    model.getCurrentSongPath(tblviewMaster.getSelectionModel().getSelectedItem().getpath());
+                    
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
                     FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
