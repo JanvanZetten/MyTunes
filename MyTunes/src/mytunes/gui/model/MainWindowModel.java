@@ -40,7 +40,7 @@ public class MainWindowModel {
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
-    
+
     //All variables below refer to the current selected song in the song list.
     private int currentSongId;
     private String currentSongTitle;
@@ -382,7 +382,7 @@ public class MainWindowModel {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
         player.setSongs(playlist);
-       
+
     }
 
     /**
@@ -397,15 +397,15 @@ public class MainWindowModel {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(player.getSongs());
 
-        if (true) {
-            int index = songsholder.indexOf(selectedItem) + i;
+        int index = songsholder.indexOf(selectedItem);
+        if (index-i >= 0 && index-i+1 <= songsholder.size()) {
             Song song = songsholder.get(index);
             songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
             player.getSongs().clear();
             player.getSongs().addAll(songsholder);
-            //bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
-            return index - i;
+            //bllManager.swapSongsInPlaylist();
+            return index;
         }
         return -1;
     }
@@ -414,7 +414,7 @@ public class MainWindowModel {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
 
-    public void setCurrentSongInformation (int songId, String title, String artist, String album, int year, Genre genre, String path) {
+    public void setCurrentSongInformation(int songId, String title, String artist, String album, int year, Genre genre, String path) {
         currentSongId = songId;
         currentSongTitle = title;
         currentSongArtist = artist;
@@ -423,11 +423,11 @@ public class MainWindowModel {
         currentSongGenre = genre;
         currentSongPath = path;
     }
-    
+
     public int getCurrentSongId() {
         return currentSongId;
     }
-    
+
     public String getCurrentSongTitle() {
         return currentSongTitle;
     }
@@ -451,7 +451,5 @@ public class MainWindowModel {
     public String getCurrentSongPath() {
         return currentSongPath;
     }
-    
-    
 
 }
