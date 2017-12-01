@@ -40,6 +40,15 @@ public class MainWindowModel {
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
+    
+    //All variables below refer to the current selected song in the song list.
+    private int currentSongId;
+    private String currentSongTitle;
+    private String currentSongArtist;
+    private String currentSongAlbum;
+    private int currentSongYear;
+    private Genre currentSongGenre;
+    private String currentSongPath;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
@@ -402,5 +411,35 @@ public class MainWindowModel {
     public void editSongInformation(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
+
+    public int getCurrentSongId(int songId) {
+        return songId;
+    }
+
+    public String getCurrentSongTitle(String title) {
+        return title;
+    }
+
+    public String getCurrentSongArtist(String artist) {
+        return artist;
+    }
+
+    public String getCurrentSongAlbum(String album) {
+        return album;
+    }
+
+    public int getCurrentSongYear(int year) {
+        return year;
+    }
+
+    public Genre getCurrentSongGenre(Genre genre) {
+        return genre;
+    }
+
+    public String getCurrentSongPath(String path) {
+        return path;
+    }
+    
+    
 
 }
