@@ -418,6 +418,7 @@ public class MainWindowModel
     
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException{
         bllManager.addSongToPlaylist(playlist, song);
+        
     }
 
     public void moveSong(int i, Song selectedItem, Playlist selectedItem0) {

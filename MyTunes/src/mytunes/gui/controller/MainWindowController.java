@@ -363,6 +363,7 @@ public class MainWindowController implements Initializable {
             switch (key) {
                 case LEFT:
                     addSongToPlaylist();
+                    setTableItems();
                     break;
                 case UP:
                     model.moveSong(1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
