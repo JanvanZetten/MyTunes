@@ -6,6 +6,8 @@
 package mytunes.bll;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -309,5 +311,13 @@ public class BLLManager
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
+    
+     public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException{
+        try {
+            return dalManager.getDAO().swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+        } catch (DALException ex) {
+            throw new BLLException(ex.getMessage(), ex.getCause());
+        }
+     }
 
 }

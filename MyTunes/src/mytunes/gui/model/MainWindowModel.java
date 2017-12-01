@@ -392,7 +392,7 @@ public class MainWindowModel {
      * @param selectedItem0
      * @return the new indeks of the moved elment. -1 if failed
      */
-    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) {
+    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(player.getSongs());
 
@@ -403,6 +403,7 @@ public class MainWindowModel {
             songsholder.set(index - i, song);
             player.getSongs().clear();
             player.getSongs().addAll(songsholder);
+            //bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
             return index - i;
         }
         return -1;
