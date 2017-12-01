@@ -21,35 +21,30 @@ import mytunes.gui.model.MainWindowModel;
  *
  * @author Alex
  */
-public class DeleteConfirmationViewController implements Initializable {
+public class CannotAddViewController implements Initializable {
 
     @FXML
-    private Label lblDeletedElement;
+    private Button btnBack;
     @FXML
-    private Button btnYes;
-    @FXML
-    private Button btnNo;
+    private Label lblCategory;
+    
     MainWindowModel model;
 
     /**
-     * Initializes the controller class.
+     * Initializes the controller class and sets the label to the correct category.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         model = MainWindowModel.getInstance();
-        lblDeletedElement.setText(model.getSelectedElement() + "?");
+        lblCategory.setText("The " + model.getCurrentAddMenu() + " cannot be created.");
     }    
 
+    /**
+     * Closes the window on button press.
+     */
     @FXML
-    private void handleButtonActionDelete(ActionEvent event) {
-        model.getDeleteConfirmation();
-        Stage stage = (Stage) btnYes.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    private void handleButtonActionBack(ActionEvent event) {
-        Stage stage = (Stage) btnNo.getScene().getWindow();
+    private void handleBackButtonAction(ActionEvent event) {
+        Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();
     }
     

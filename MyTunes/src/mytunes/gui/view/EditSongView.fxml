@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="337.0" prefWidth="426.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" fx:controller="mytunes.gui.controller.EditSongViewController">
+<AnchorPane id="AnchorPane" prefHeight="337.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.EditSongViewController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="64.0" layoutX="-2.0" layoutY="-19.0" stroke="#91aab4" strokeType="INSIDE" width="428.0" />
       <Label layoutX="164.0" layoutY="6.0" text="Edit song" textFill="#193441">
@@ -26,10 +26,11 @@
       <TextField fx:id="txtfieldArtist" layoutX="132.0" layoutY="115.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
       <TextField fx:id="txtfieldNewGenre" layoutX="232.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
       <TextField fx:id="txtfieldAlbum" layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
-      <Button fx:id="btnFileLocation" layoutX="336.0" layoutY="254.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="btnFileLocation" layoutX="336.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleFileLocationSearcher" text="Search" />
       <TextField fx:id="txtfieldFileLocation" layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
       <ComboBox fx:id="cmboboxGenre" layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
       <ComboBox fx:id="cmboboxYear" layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
-      <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" text="Edit song" />
+      <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleEditSongView" text="Edit song" />
+      <Button layoutX="336.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleAddGenreAction" prefHeight="25.0" prefWidth="52.0" text="Add" />
    </children>
 </AnchorPane>

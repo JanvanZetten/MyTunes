@@ -39,6 +39,7 @@ public class MainWindowModel
     private ObservableList<Playlist> playlists;
     private ObservableList<Genre> genres;
     private String selectedElement;
+    private String currentAddMenu;
     private Song chosenSong;
 
     /**
@@ -351,9 +352,9 @@ public class MainWindowModel
         bllManager.addPlaylist(text);
     }
 
-    public void getDeleteConfirmation(boolean YesOrNo)
+    public void getDeleteConfirmation()
     {
-
+        
     }
 
     /**
@@ -384,16 +385,27 @@ public class MainWindowModel
         bllManager.addSong(artist, title, album, year, genre, directory);
     }
 
-    //Will open a window when all information when a song is attempted created
-    //has not been filled.
-    public void cannotCreateSong()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     * Creates a new genre from AddSongView.
+     */
     public void addGenre(String genre) throws BLLException
     {
         bllManager.addGenre(genre);
+    }
+    
+    /**
+     * Saves what object you are curently trying to add to the database.
+     * Is used in CannotAddView as a label.
+     */
+    public void setCurrentAddMenu(String menu) {
+        currentAddMenu = menu;
+    }
+
+    /**
+     * Getter for currentAddMenu, which shows what object you are trying to create.
+     */
+    public String getCurrentAddMenu() {
+        return currentAddMenu;
     }
 
     public void setChosenSong(Song selectedItem) {
