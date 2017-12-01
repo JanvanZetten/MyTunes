@@ -21,7 +21,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import mytunes.be.Genre;
-import mytunes.be.Song;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
 
