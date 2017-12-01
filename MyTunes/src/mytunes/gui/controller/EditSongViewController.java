@@ -73,7 +73,7 @@ public class EditSongViewController implements Initializable {
         }
     }
     
-    private void getAllSongInformation() {
+    private void getAndSetAllSongInformation() {
 //        model.getAllSongInformation();
     }
 
