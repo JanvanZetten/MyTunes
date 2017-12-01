@@ -23,7 +23,7 @@ import mytunes.be.Song;
 public class DatabaseDAO implements DAO
 {
 
-    private DatabaseConnector dbc;
+    private final DatabaseConnector dbc;
 
     public DatabaseDAO() throws DALException
     {
@@ -36,6 +36,7 @@ public class DatabaseDAO implements DAO
      * @return A list of Playlist objects.
      * @throws DALException
      */
+    @Override
     public List<Playlist> getAllPlaylists() throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -116,6 +117,7 @@ public class DatabaseDAO implements DAO
      * @return A list of Song objects
      * @throws DALException
      */
+    @Override
     public List<Song> getAllSongs() throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -155,6 +157,7 @@ public class DatabaseDAO implements DAO
      * @return A list of Genre.
      * @throws DALException
      */
+    @Override
     public List<Genre> getAllGenres() throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -187,6 +190,7 @@ public class DatabaseDAO implements DAO
      * @return Genre object with new information.
      * @throws DALException
      */
+    @Override
     public Genre addGenre(String genre) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -227,6 +231,7 @@ public class DatabaseDAO implements DAO
      * @return Song object with new information.
      * @throws DALException
      */
+    @Override
     public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -270,6 +275,7 @@ public class DatabaseDAO implements DAO
      * @return Playlist object with new information.
      * @throws DALException
      */
+    @Override
     public Playlist addPlaylist(String name) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -341,6 +347,7 @@ public class DatabaseDAO implements DAO
      * @return updated Genre object.
      * @throws DALException
      */
+    @Override
     public Genre updateGenre(int genreId, String genre) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -381,6 +388,7 @@ public class DatabaseDAO implements DAO
      * @return Song object with new information.
      * @throws DALException
      */
+    @Override
     public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -424,6 +432,7 @@ public class DatabaseDAO implements DAO
      * @return Playlist object with new information.
      * @throws DALException
      */
+    @Override
     public Playlist updatePlaylist(int playlistId, String name) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -458,6 +467,7 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
+    @Override
     public boolean deleteGenre(int genreId) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -490,6 +500,7 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
+    @Override
     public boolean deleteSong(int songId) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -523,6 +534,7 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
+    @Override
     public boolean deletePlaylist(int playlistId) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -558,6 +570,7 @@ public class DatabaseDAO implements DAO
      * @return succession boolean.
      * @throws DALException
      */
+    @Override
     public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
     {
         try (Connection con = dbc.getConnection())
@@ -576,6 +589,46 @@ public class DatabaseDAO implements DAO
             else
             {
                 throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Swap songs in playlist to get wanted order.
+     * @param firstSongId song wanted swapped.
+     * @param secondSongId song wanted swapped.
+     * @param playlistId playlist wanted affected.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    @Override
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
+            String sql = "UPDATE SongsInPlaylist SET songId=? WHERE songId=? AND playlistId=?;"
+                    + "UPDATE SongsInPlaylist SET songId=? WHERE songId=? AND playlistId=?;";
+
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, secondSongId);
+            statement.setInt(2, firstSongId);
+            statement.setInt(3, playlistId);
+            statement.setInt(4, firstSongId);
+            statement.setInt(5, secondSongId);
+            statement.setInt(6, playlistId);
+
+            if (statement.executeUpdate() == 1)
+            {
+                return true;
+            }
+            else
+            {
+                throw new DALException("Could not swap songs: " + firstSongId + " and " + secondSongId + " in " + playlistId);
             }
         }
         catch (SQLException ex)

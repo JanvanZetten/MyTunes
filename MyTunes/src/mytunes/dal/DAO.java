@@ -153,4 +153,14 @@ public interface DAO
      * @throws DALException
      */
     public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException;
+
+    /**
+     * Swap songs in playlist to get wanted order.
+     * @param firstSongId song wanted swapped.
+     * @param secondSongId song wanted swapped.
+     * @param playlistId playlist wanted affected.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException;
 }
