@@ -381,16 +381,16 @@ public class MainWindowModel {
      * @param i -1 if it has to go one down and 1 if it has to go one up
      * @param selectedItem
      * @param selectedItem0
-     * @return the new indeks of the moved elment
+     * @return the new indeks of the moved elment. -1 if failed
      */
     public int moveSong(int i, Song selectedItem, Playlist selectedItem0) {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(player.getSongs());
 
-        int index = songsholder.indexOf(selectedItem) + i;
-        Song song = songsholder.get(index);
-        if (index > 0 && index -3 < songsholder.size()) {
-            songsholder.set(index, songsholder.get(index - i ));
+        if (true) {
+            int index = songsholder.indexOf(selectedItem) + i;
+            Song song = songsholder.get(index);
+            songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
             player.getSongs().clear();
             player.getSongs().addAll(songsholder);
