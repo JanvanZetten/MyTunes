@@ -424,7 +424,7 @@ public class MainWindowModel
         
     }
 
-    public void editSongInformation(int songId, String artist, String title, String album, int year, Genre genre, String directory) {
+    public void editSongInformation(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
 
