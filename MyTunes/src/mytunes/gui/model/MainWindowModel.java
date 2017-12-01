@@ -380,6 +380,7 @@ public class MainWindowModel {
 
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
+        playlist.addSongToPlaylist(song);
         player.setSongs(playlist);
        
     }

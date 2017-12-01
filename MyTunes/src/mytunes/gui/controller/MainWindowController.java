@@ -477,6 +477,7 @@ public class MainWindowController implements Initializable
                 case LEFT:
                     addSongToPlaylist();
                     setTableItems();
+                    
                     break;
                 case UP:
                     int indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
