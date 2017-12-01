@@ -40,6 +40,15 @@ public class MainWindowModel {
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
+    
+    //All variables below refer to the current selected song in the song list.
+    private int currentSongId;
+    private String currentSongTitle;
+    private String currentSongArtist;
+    private String currentSongAlbum;
+    private int currentSongYear;
+    private Genre currentSongGenre;
+    private String currentSongPath;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
@@ -403,32 +412,32 @@ public class MainWindowModel {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
 
-    public void getCurrentSongId(int songId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getCurrentSongId(int songId) {
+        return songId;
     }
 
-    public void getCurrentSongTitle(String title) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getCurrentSongTitle(String title) {
+        return title;
     }
 
-    public void getCurrentSongArtist(String artist) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getCurrentSongArtist(String artist) {
+        return artist;
     }
 
-    public void getCurrentSongAlbum(String album) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getCurrentSongAlbum(String album) {
+        return album;
     }
 
-    public void getCurrentSongYear(int year) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getCurrentSongYear(int year) {
+        return year;
     }
 
-    public void getCurrentSongGenre(Genre genre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Genre getCurrentSongGenre(Genre genre) {
+        return genre;
     }
 
-    public void getCurrentSongPath(String path) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getCurrentSongPath(String path) {
+        return path;
     }
     
     

@@ -68,7 +68,7 @@ public class EditSongViewController implements Initializable {
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
-            currentSongId
+            
         } catch (BLLException ex) {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
