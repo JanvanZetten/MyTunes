@@ -118,7 +118,8 @@ public class MainWindowController implements Initializable {
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
 
-        contextMenuHandler();
+        contextSongMenuHandler();
+        contextPlaylistMenuHandler();
     }
 
     /**
@@ -306,7 +307,7 @@ public class MainWindowController implements Initializable {
      * Creates and attaches contect menus to the song list which adds options
      * all with their own method calls attached.
      */
-    private void contextMenuHandler() {
+    private void contextSongMenuHandler() {
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
@@ -341,6 +342,43 @@ public class MainWindowController implements Initializable {
         contextMenu.setMaxSize(50, 50);
 
         tblviewMaster.setContextMenu(contextMenu);
+    }
+    
+    private void contextPlaylistMenuHandler() {
+        MenuItem item1 = new MenuItem("Play");
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                model.playMedia();
+            }
+        });
+        MenuItem item2 = new MenuItem("Edit song information");
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                try {
+                    Stage newStage = new Stage();
+                    newStage.initModality(Modality.APPLICATION_MODAL);
+                    FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
+                    Parent root = fxLoader.load();
+                    Scene scene = new Scene(root);
+                    newStage.setScene(scene);
+                    newStage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        MenuItem item3 = new MenuItem("Add to queue");
+        item3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                System.out.println("Needs to be implemented");
+            }
+        });
+
+        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
+        contextMenu.setMaxSize(50, 50);
+
+        listViewPlaylists.setContextMenu(contextMenu);
     }
 
     private void setTableItems() {
