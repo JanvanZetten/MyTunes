@@ -39,6 +39,7 @@ public class MainWindowModel
     private ObservableList<Playlist> playlists;
     private ObservableList<Genre> genres;
     private String selectedElement;
+    private Song chosenSong;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
@@ -53,6 +54,7 @@ public class MainWindowModel
         }
         return instance;
     }
+    
 
     public MainWindowModel()
     {
@@ -392,6 +394,22 @@ public class MainWindowModel
     public void addGenre(String genre) throws BLLException
     {
         bllManager.addGenre(genre);
+    }
+
+    public void setChosenSong(Song selectedItem) {
+        chosenSong = selectedItem;
+    }
+    
+    public Song getChosenSong(){
+        return chosenSong;
+    }
+    
+    public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException{
+        bllManager.addSongToPlaylist(playlist, song);
+    }
+
+    public void moveSong(int i, Song selectedItem, Playlist selectedItem0) {
+        
     }
 
 }

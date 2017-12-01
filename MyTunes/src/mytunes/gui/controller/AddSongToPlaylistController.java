@@ -11,6 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
+import mytunes.be.Playlist;
+import mytunes.bll.BLLException;
+import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
@@ -20,22 +24,31 @@ import javafx.scene.control.ListView;
 public class AddSongToPlaylistController implements Initializable {
 
     @FXML
-    private ListView<?> listviewPlaylist;
+    private ListView<Playlist> listviewPlaylist;
+    
+    MainWindowModel MWmodel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        MWmodel = MainWindowModel.getInstance();
+        listviewPlaylist.setItems(MWmodel.getPlaylists());
+        
     }    
 
     @FXML
-    private void btnAddToPLaylistAction(ActionEvent event) {
+    private void btnAddToPLaylistAction(ActionEvent event) throws BLLException {
+        MWmodel.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), MWmodel.getChosenSong());
+        Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void btnCancelAction(ActionEvent event) {
+        Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
+        stage.close();
     }
     
 }

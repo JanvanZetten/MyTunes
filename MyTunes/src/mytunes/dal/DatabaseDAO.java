@@ -306,6 +306,7 @@ public class DatabaseDAO implements DAO
      * @return true if song was added to playlist.
      * @throws DALException
      */
+    @Override
     public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException
     {
         try (Connection con = dbc.getConnection())

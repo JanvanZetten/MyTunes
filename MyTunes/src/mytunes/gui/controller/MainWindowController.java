@@ -38,7 +38,6 @@ import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
 
-
 /**
  *
  * @author janvanzetten
@@ -86,7 +85,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
 
@@ -113,7 +112,7 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("genre"));
         tblviewYear.setCellValueFactory(
                 new PropertyValueFactory("year"));
-        
+
         setTableItems();
 
         //volumeSlider
@@ -344,41 +343,56 @@ public class MainWindowController implements Initializable {
         tblviewMaster.setContextMenu(contextMenu);
     }
 
-    
     private void setTableItems() {
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
-        }
+    }
 
     /**
      * Keylistener
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void keyReleasedTable(KeyEvent event) throws IOException {
         KeyCode key = event.getCode();
-        
-        if (null != key)switch (key) {
-            case LEFT:
-                //TODO implement Add Song to playlist
-                break;
-            case UP:
-                //TODO implement move song up
-                break;
-            case DOWN:
-                //TODO implement move song down
-                break;
-            case DELETE:
-                deleteSongWindow();
-                break;
-            default:
-                break;
+
+        if (null != key) {
+            switch (key) {
+                case LEFT:
+                    addSongToPlaylist();
+                    break;
+                case UP:
+                    model.moveSong(1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    break;
+                case DOWN:
+                    model.moveSong(-1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    break;
+                case DELETE:
+                    deleteSongWindow();
+                    break;
+                default:
+                    break;
+            }
         }
-        
-        
-        
+
+    }
+
+    /**
+     * Opens the window for adding a song to a playlist
+     * @throws IOException 
+     */
+    private void addSongToPlaylist() throws IOException {
+        model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/addSongToPlaylist.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 
 }
