@@ -387,10 +387,11 @@ public class MainWindowModel {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(player.getSongs());
 
-        int index = songsholder.indexOf(selectedItem);
-        if (index - i > 0 && index - i < songsholder.size()) {
-            songsholder.set(index, songsholder.get(index-i ));
-            songsholder.set(index - i, selectedItem);
+        int index = songsholder.indexOf(selectedItem) + i;
+        Song song = songsholder.get(index);
+        if (index > 0 && index -3 < songsholder.size()) {
+            songsholder.set(index, songsholder.get(index - i ));
+            songsholder.set(index - i, song);
             player.getSongs().clear();
             player.getSongs().addAll(songsholder);
             return index - i;
