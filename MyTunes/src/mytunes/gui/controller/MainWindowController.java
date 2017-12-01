@@ -130,6 +130,14 @@ public class MainWindowController implements Initializable
     }
 
     /**
+     * Added because I could not get scene in initialize().
+     */
+    public void afterInitialize()
+    {
+        topBar.widthProperty().bind(topBar.getScene().widthProperty());
+    }
+
+    /**
      * Plays the song on button press.
      */
     @FXML

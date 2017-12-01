@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mytunes.gui.controller.MainWindowController;
 
 /**
  *
@@ -21,15 +22,26 @@ public class MyTunes extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainWindow.fxml"));
+        //Get window.
+        Stage newStage = new Stage();
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
+        Parent root = fxLoader.load();
 
+        //Instanciate Scene.
         Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        stage.setTitle("MyTunes");
-        stage.setMinWidth(836);
-        stage.setMinHeight(606);
-        stage.show();
+        //Set Stage properties.
+        newStage.setScene(scene);
+        newStage.setTitle("MyTunes");
+        newStage.setMinWidth(836);
+        newStage.setMinHeight(606);
+
+        //Get controller and run afterInitialize.
+        MainWindowController cont = fxLoader.getController();
+        cont.afterInitialize();
+
+        //Show Stage
+        newStage.show();
     }
 
     /**

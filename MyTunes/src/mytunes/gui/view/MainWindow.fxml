@@ -22,7 +22,7 @@
     <children>
       <StackPane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-              <Rectangle fx:id="topBar" arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" stroke="#8ca3bd" strokeType="INSIDE" width="2000.0" StackPane.alignment="CENTER" />
+              <Rectangle fx:id="topBar" arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="87.0" stroke="#8ca3bd" strokeType="INSIDE" width="836.0" StackPane.alignment="CENTER" />
          </children>
       </StackPane>
       <StackPane minHeight="83.0" minWidth="400.0" prefHeight="83.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
