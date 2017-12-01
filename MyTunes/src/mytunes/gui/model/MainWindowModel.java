@@ -378,7 +378,7 @@ public class MainWindowModel {
     /**
      * moves the song
      *
-     * @param i the place to be moved to. fx 1 will move it one up
+     * @param i -1 if it has to go one down and 1 if it has to go one up
      * @param selectedItem
      * @param selectedItem0
      * @return the new indeks of the moved elment
@@ -389,7 +389,7 @@ public class MainWindowModel {
 
         int index = songsholder.indexOf(selectedItem);
         if (index - i > 0 && index - i < songsholder.size()) {
-            songsholder.set(index, songsholder.get(index - i));
+            songsholder.set(index, songsholder.get(index-i ));
             songsholder.set(index - i, selectedItem);
             player.getSongs().clear();
             player.getSongs().addAll(songsholder);

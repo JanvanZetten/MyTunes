@@ -366,10 +366,16 @@ public class MainWindowController implements Initializable {
                     setTableItems();
                     break;
                 case UP:
-                    model.moveSong(1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    int indeks = model.moveSong(1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    if (indeks != -1){
+                        tblviewMaster.getSelectionModel().select(indeks);
+                    }
                     break;
                 case DOWN:
-                    model.moveSong(-1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    int indeks2 = model.moveSong(-1,tblviewMaster.getSelectionModel().getSelectedItem(),listViewPlaylists.getSelectionModel().getSelectedItem());
+                    if (indeks2 != -1){
+                        tblviewMaster.getSelectionModel().select(indeks2);
+                    }
                     break;
                 case DELETE:
                     deleteSongWindow();
