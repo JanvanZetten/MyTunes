@@ -348,23 +348,13 @@ public class MainWindowController implements Initializable {
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                model.playMedia();
+                System.out.println("Needs to be implemented");
             }
         });
         MenuItem item2 = new MenuItem("Edit song information");
         item2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                try {
-                    Stage newStage = new Stage();
-                    newStage.initModality(Modality.APPLICATION_MODAL);
-                    FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
-                    Parent root = fxLoader.load();
-                    Scene scene = new Scene(root);
-                    newStage.setScene(scene);
-                    newStage.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                System.out.println("Needs to be implemented");
             }
         });
         MenuItem item3 = new MenuItem("Add to queue");
