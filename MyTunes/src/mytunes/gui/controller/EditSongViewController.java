@@ -74,7 +74,7 @@ public class EditSongViewController implements Initializable {
     }
     
     private void getAllSongInformation() {
-        
+//        model.getAllSongInformation();
     }
 
     @FXML
