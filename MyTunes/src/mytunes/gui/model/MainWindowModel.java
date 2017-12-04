@@ -496,12 +496,12 @@ public class MainWindowModel {
 
     public void setMuted(boolean mutedSetting) {
         if (mutedSetting){
-            playMedia();
+            
             muted = true;
             
         }
         else{
-            pauseMedia();
+            
             muted = false;
         }
     }

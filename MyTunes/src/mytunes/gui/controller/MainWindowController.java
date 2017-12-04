@@ -194,10 +194,12 @@ public class MainWindowController implements Initializable {
         if (!model.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
+            volumeSlider.adjustValue(0);
             model.setMuted(true);
         } else if (model.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
+            volumeSlider.adjustValue(100);
             model.setMuted(false);
 
         }
@@ -529,5 +531,12 @@ public class MainWindowController implements Initializable {
         }
         model.setCurrentIds(currentSongId, currentPlaylistId);
 
+    }
+
+    @FXML
+    private void sliderDragAction(MouseEvent event) {
+        File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(false);
     }
 }
