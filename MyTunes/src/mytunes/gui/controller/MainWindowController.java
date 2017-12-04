@@ -237,12 +237,9 @@ public class MainWindowController implements Initializable
      * window to appear. The all song playlist cannot be deleted.
      */
     @FXML
-    private void deletePlaylistAction(ActionEvent event) throws IOException
-    {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null)
-        {
-            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library")
-            {
+    private void deletePlaylistAction(ActionEvent event) throws IOException, BLLException {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
                 Stage newStage = new Stage();
                 newStage.initModality(Modality.APPLICATION_MODAL);
                 FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
@@ -250,11 +247,10 @@ public class MainWindowController implements Initializable
                 Scene scene = new Scene(root);
                 newStage.setScene(scene);
                 newStage.show();
-            }
-            else
-            {
-                String selectedItem = listViewPlaylists.getSelectionModel().getSelectedItem().getName();
+            } else {
+                String selectedItem = model.getCurrentPlaylistTitle();
                 model.selectedDeletedElements(selectedItem);
+                model.setCurrentElementToBeDeleted("Playlist");
 
                 Stage newStage = new Stage();
                 newStage.initModality(Modality.APPLICATION_MODAL);
@@ -272,21 +268,12 @@ public class MainWindowController implements Initializable
      * window to appear.
      */
     @FXML
-    private void deleteSongAction(ActionEvent event) throws IOException
-    {
-        deleteSongWindow();
-    }
-
-    /**
-     * opens a popup window to delete a song
-     */
-    private void deleteSongWindow() throws IOException
-    {
-        if (tblviewMaster.getSelectionModel().getSelectedItem() != null)
-        {
-            String selectedTitle = tblviewMaster.getSelectionModel().getSelectedItem().getTitle();
-            String selectedArtist = tblviewMaster.getSelectionModel().getSelectedItem().getArtist();
+    private void deleteSongAction() throws IOException, BLLException {
+        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            String selectedTitle = model.getCurrentSongTitle();
+            String selectedArtist = model.getCurrentSongArtist();
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
+            model.setCurrentElementToBeDeleted("Song");
 
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -494,7 +481,7 @@ public class MainWindowController implements Initializable
                     }
                     break;
                 case DELETE:
-                    deleteSongWindow();
+                    deleteSongAction();
                     break;
                 default:
                     break;

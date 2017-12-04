@@ -49,6 +49,10 @@ public class MainWindowModel {
     private int currentSongYear;
     private Genre currentSongGenre;
     private String currentSongPath;
+    
+    //All variables below refer to the current selected playlist.
+    private int currentPlaylistId;
+    private String currentPlaylistTitle;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
@@ -450,6 +454,42 @@ public class MainWindowModel {
 
     public String getCurrentSongPath() {
         return currentSongPath;
+    }
+    
+    public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
+        bllManager.updatePlaylist(PlaylistId, text);
+    }
+    
+    public void setCurrentPlaylistInformation (int playlistId, String title) {
+        currentPlaylistId = playlistId;
+        currentPlaylistTitle = title;
+    }
+    
+    public int getCurrentPlaylistId() {
+        return currentPlaylistId;
+    }
+    
+    public String getCurrentPlaylistTitle() {
+        return currentPlaylistTitle;
+    }
+
+    public void setCurrentIds (int songId, int playlistId) {
+            currentSongId = songId;
+            currentPlaylistId = playlistId;
+        }
+    
+    public void setCurrentElementToBeDeleted(String element) throws BLLException {
+        if (element == "Song") {
+            if (getCurrentPlaylistTitle() == "My Library") {
+                bllManager.deleteSong(currentSongId);
+            }
+            else if (getCurrentPlaylistTitle() != "My Library") {
+                bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
+            }
+        }
+        else if (element == "Playlist") {
+            bllManager.deletePlaylist(currentPlaylistId);
+        }
     }
 
 }
