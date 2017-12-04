@@ -40,6 +40,7 @@ public class MainWindowModel {
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
+    private boolean muted = false;
 
     //All variables below refer to the current selected song in the song list.
     private int currentSongId;
@@ -491,6 +492,22 @@ public class MainWindowModel {
         else if (element == "Playlist") {
             bllManager.deletePlaylist(currentPlaylistId);
         }
+    }
+
+    public void setMuted(boolean mutedSetting) {
+        if (mutedSetting){
+            playMedia();
+            muted = true;
+            
+        }
+        else{
+            pauseMedia();
+            muted = false;
+        }
+    }
+
+    public boolean isMuted() {
+        return muted;
     }
 
 }

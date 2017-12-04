@@ -5,6 +5,7 @@
  */
 package mytunes.gui.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +30,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -45,8 +48,7 @@ import mytunes.bll.BLLException;
  *
  * @author janvanzetten
  */
-public class MainWindowController implements Initializable
-{
+public class MainWindowController implements Initializable {
 
     @FXML
     private Label lblSongTitleTopBar;
@@ -88,10 +90,11 @@ public class MainWindowController implements Initializable
     private Rectangle topBar;
 
     MainWindowModel model;
+    @FXML
+    private ImageView imageviewMute;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
@@ -132,8 +135,7 @@ public class MainWindowController implements Initializable
     /**
      * Added because I could not get scene in initialize().
      */
-    public void afterInitialize()
-    {
+    public void afterInitialize() {
         topBar.widthProperty().bind(topBar.getScene().widthProperty());
     }
 
@@ -141,8 +143,7 @@ public class MainWindowController implements Initializable
      * Plays the song on button press.
      */
     @FXML
-    private void playSongAction(ActionEvent event)
-    {
+    private void playSongAction(ActionEvent event) {
         model.playMedia();
     }
 
@@ -150,8 +151,7 @@ public class MainWindowController implements Initializable
      * Pauses the song on button press.
      */
     @FXML
-    private void pauseSongAction(ActionEvent event)
-    {
+    private void pauseSongAction(ActionEvent event) {
         model.pauseMedia();
     }
 
@@ -159,8 +159,7 @@ public class MainWindowController implements Initializable
      * Plays the previous song on button press.
      */
     @FXML
-    private void previusSongAction(ActionEvent event)
-    {
+    private void previusSongAction(ActionEvent event) {
         model.previousMedia();
     }
 
@@ -168,8 +167,7 @@ public class MainWindowController implements Initializable
      * Plays the next song on button press.
      */
     @FXML
-    private void nextSongAction(ActionEvent event)
-    {
+    private void nextSongAction(ActionEvent event) {
         model.nextMedia();
     }
 
@@ -177,8 +175,7 @@ public class MainWindowController implements Initializable
      * Repeats the current song on button press.
      */
     @FXML
-    private void repeatSongsAction(ActionEvent event)
-    {
+    private void repeatSongsAction(ActionEvent event) {
         model.switchLooping();
     }
 
@@ -186,8 +183,7 @@ public class MainWindowController implements Initializable
      * Selects a random song as the next song on button press.
      */
     @FXML
-    private void shuffleSongsAction(ActionEvent event)
-    {
+    private void shuffleSongsAction(ActionEvent event) {
         model.switchShuffling();
     }
 
@@ -195,8 +191,18 @@ public class MainWindowController implements Initializable
      * Mutes media.
      */
     @FXML
-    private void muteSongsAction(ActionEvent event)
-    {
+    private void muteSongsAction(ActionEvent event) {
+        if (!model.isMuted()) {
+            File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(true);
+        } else if (model.isMuted()) {
+            File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(false);
+
+        }
+
     }
 
     /**
@@ -204,8 +210,7 @@ public class MainWindowController implements Initializable
      * assists the user in adding music to the library to appear.
      */
     @FXML
-    private void addSongAction(ActionEvent event) throws IOException
-    {
+    private void addSongAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSongView.fxml"));
@@ -221,8 +226,7 @@ public class MainWindowController implements Initializable
      * assists the user in making a new playlist to appear.
      */
     @FXML
-    private void addPlaylistAction(ActionEvent event) throws IOException
-    {
+    private void addPlaylistAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylistView.fxml"));
@@ -291,10 +295,8 @@ public class MainWindowController implements Initializable
      * @param event
      */
     @FXML
-    private void clickedPlaylist(MouseEvent event)
-    {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null)
-        {
+    private void clickedPlaylist(MouseEvent event) {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
             updateIdSelected();
         }
@@ -306,39 +308,27 @@ public class MainWindowController implements Initializable
      *
      * @param playlist the playlist to show
      */
-    private void setSongsOnTableview(Playlist playlist)
-    {
+    private void setSongsOnTableview(Playlist playlist) {
         model.setSongs(playlist);
         lblChosenPlaylist.setText(playlist.getName());
-        if (playlist.getSongs().size() > 1)
-        {
+        if (playlist.getSongs().size() > 1) {
             lblPlaylistInfo.setText(playlist.getSongs().size() + " songs in this playlist");
-        }
-        else if (playlist.getSongs().size() == 1)
-        {
+        } else if (playlist.getSongs().size() == 1) {
             lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
-        }
-        else if (playlist.getSongs().size() == 0)
-        {
+        } else if (playlist.getSongs().size() == 0) {
             lblPlaylistInfo.setText("No songs in this playlist");
-        }
-        else
-        {
+        } else {
             lblPlaylistInfo.setText("");
         }
 
     }
 
     @FXML
-    private void FilterButtonAction(ActionEvent event)
-    {
-        if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter"))
-        {
+    private void FilterButtonAction(ActionEvent event) {
+        if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
             model.filterSongList(textfieldFilter.getText().trim());
             btnFilter.setText("Clear");
-        }
-        else if (btnFilter.getText().equals("Clear"))
-        {
+        } else if (btnFilter.getText().equals("Clear")) {
             setSongsOnTableview(model.getAllSongsPlaylist());
             listViewPlaylists.getSelectionModel().select(0);
             btnFilter.setText("Filter");
@@ -350,23 +340,17 @@ public class MainWindowController implements Initializable
      * Creates and attaches contect menus to the song list which adds options
      * all with their own method calls attached.
      */
-    private void contextSongMenuHandler()
-    {
+    private void contextSongMenuHandler() {
         MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
                 model.playMedia();
             }
         });
         MenuItem item2 = new MenuItem("Edit song information");
-        item2.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                try
-                {
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                try {
                     model.setCurrentSongInformation(
                             tblviewMaster.getSelectionModel().getSelectedItem().getSongId(),
                             tblviewMaster.getSelectionModel().getSelectedItem().getTitle(),
@@ -383,19 +367,15 @@ public class MainWindowController implements Initializable
                     Scene scene = new Scene(root);
                     newStage.setScene(scene);
                     newStage.show();
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
         MenuItem item3 = new MenuItem("Add to queue");
-        item3.setOnAction(new EventHandler<ActionEvent>()
-        {
+        item3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e)
-            {
+            public void handle(ActionEvent e) {
                 System.out.println("Needs to be implemented");
             }
         });
@@ -406,30 +386,23 @@ public class MainWindowController implements Initializable
         tblviewMaster.setContextMenu(contextMenu);
     }
 
-    private void contextPlaylistMenuHandler()
-    {
+    private void contextPlaylistMenuHandler() {
         MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
                 System.out.println("Needs to be implemented");
             }
         });
         MenuItem item2 = new MenuItem("Edit song information");
-        item2.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
                 System.out.println("Needs to be implemented");
             }
         });
         MenuItem item3 = new MenuItem("Add to queue");
-        item3.setOnAction(new EventHandler<ActionEvent>()
-        {
+        item3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e)
-            {
+            public void handle(ActionEvent e) {
                 System.out.println("Needs to be implemented");
             }
         });
@@ -440,8 +413,7 @@ public class MainWindowController implements Initializable
         listViewPlaylists.setContextMenu(contextMenu);
     }
 
-    private void setTableItems()
-    {
+    private void setTableItems() {
         tblviewMaster.setItems(model.getSongs());
 
         setSongsOnTableview(model.getAllSongsPlaylist());
@@ -454,30 +426,25 @@ public class MainWindowController implements Initializable
      * @throws IOException
      */
     @FXML
-    private void keyReleasedTable(KeyEvent event) throws IOException, BLLException
-    {
+    private void keyReleasedTable(KeyEvent event) throws IOException, BLLException {
         KeyCode key = event.getCode();
 
-        if (null != key)
-        {
-            switch (key)
-            {
+        if (null != key) {
+            switch (key) {
                 case LEFT:
                     addSongToPlaylist();
                     setTableItems();
-                    
+
                     break;
                 case UP:
                     int indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    if (indeks != -1)
-                    {
+                    if (indeks != -1) {
                         tblviewMaster.getSelectionModel().select(indeks);
                     }
                     break;
                 case DOWN:
                     int indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    if (indeks2 != -1)
-                    {
+                    if (indeks2 != -1) {
                         tblviewMaster.getSelectionModel().select(indeks2);
                     }
                     break;
@@ -493,10 +460,10 @@ public class MainWindowController implements Initializable
 
     /**
      * Opens the window for adding a song to a playlist
+     *
      * @throws IOException
      */
-    private void addSongToPlaylist() throws IOException
-    {
+    private void addSongToPlaylist() throws IOException {
         model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -518,6 +485,6 @@ public class MainWindowController implements Initializable
             currentSongId = tblviewMaster.getSelectionModel().getSelectedItem().getSongId();
         }
         model.setCurrentIds(currentSongId, currentPlaylistId);
-        
+
     }
 }

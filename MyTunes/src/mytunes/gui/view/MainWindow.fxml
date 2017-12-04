@@ -101,7 +101,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#muteSongsAction" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #3E606F;" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageviewMute" fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@pictures/speaker.png" />
                      </image>
