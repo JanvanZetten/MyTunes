@@ -296,6 +296,7 @@ public class MainWindowController implements Initializable
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null)
         {
             setSongsOnTableview(listViewPlaylists.getSelectionModel().getSelectedItem());
+            updateIdSelected();
         }
     }
 
@@ -504,5 +505,19 @@ public class MainWindowController implements Initializable
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.show();
+    }
+
+    @FXML
+    private void updateIdSelected() {
+        int currentPlaylistId = 0;
+        int currentSongId = 0;
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            currentPlaylistId = listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId();
+        }
+        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            currentSongId = tblviewMaster.getSelectionModel().getSelectedItem().getSongId();
+        }
+        model.setCurrentIds(currentSongId, currentPlaylistId);
+        
     }
 }
