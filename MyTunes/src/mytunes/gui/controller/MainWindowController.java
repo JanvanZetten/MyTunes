@@ -237,7 +237,7 @@ public class MainWindowController implements Initializable
      * window to appear. The all song playlist cannot be deleted.
      */
     @FXML
-    private void deletePlaylistAction(ActionEvent event) throws IOException, BLLException {
+    private void deletePlaylistAction() throws IOException, BLLException {
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
                 Stage newStage = new Stage();
@@ -281,7 +281,8 @@ public class MainWindowController implements Initializable
             Parent root = fxLoader.load();
             Scene scene = new Scene(root);
             newStage.setScene(scene);
-            newStage.show();
+            newStage.showAndWait();
+            setTableItems();
         }
     }
 
@@ -347,91 +348,92 @@ public class MainWindowController implements Initializable
     }
 
     /**
-     * Creates and attaches contect menus to the song list which adds options
+     * Creates and attaches contect menus to the song list which adds options,
      * all with their own method calls attached.
      */
     private void contextSongMenuHandler()
     {
+        //Plays the selected song.
         MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
+        item1.setOnAction((ActionEvent e) -> {
+            model.playMedia();
+            System.out.println("Not supported properly yet!");
+        });
+        
+        //Edits the selected song and presets text fields with current information.
+        MenuItem item2 = new MenuItem("Edit song");
+        item2.setOnAction((ActionEvent e) -> {
+            try
             {
-                model.playMedia();
+                model.setCurrentSongInformation(
+                        tblviewMaster.getSelectionModel().getSelectedItem().getSongId(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getTitle(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getArtist(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getAlbum(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getYear(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getGenre(),
+                        tblviewMaster.getSelectionModel().getSelectedItem().getpath());
+                
+                Stage newStage = new Stage();
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
+                Parent root = fxLoader.load();
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+                newStage.showAndWait();
+                setTableItems();
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        MenuItem item2 = new MenuItem("Edit song information");
-        item2.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                try
-                {
-                    model.setCurrentSongInformation(
-                            tblviewMaster.getSelectionModel().getSelectedItem().getSongId(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getTitle(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getArtist(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getAlbum(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getYear(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getGenre(),
-                            tblviewMaster.getSelectionModel().getSelectedItem().getpath());
-
-                    Stage newStage = new Stage();
-                    newStage.initModality(Modality.APPLICATION_MODAL);
-                    FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
-                    Parent root = fxLoader.load();
-                    Scene scene = new Scene(root);
-                    newStage.setScene(scene);
-                    newStage.show();
-                }
-                catch (IOException ex)
-                {
-                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        
+        //Adds the selected song to the queue.
         MenuItem item3 = new MenuItem("Add to queue");
-        item3.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent e)
-            {
-                System.out.println("Needs to be implemented");
+        item3.setOnAction((ActionEvent e) -> {
+            System.out.println("Needs to be implemented");
+        });
+        
+        //Deletes the selected song.
+        MenuItem item4 = new MenuItem("Delete song");
+        item4.setOnAction((ActionEvent e) -> {
+            try {
+                deleteSongAction();
+            } catch (IOException | BLLException ex) {
+                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
-        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
+        //Sets the created MenuItems into the context menu for the table.
+        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3, item4);
         contextMenu.setMaxSize(50, 50);
-
         tblviewMaster.setContextMenu(contextMenu);
     }
 
+    /**
+     * Creates and attaches contect menus to the playlist which adds options,
+     * all with their own method calls attached.
+     */
     private void contextPlaylistMenuHandler()
     {
-        MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                System.out.println("Needs to be implemented");
+        MenuItem item1 = new MenuItem("Edit playlist");
+        item1.setOnAction((ActionEvent e) -> {
+            System.out.println("Needs to be implemented");
+        });
+        
+        MenuItem item2 = new MenuItem("Delete playlist");
+        item2.setOnAction((ActionEvent e) -> {
+            try {
+                deletePlaylistAction();
+            } catch (IOException | BLLException ex) {
+                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        MenuItem item2 = new MenuItem("Edit song information");
-        item2.setOnAction(new EventHandler<ActionEvent>()
-        {
-            public void handle(ActionEvent e)
-            {
-                System.out.println("Needs to be implemented");
-            }
-        });
+        
         MenuItem item3 = new MenuItem("Add to queue");
-        item3.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent e)
-            {
-                System.out.println("Needs to be implemented");
-            }
+        item3.setOnAction((ActionEvent e) -> {
+            System.out.println("Needs to be implemented");
         });
 
         final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
@@ -440,10 +442,13 @@ public class MainWindowController implements Initializable
         listViewPlaylists.setContextMenu(contextMenu);
     }
 
+    /**
+     * Updates the table and is used after changes are made so the program
+     * updates live.
+     */
     private void setTableItems()
     {
         tblviewMaster.setItems(model.getSongs());
-
         setSongsOnTableview(model.getAllSongsPlaylist());
     }
 
@@ -507,6 +512,11 @@ public class MainWindowController implements Initializable
         newStage.show();
     }
 
+    /**
+     * Updates the ID of the selected playlist and song so that you can track 
+     * what items you want to delete. The playlist ID is by default -1 as this
+     * is the ID of "My Library".
+     */
     @FXML
     private void updateIdSelected() {
         int currentPlaylistId = -1;

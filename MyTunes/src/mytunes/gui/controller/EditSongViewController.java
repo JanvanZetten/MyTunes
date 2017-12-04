@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
@@ -72,8 +73,12 @@ public class EditSongViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles the button that sends the edited song information to the 
+     * database and then closes the window.
+     */
     @FXML
-    private void handleEditSongAction(ActionEvent event) throws BLLException {
+    private void handleEditSongAction() throws BLLException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
         
@@ -84,8 +89,13 @@ public class EditSongViewController implements Initializable {
                                   yearInInt,
                                   cmboboxGenre.getSelectionModel().getSelectedItem(),
                                   txtfieldFileLocation.getText());
+        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+        stage.close();
     }
     
+    /**
+     * Handles and opens a file searcher so a file path can be found.
+     */
     @FXML
     private void handleFileLocationSearcher(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -93,6 +103,9 @@ public class EditSongViewController implements Initializable {
         fileChooser.showOpenDialog(fileChooserStage);
     }
 
+    /**
+     * Handles the button that adds a new genre to the database.
+     */
     @FXML
     private void handleAddGenreAction(ActionEvent event) throws BLLException {
         model.addGenre(txtfieldNewGenre.getText());
@@ -100,6 +113,9 @@ public class EditSongViewController implements Initializable {
         cmboboxGenre.getSelectionModel().selectLast();
     }
     
+    /**
+     * Converts the year strings into int for database use.
+     */
     private int stringToInt(String s) {
         try {
             yearInInt = Integer.parseInt(s);
@@ -109,6 +125,10 @@ public class EditSongViewController implements Initializable {
         }
     }
 
+    /**
+     * Takes the current year from the calendar and adds all years down to 1700
+     * to the cmboboxYear.
+     */
     private ObservableList<String> yearGenerator() {
         int yearCounter = Calendar.getInstance().get(Calendar.YEAR);
         yearOL.add("Unknown");
@@ -118,12 +138,18 @@ public class EditSongViewController implements Initializable {
         return yearOL;
     }
 
+    /**
+     * Gets and sets all the genres that are available into a combo box.
+     */
     private void genreGetter() throws BLLException {
         model.getAllGenres();
         genreOL = model.getGenres();
         cmboboxGenre.setItems(genreOL);
     }
 
+    /**
+     * Presets the information about the song into the text fields.
+     */
     private void textSetter() {
         txtfieldTitle.setText(model.getCurrentSongTitle());
         txtfieldArtist.setText(model.getCurrentSongArtist());
