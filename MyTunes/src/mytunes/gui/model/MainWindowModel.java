@@ -74,6 +74,7 @@ public class MainWindowModel {
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
+            currentPlaylistId = -1;
 
         } catch (BLLException ex) {
             throw new RuntimeException(ex.getMessage(), ex.getCause());
@@ -480,10 +481,10 @@ public class MainWindowModel {
     
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if (element == "Song") {
-            if (getCurrentPlaylistTitle() == "My Library") {
+            if (currentPlaylistId == -1) {
                 bllManager.deleteSong(currentSongId);
             }
-            else if (getCurrentPlaylistTitle() != "My Library") {
+            else if (currentPlaylistId != -1) {
                 bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
             }
         }
