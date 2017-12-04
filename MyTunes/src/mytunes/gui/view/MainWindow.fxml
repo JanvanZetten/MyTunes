@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
     <children>
       <StackPane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -216,7 +216,7 @@
       </StackPane>
       <StackPane minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="120.0">
          <children>
-              <TableView fx:id="tblviewMaster" onKeyPressed="#keyReleasedTable" prefHeight="439.0" prefWidth="641.0">
+              <TableView fx:id="tblviewMaster" onKeyPressed="#keyReleasedTable" onMouseClicked="#updateIdSelected" prefHeight="439.0" prefWidth="641.0">
                   <columns>
                       <TableColumn fx:id="tblviewSong" prefWidth="157.0" text="Song" />
                       <TableColumn fx:id="tblviewArtist" prefWidth="138.0" text="Artist" />
