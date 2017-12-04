@@ -93,6 +93,9 @@ public class AddSongViewController implements Initializable {
         return yearOL;
     }
 
+    /**
+     * Gets and sets all the genres that are available into a combo box.
+     */
     private void genreGetter() throws BLLException {
         model.getAllGenres();
         genreOL = model.getGenres();
@@ -166,9 +169,11 @@ public class AddSongViewController implements Initializable {
         cmboboxGenre.getSelectionModel().selectLast();
     }
 
-    
+    /**
+     * Handles and opens a file searcher so a file path can be found.
+     */
     @FXML
-    private void handleFileLocationSearcher(ActionEvent event) {
+    private void handleFileLocationSearcher() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Upload song");
         fileChooser.showOpenDialog(fileChooserStage);

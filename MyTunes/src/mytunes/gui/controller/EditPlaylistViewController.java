@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
 
@@ -25,7 +26,7 @@ public class EditPlaylistViewController implements Initializable {
     @FXML
     private TextField txtfieldTitle;
     @FXML
-    private Button btnCreatePlaylist;
+    private Button btnSaveChanges;
     
     MainWindowModel model;
 
@@ -43,6 +44,8 @@ public class EditPlaylistViewController implements Initializable {
         model.editPlaylistInformation(
                 model.getCurrentPlaylistId(), 
                 txtfieldTitle.getText());
+        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+        stage.close();
     }
 
     private void textSetter() {
