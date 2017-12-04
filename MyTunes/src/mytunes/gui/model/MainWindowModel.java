@@ -473,6 +473,11 @@ public class MainWindowModel {
         return currentPlaylistTitle;
     }
 
+    public void setCurrentIds (int songId, int playlistId) {
+            currentSongId = songId;
+            currentPlaylistId = playlistId;
+        }
+    
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if (element == "Song") {
             if (getCurrentPlaylistTitle() == "My Library") {
@@ -486,10 +491,5 @@ public class MainWindowModel {
             bllManager.deletePlaylist(currentPlaylistId);
         }
     }
-    
-    public void setCurrentIds (int songId, int playlistId) {
-            currentSongId = songId;
-            currentPlaylistId = playlistId;
-        }
 
 }
