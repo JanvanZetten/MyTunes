@@ -72,6 +72,7 @@ public class AddSongViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             model = MainWindowModel.getInstance();
+            model.setCurrentAddMenu("song");
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();

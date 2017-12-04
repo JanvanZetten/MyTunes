@@ -26,15 +26,16 @@ public class AddSongToPlaylistController implements Initializable {
     @FXML
     private ListView<Playlist> listviewPlaylist;
     
-    MainWindowModel MWmodel;
+    MainWindowModel model;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MWmodel = MainWindowModel.getInstance();
-        listviewPlaylist.setItems(MWmodel.getPlaylists());
+        model = MainWindowModel.getInstance();
+        model.setCurrentAddMenu("playlist");
+        listviewPlaylist.setItems(model.getPlaylists());
         
     }    
 
@@ -45,7 +46,7 @@ public class AddSongToPlaylistController implements Initializable {
      */
     @FXML
     private void btnAddToPLaylistAction(ActionEvent event) throws BLLException {
-        MWmodel.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), MWmodel.getChosenSong());
+        model.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), model.getChosenSong());
         Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
         stage.close();
     }
