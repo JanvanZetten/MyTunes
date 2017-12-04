@@ -38,6 +38,11 @@ public class AddSongToPlaylistController implements Initializable {
         
     }    
 
+    /**
+     * for the button for adding a song to playlist
+     * @param event
+     * @throws BLLException 
+     */
     @FXML
     private void btnAddToPLaylistAction(ActionEvent event) throws BLLException {
         MWmodel.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), MWmodel.getChosenSong());
@@ -45,6 +50,10 @@ public class AddSongToPlaylistController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Cancel button, closes the window
+     * @param event 
+     */
     @FXML
     private void btnCancelAction(ActionEvent event) {
         Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
