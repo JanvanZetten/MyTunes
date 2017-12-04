@@ -153,17 +153,17 @@
             </Label>
               <Label fx:id="lblSongArtistTopBar" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
-                  <Insets left="55.0" top="15.0" />
+                  <Insets left="60.0" top="15.0" />
                </StackPane.margin>
             </Label>
               <Label fx:id="lblSongTitleTopBar" prefHeight="17.0" prefWidth="167.0" text="-" textFill="#193441" StackPane.alignment="CENTER_LEFT">
                <StackPane.margin>
-                  <Insets left="55.0" />
+                  <Insets left="60.0" />
                </StackPane.margin>
             </Label>
               <Label fx:id="lblSongAlbumTopBar" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
-                  <Insets bottom="15.0" left="55.0" />
+                  <Insets bottom="15.0" left="60.0" />
                </StackPane.margin>
             </Label>
          </children>
@@ -182,9 +182,9 @@
       </StackPane>
       <StackPane minHeight="40.0" minWidth="200.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="80.0">
          <children>
-            <Button fx:id="btnFilter" mnemonicParsing="false" onAction="#FilterButtonAction" prefHeight="27.0" prefWidth="59.0" style="-fx-background-color: #91aab4;" textFill="#193441" StackPane.alignment="CENTER_RIGHT">
+            <Button fx:id="btnFilter" mnemonicParsing="false" onAction="#FilterButtonAction" prefHeight="27.0" prefWidth="73.0" style="-fx-background-color: #91aab4;" text="Filter" textFill="#193441" StackPane.alignment="CENTER_RIGHT">
                <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="17.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@pictures/search.png" />
                      </image>
@@ -194,11 +194,6 @@
                   <Insets right="10.0" />
                </StackPane.margin>
             </Button>
-            <TextField fx:id="textfieldFilter" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="filter..." StackPane.alignment="CENTER_RIGHT">
-               <StackPane.margin>
-                  <Insets right="75.0" />
-               </StackPane.margin>
-            </TextField>
               <Label fx:id="lblChosenPlaylist" text="Playliste navn" textFill="#fcfff5" StackPane.alignment="CENTER_LEFT">
                   <font>
                       <Font size="24.0" />
@@ -207,6 +202,11 @@
                   <Insets left="10.0" />
                </StackPane.margin>
               </Label>
+            <TextField fx:id="textfieldFilter" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="filter..." StackPane.alignment="CENTER_RIGHT">
+               <StackPane.margin>
+                  <Insets right="90.0" />
+               </StackPane.margin>
+            </TextField>
          </children>
       </StackPane>
       <StackPane minHeight="150.0" minWidth="189.0" prefHeight="150.0" prefWidth="189.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="120.0">

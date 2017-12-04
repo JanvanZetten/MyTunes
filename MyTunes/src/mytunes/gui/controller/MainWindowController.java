@@ -505,4 +505,8 @@ public class MainWindowController implements Initializable
         newStage.setScene(scene);
         newStage.show();
     }
+
+    @FXML
+    private void updateIdSelected(MouseEvent event) {
+    }
 }
