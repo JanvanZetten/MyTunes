@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
     <children>
       <StackPane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -101,9 +101,9 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#muteSongsAction" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #3E606F;" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
-                  <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pictures/shuffle.png" />
+                        <Image url="@pictures/speaker.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -111,11 +111,6 @@
                   <Insets bottom="10.0" left="250.0" />
                </StackPane.margin>
             </Button>
-              <Slider fx:id="volumeSlider" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" showTickMarks="true" value="100.0" StackPane.alignment="BOTTOM_LEFT">
-               <StackPane.margin>
-                  <Insets bottom="5.0" left="290.0" />
-               </StackPane.margin>
-            </Slider>
               <Label fx:id="lblCurrentTime" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="30.0" text="-" textAlignment="RIGHT" textFill="#193441" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="10.0" top="15.0" />
@@ -132,6 +127,11 @@
                </StackPane.margin>
             </Label>
               <Line endY="-20.0" startY="20.0" stroke="#193441" StackPane.alignment="CENTER_RIGHT" />
+              <Slider fx:id="volumeSlider" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" showTickMarks="true" value="100.0" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="5.0" left="290.0" />
+               </StackPane.margin>
+            </Slider>
          </children>
       </StackPane>
       <StackPane minHeight="83.0" minWidth="430.0" prefHeight="83.0" prefWidth="430.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
