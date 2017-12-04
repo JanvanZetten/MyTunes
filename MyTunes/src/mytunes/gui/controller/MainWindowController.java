@@ -100,7 +100,7 @@ public class MainWindowController implements Initializable
         model.addAllPlaylistsToGUI();
 
         //set observables
-        listViewPlaylists.setItems(model.getPlaylists());
+        setTableItems();
         lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
         lblSongTitleTopBar.textProperty().bind(Bindings.convert(model.getTitle()));
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
@@ -120,11 +120,10 @@ public class MainWindowController implements Initializable
         tblviewYear.setCellValueFactory(
                 new PropertyValueFactory("year"));
 
-        setTableItems();
-
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
-
+        
+        //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
     }
@@ -419,7 +418,22 @@ public class MainWindowController implements Initializable
     {
         MenuItem item1 = new MenuItem("Edit playlist");
         item1.setOnAction((ActionEvent e) -> {
-            System.out.println("Needs to be implemented");
+            try {
+                model.setCurrentPlaylistInformation(
+                        listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId(),
+                        listViewPlaylists.getSelectionModel().getSelectedItem().getName());
+                
+                Stage newStage = new Stage();
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistView.fxml"));
+                Parent root = fxLoader.load();
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+                newStage.showAndWait();
+                setTableItems();
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         MenuItem item2 = new MenuItem("Delete playlist");
@@ -449,6 +463,7 @@ public class MainWindowController implements Initializable
     private void setTableItems()
     {
         tblviewMaster.setItems(model.getSongs());
+        listViewPlaylists.setItems(model.getPlaylists());
         setSongsOnTableview(model.getAllSongsPlaylist());
     }
 
