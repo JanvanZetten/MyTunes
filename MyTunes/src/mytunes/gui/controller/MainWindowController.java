@@ -509,7 +509,7 @@ public class MainWindowController implements Initializable
 
     @FXML
     private void updateIdSelected() {
-        int currentPlaylistId = 0;
+        int currentPlaylistId = -1;
         int currentSongId = 0;
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             currentPlaylistId = listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId();
