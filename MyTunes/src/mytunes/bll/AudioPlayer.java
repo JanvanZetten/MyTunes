@@ -7,7 +7,6 @@ package mytunes.bll;
 
 import java.io.File;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -20,13 +19,13 @@ import mytunes.be.Song;
  */
 public class AudioPlayer implements Player
 {
-    private final SimpleStringProperty currentTime;
-    private final SimpleStringProperty durationTime;
+    private final SimpleDoubleProperty currentTime;
+    private final SimpleDoubleProperty durationTime;
     private final SimpleDoubleProperty progress;
     private Media sound;
     private MediaPlayer mediaPlayer;
 
-    public AudioPlayer(Song song, SimpleStringProperty currentTime, SimpleStringProperty durationTime, SimpleDoubleProperty progress) throws BLLException
+    public AudioPlayer(Song song, SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime, SimpleDoubleProperty progress) throws BLLException
     {
         this.currentTime = currentTime;
         this.durationTime = durationTime;
@@ -50,27 +49,16 @@ public class AudioPlayer implements Player
             @Override
             public void run()
             {
-                durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
-                currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
-            }
-        });
-
-        // When the media is loaded and ready it should update the duration and current time.
-        mediaPlayer.setOnReady(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
-                currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
+                durationTime.set(mediaPlayer.getMedia().getDuration().toMillis());
+                currentTime.set(mediaPlayer.getCurrentTime().toMillis());
             }
         });
 
         // A listener which checks if the value of currentTime changed. If so update it.
         mediaPlayer.currentTimeProperty().addListener((observableValue, oldDuration, newDuration) ->
         {
-            currentTime.set(sec2minsec(newDuration.toSeconds()));
-            progress.set(newDuration.toSeconds() / mediaPlayer.getMedia().getDuration().toSeconds());
+            currentTime.set(newDuration.toMillis());
+            progress.set(newDuration.toMillis() / mediaPlayer.getMedia().getDuration().toMillis());
         });
     }
 
@@ -137,29 +125,6 @@ public class AudioPlayer implements Player
         catch (MediaException ex)
         {
             throw new BLLException("Loading new media: " + song.getpath() + ", " + ex.getMessage(), ex.getCause());
-        }
-    }
-
-    /**
-     * Turns double of seconds into a minutes second format 00:00
-     * @param seconds
-     * @return string formated 00:00.
-     */
-    private String sec2minsec(double seconds)
-    {
-        int min;
-        int sec;
-        min = (int) seconds / 60;
-        sec = (int) seconds % 60;
-
-        if (sec > 9)
-        {
-            return min + ":" + sec;
-        }
-        else
-        {
-
-            return min + ":0" + sec;
         }
     }
 }
