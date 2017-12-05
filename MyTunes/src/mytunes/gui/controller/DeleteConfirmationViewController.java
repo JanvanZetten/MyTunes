@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import mytunes.bll.BLLException;
 
 import mytunes.gui.model.MainWindowModel;
 
@@ -41,8 +42,8 @@ public class DeleteConfirmationViewController implements Initializable {
     }    
 
     @FXML
-    private void handleButtonActionDelete(ActionEvent event) {
-        model.getDeleteConfirmation();
+    private void handleButtonActionDelete(ActionEvent event) throws BLLException {
+        model.setCurrentElementToBeDeleted(model.getSongOrPlaylist());
         Stage stage = (Stage) btnYes.getScene().getWindow();
         stage.close();
     }

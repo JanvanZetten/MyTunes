@@ -234,9 +234,9 @@ public class MainWindowController implements Initializable {
             if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
                 startModalWindow("CannotAddView");
             } else {
+                model.setSongOrPlaylist("Playlist");
                 String selectedItem = model.getCurrentPlaylistTitle();
                 model.selectedDeletedElements(selectedItem);
-                model.setCurrentElementToBeDeleted("Playlist");
 
                 startModalWindow("DeleteConfirmationView");
             }
@@ -250,10 +250,10 @@ public class MainWindowController implements Initializable {
     @FXML
     private void deleteSongAction() throws IOException, BLLException {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            model.setSongOrPlaylist("Song");
             String selectedTitle = model.getCurrentSongTitle();
             String selectedArtist = model.getCurrentSongArtist();
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
-            model.setCurrentElementToBeDeleted("Song");
 
             startModalWindow("DeleteConfirmationView");
         }

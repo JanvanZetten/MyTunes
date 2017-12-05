@@ -41,6 +41,7 @@ public class MainWindowModel {
     private String currentAddMenu;
     private Song chosenSong;
     private boolean muted = false;
+    private String songOrPlaylist;
 
     //All variables below refer to the current selected song in the song list.
     private int currentSongId;
@@ -323,10 +324,6 @@ public class MainWindowModel {
         bllManager.addPlaylist(text);
     }
 
-    public void getDeleteConfirmation() {
-
-    }
-
     /**
      * First clears the list of genres to stop two lists being fused and then
      * adds all genres for a getter to function.
@@ -508,6 +505,14 @@ public class MainWindowModel {
 
     public boolean isMuted() {
         return muted;
+    }
+
+    public void setSongOrPlaylist(String SongOrPlaylist) {
+        songOrPlaylist = SongOrPlaylist;
+    }
+    
+    public String getSongOrPlaylist() {
+        return songOrPlaylist;
     }
 
 }
