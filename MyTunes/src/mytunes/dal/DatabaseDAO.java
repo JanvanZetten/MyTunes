@@ -610,17 +610,18 @@ public class DatabaseDAO implements DAO
     {
         try (Connection con = dbc.getConnection())
         {
-            String sql = "UPDATE SongsInPlaylist SET songId=? WHERE songId=? AND playlistId=?;"
-                    + "UPDATE SongsInPlaylist SET songId=? WHERE songId=? AND playlistId=?;";
+            int firstSipId = getSipId(firstSongId, playlistId);
+            int secondSipId = getSipId(secondSongId, playlistId);
+
+            String sql = "UPDATE SongsInPlaylist SET songId=? WHERE sipId=?;"
+                    + "UPDATE SongsInPlaylist SET songId=? WHERE sipId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, secondSongId);
-            statement.setInt(2, firstSongId);
-            statement.setInt(3, playlistId);
-            statement.setInt(4, firstSongId);
-            statement.setInt(5, secondSongId);
-            statement.setInt(6, playlistId);
+            statement.setInt(2, firstSipId);
+            statement.setInt(3, firstSongId);
+            statement.setInt(4, secondSipId);
 
             if (statement.executeUpdate() == 1)
             {
@@ -629,6 +630,37 @@ public class DatabaseDAO implements DAO
             else
             {
                 throw new DALException("Could not swap songs: " + firstSongId + " and " + secondSongId + " in " + playlistId);
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Gets SongInPlaylist Id.
+     * @param songId
+     * @param playlistId
+     * @return
+     * @throws DALException
+     */
+    private int getSipId(int songId, int playlistId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
+            String sql = "SELECT sipId FROM SongsInPlaylist WHERE songId=? AND playlistId=?;";
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next())
+            {
+                return rs.getInt("sipId");
+            }
+            else
+            {
+                throw new DALException("sipId not found!");
             }
         }
         catch (SQLException ex)
