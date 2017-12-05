@@ -41,6 +41,7 @@ public class MainWindowModel {
     private String currentAddMenu;
     private Song chosenSong;
     private boolean muted = false;
+    private boolean playing = false;
     private String songOrPlaylist;
 
     //All variables below refer to the current selected song in the song list.
@@ -208,6 +209,7 @@ public class MainWindowModel {
      */
     public void playMedia() {
         player.playMedia();
+        playing = true;
     }
 
     /**
@@ -215,6 +217,7 @@ public class MainWindowModel {
      */
     public void pauseMedia() {
         player.pauseMedia();
+        playing = false;
     }
 
     /**
@@ -513,6 +516,14 @@ public class MainWindowModel {
     
     public String getSongOrPlaylist() {
         return songOrPlaylist;
+    }
+
+    /**
+     * a boolean for if the song is playing
+     * @return true if playing else false
+     */
+    public boolean isPlaying() {
+        return playing;
     }
 
 }

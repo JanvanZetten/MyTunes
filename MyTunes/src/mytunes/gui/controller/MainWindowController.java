@@ -96,6 +96,8 @@ public class MainWindowController implements Initializable {
     private Button BtnRepeat;
     @FXML
     private Button Btnshuffle;
+    @FXML
+    private ImageView imageviewPlayPause;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -147,7 +149,18 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void playSongAction(ActionEvent event) {
-        model.playMedia();
+        if (model.isPlaying()){
+        model.pauseMedia();
+        File file = new File("src/mytunes/gui/view/pictures/play.png");
+            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+        }
+        else{
+            model.playMedia();
+            File file = new File("src/mytunes/gui/view/pictures/pause.png");
+            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+        }
+        
+        
     }
 
     /**

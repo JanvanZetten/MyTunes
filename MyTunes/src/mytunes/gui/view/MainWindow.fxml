@@ -27,31 +27,19 @@
       </StackPane>
       <StackPane minHeight="83.0" minWidth="400.0" prefHeight="83.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-              <Button mnemonicParsing="false" onAction="#playSongAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+              <Button mnemonicParsing="false" onAction="#playSongAction" prefHeight="30.0" prefWidth="50.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
-                  <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageviewPlayPause" fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@pictures/play.png" />
                      </image>
                   </ImageView>
                </graphic>
                <StackPane.margin>
-                  <Insets bottom="10.0" left="10.0" />
+                  <Insets bottom="10.0" left="55.0" />
                </StackPane.margin>
             </Button>
-              <Button mnemonicParsing="false" onAction="#pauseSongAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
-               <graphic>
-                  <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@pictures/pause.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets bottom="10.0" left="50.0" />
-               </StackPane.margin>
-            </Button>
-              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#previusSongAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#previusSongAction" prefHeight="30.0" prefWidth="35.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
                   <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -60,10 +48,10 @@
                   </ImageView>
                </graphic>
                <StackPane.margin>
-                  <Insets bottom="10.0" left="90.0" />
+                  <Insets bottom="10.0" left="10.0" />
                </StackPane.margin>
             </Button>
-              <Button mnemonicParsing="false" onAction="#nextSongAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+              <Button mnemonicParsing="false" onAction="#nextSongAction" prefHeight="30.0" prefWidth="35.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
                   <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -72,22 +60,22 @@
                   </ImageView>
                </graphic>
                <StackPane.margin>
-                  <Insets bottom="10.0" left="130.0" />
+                  <Insets bottom="10.0" left="115.0" />
                </StackPane.margin>
             </Button>
-              <Button fx:id="BtnRepeat" mnemonicParsing="false" onAction="#repeatSongsAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+              <Button fx:id="BtnRepeat" maxWidth="-Infinity" mnemonicParsing="false" onAction="#repeatSongsAction" prefHeight="30.0" prefWidth="35.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@pictures/repeat.png" />
                      </image>
                   </ImageView>
                </graphic>
                <StackPane.margin>
-                  <Insets bottom="10.0" left="170.0" />
+                  <Insets bottom="10.0" left="160.0" />
                </StackPane.margin>
             </Button>
-              <Button fx:id="Btnshuffle" mnemonicParsing="false" onAction="#shuffleSongsAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+              <Button fx:id="Btnshuffle" mnemonicParsing="false" onAction="#shuffleSongsAction" prefHeight="30.0" prefWidth="35.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
                   <ImageView fitHeight="13.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -96,10 +84,10 @@
                   </ImageView>
                </graphic>
                <StackPane.margin>
-                  <Insets bottom="10.0" left="210.0" />
+                  <Insets bottom="10.0" left="205.0" />
                </StackPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#muteSongsAction" prefHeight="30.0" prefWidth="30.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
+            <Button mnemonicParsing="false" onAction="#muteSongsAction" prefHeight="30.0" prefWidth="35.0" textFill="#fcfff5" StackPane.alignment="BOTTOM_LEFT">
                <graphic>
                   <ImageView fx:id="imageviewMute" fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
