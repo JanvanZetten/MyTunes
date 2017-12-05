@@ -124,14 +124,14 @@
       </StackPane>
       <StackPane minHeight="83.0" minWidth="430.0" prefHeight="83.0" prefWidth="430.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-              <Label text="Artist:" textFill="#193441" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets left="15.0" top="15.0" />
-               </StackPane.margin>
-            </Label>
-              <Label text="Title:" textFill="#193441" StackPane.alignment="CENTER_LEFT">
+              <Label text="Artist:" textFill="#193441" StackPane.alignment="CENTER_LEFT">
                <StackPane.margin>
                   <Insets left="15.0" />
+               </StackPane.margin>
+            </Label>
+              <Label text="Title:" textFill="#193441" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets left="15.0" top="15.0" />
                </StackPane.margin>
             </Label>
               <Label text="Album:" textFill="#193441" StackPane.alignment="BOTTOM_LEFT">
@@ -139,14 +139,14 @@
                   <Insets bottom="15.0" left="15.0" />
                </StackPane.margin>
             </Label>
-              <Label fx:id="lblSongArtistTopBar" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets left="60.0" top="15.0" />
-               </StackPane.margin>
-            </Label>
-              <Label fx:id="lblSongTitleTopBar" prefHeight="17.0" prefWidth="167.0" text="-" textFill="#193441" StackPane.alignment="CENTER_LEFT">
+              <Label fx:id="lblSongArtistTopBar" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" StackPane.alignment="CENTER_LEFT">
                <StackPane.margin>
                   <Insets left="60.0" />
+               </StackPane.margin>
+            </Label>
+              <Label fx:id="lblSongTitleTopBar" prefHeight="17.0" prefWidth="167.0" text="-" textFill="#193441" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets left="60.0" top="15.0" />
                </StackPane.margin>
             </Label>
               <Label fx:id="lblSongAlbumTopBar" prefHeight="17.0" prefWidth="174.0" text="-" textFill="#193441" StackPane.alignment="BOTTOM_LEFT">
@@ -206,7 +206,7 @@
          <children>
               <TableView fx:id="tblviewMaster" onKeyPressed="#keyReleasedTable" onMouseClicked="#updateIdSelected" prefHeight="439.0" prefWidth="641.0">
                   <columns>
-                      <TableColumn fx:id="tblviewSong" prefWidth="157.0" text="Song" />
+                      <TableColumn fx:id="tblviewSong" prefWidth="157.0" text="Title" />
                       <TableColumn fx:id="tblviewArtist" prefWidth="138.0" text="Artist" />
                       <TableColumn fx:id="tblviewAlbum" prefWidth="160.0" text="Album" />
                       <TableColumn fx:id="tblviewGenre" prefWidth="116.0" text="Genre" />
