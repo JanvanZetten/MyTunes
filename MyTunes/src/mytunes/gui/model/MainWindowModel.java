@@ -256,15 +256,15 @@ public class MainWindowModel {
     /**
      * Switch looping playlist.
      */
-    public void switchLooping() {
-        player.switchLooping();
+    public boolean switchLooping() {
+        return player.switchLooping();
     }
 
     /**
      * Switch shuffling playlist.
      */
-    public void switchShuffling() {
-        player.switchShuffling();
+    public boolean switchShuffling() {
+        return player.switchShuffling();
     }
 
     /**

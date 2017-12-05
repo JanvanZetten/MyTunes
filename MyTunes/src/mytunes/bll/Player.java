@@ -114,10 +114,10 @@ public interface Player
     /**
      * Switch looping playlist.
      */
-    public void switchLooping();
+    public boolean switchLooping();
 
     /**
      * Switch shuffling playlist.
      */
-    public void switchShuffling();
+    public boolean switchShuffling();
 }

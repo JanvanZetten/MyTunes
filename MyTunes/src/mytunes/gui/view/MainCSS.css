@@ -34,6 +34,15 @@ and open the template in the editor.
     -fx-background-color: #3E606F;
 }
 
+.button{
+    -fx-background-color: #3E606F;
+}
+
+.button:pressed{
+    -fx-background-color: orange;
+}
+
+
 /*
 .list-cell {
     -fx-text-fill: #193441;

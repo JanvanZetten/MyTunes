@@ -328,7 +328,7 @@ public class AudioPlayer implements Player
     /**
      * Switch looping playlist.
      */
-    public void switchLooping()
+    public boolean switchLooping()
     {
         if (isShuffling)
         {
@@ -336,12 +336,13 @@ public class AudioPlayer implements Player
         }
 
         isLooping = !isLooping;
+        return isLooping;
     }
 
     /**
      * Switch shuffling playlist.
      */
-    public void switchShuffling()
+    public boolean switchShuffling()
     {
         if (isLooping)
         {
@@ -349,6 +350,7 @@ public class AudioPlayer implements Player
         }
 
         isShuffling = !isShuffling;
+        return isShuffling;
     }
 
     /**
