@@ -651,17 +651,16 @@ public class DatabaseDAO implements DAO
         {
             String sql = "SELECT sipId FROM SongsInPlaylist WHERE songId=? AND playlistId=?;";
 
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement statement = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            
+            statement.setInt(1, songId);
+            statement.setInt(2, playlistId);
+            
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            int id = rs.getInt("sipID");
+            return id;
 
-            if (rs.next())
-            {
-                return rs.getInt("sipId");
-            }
-            else
-            {
-                throw new DALException("sipId not found!");
-            }
         }
         catch (SQLException ex)
         {

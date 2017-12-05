@@ -491,7 +491,7 @@ public class MainWindowModel
             songsholder.set(index - i, song);
             mediaHandler.getSongs().clear();
             mediaHandler.getSongs().addAll(songsholder);
-            //bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
+            bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
             return index;
         }
         return -1;

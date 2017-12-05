@@ -10,6 +10,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.ResourceBundle;
@@ -180,20 +181,19 @@ public class AddSongViewController implements Initializable {
     @FXML
     private void handleFileLocationSearcher() throws IOException {    
         Stage stage = new Stage();
-        stage.setTitle("File Chooser Sample");
         
-        FileChooser fc = new FileChooser();        
-        File selectedFile = fc.showOpenDialog(null);
+        FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
                     if (file != null) {
                         openFile(file);
-    }
+        }
     }
     
     private void openFile(File file) throws IOException {
-            desktop.open(file);
-            File dest = new File("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes");
-            Files.copy(file, dest);
+        File dest = new File("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes");
+        Paths.get(dest.getAbsolutePath()).getFileName();
+        System.out.println(Paths.get(dest.getAbsolutePath()).getFileName());
+        
         }
 
 }

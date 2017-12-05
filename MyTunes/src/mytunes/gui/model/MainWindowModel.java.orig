@@ -20,10 +20,9 @@ import javafx.scene.control.Slider;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.bll.Player;
-import mytunes.bll.AudioPlayer;
 import mytunes.bll.BLLException;
 import mytunes.bll.BLLManager;
+import mytunes.bll.MediaHandler;
 
 /**
  *
@@ -35,19 +34,33 @@ public class MainWindowModel
     private static MainWindowModel instance;
 
     private BLLManager bllManager;
-    private Player player;
+    private MediaHandler mediaHandler;
     private ObservableList<Playlist> playlists;
     private ObservableList<Genre> genres;
     private String selectedElement;
-<<<<<<< HEAD
-    private Song chosenSong;
-=======
     private String currentAddMenu;
->>>>>>> f50ed88375e061238c314ed2d9c258781b04055f
+    private Song chosenSong;
+    private boolean muted = false;
+    private boolean playing = false;
+    private String songOrPlaylist;
+
+    //All variables below refer to the current selected song in the song list.
+    private int currentSongId;
+    private String currentSongTitle;
+    private String currentSongArtist;
+    private String currentSongAlbum;
+    private int currentSongYear;
+    private Genre currentSongGenre;
+    private String currentSongPath;
+
+    //All variables below refer to the current selected playlist.
+    private int currentPlaylistId;
+    private String currentPlaylistTitle;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
      * created by two different classes that make use of the class.
+     *
      * @return MainWindowModel
      */
     public static MainWindowModel getInstance()
@@ -58,17 +71,17 @@ public class MainWindowModel
         }
         return instance;
     }
-    
 
     public MainWindowModel()
     {
         try
         {
             bllManager = new BLLManager();
-            player = new AudioPlayer();
+            mediaHandler = new MediaHandler();
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
+            currentPlaylistId = -1;
 
         }
         catch (BLLException ex)
@@ -114,61 +127,67 @@ public class MainWindowModel
      */
     public ObservableList<Song> getSongs()
     {
-        return player.getSongs();
+        return mediaHandler.getSongs();
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
     public SimpleStringProperty getArtist()
     {
-        return player.getArtist();
+        return mediaHandler.getArtist();
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
     public SimpleStringProperty getTitle()
     {
-        return player.getTitle();
+        return mediaHandler.getTitle();
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
     public SimpleStringProperty getAlbum()
     {
-        return player.getAlbum();
+        return mediaHandler.getAlbum();
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
     public SimpleStringProperty getCurrentTime()
     {
-        return player.getCurrentTime();
+        return mediaHandler.getCurrentTime();
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
     public SimpleStringProperty getDurationTime()
     {
-        return player.getDurationTime();
+        return mediaHandler.getDurationTime();
     }
 
     /**
      * Get observable Double
+     *
      * @return
      */
     public SimpleDoubleProperty getProgress()
     {
-        return player.getProgress();
+        return mediaHandler.getProgress();
     }
 
     /**
@@ -181,7 +200,7 @@ public class MainWindowModel
     {
         try
         {
-            player.setSongs(selectedItem);
+            mediaHandler.setSongs(selectedItem);
         }
         catch (BLLException ex)
         {
@@ -216,7 +235,8 @@ public class MainWindowModel
      */
     public void playMedia()
     {
-        player.playMedia();
+        mediaHandler.playMedia();
+        playing = true;
     }
 
     /**
@@ -224,7 +244,8 @@ public class MainWindowModel
      */
     public void pauseMedia()
     {
-        player.pauseMedia();
+        mediaHandler.pauseMedia();
+        playing = false;
     }
 
     /**
@@ -234,7 +255,7 @@ public class MainWindowModel
     {
         try
         {
-            player.previousMedia();
+            mediaHandler.previousMedia();
         }
         catch (BLLException ex)
         {
@@ -250,7 +271,7 @@ public class MainWindowModel
     {
         try
         {
-            player.nextMedia();
+            mediaHandler.nextMedia();
         }
         catch (BLLException ex)
         {
@@ -266,7 +287,7 @@ public class MainWindowModel
     {
         try
         {
-            player.switchSong(index);
+            mediaHandler.switchSong(index);
         }
         catch (BLLException ex)
         {
@@ -277,33 +298,36 @@ public class MainWindowModel
 
     /**
      * Switch looping playlist.
+     * @return
      */
-    public void switchLooping()
+    public boolean switchLooping()
     {
-        player.switchLooping();
+        return mediaHandler.switchLooping();
     }
 
     /**
      * Switch shuffling playlist.
+     * @return
      */
-    public void switchShuffling()
+    public boolean switchShuffling()
     {
-        player.switchShuffling();
+        return mediaHandler.switchShuffling();
     }
 
     /**
      * links the volumeslider to the mediaplayers volume
+     *
      * @param volumeSlider the Slider who have to adjust the volume
      */
     public void volumeSliderSetup(Slider volumeSlider)
     {
-        volumeSlider.setValue(player.getVolume() * volumeSlider.getMax());
+        volumeSlider.setValue(mediaHandler.getVolume() * volumeSlider.getMax());
         volumeSlider.valueProperty().addListener(new InvalidationListener()
         {
             @Override
             public void invalidated(Observable observable)
             {
-                player.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
+                mediaHandler.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
             }
         });
 
@@ -312,6 +336,7 @@ public class MainWindowModel
     /**
      * Sets selectedElement to get what element is currently attempted to be
      * removed.
+     * @param SelectedElement
      */
     public void selectedDeletedElements(String SelectedElement)
     {
@@ -321,6 +346,7 @@ public class MainWindowModel
     /**
      * Sends information about a currently attempted song or playlist to be
      * removed.
+     * @return
      */
     public String getSelectedElement()
     {
@@ -330,39 +356,38 @@ public class MainWindowModel
     /**
      * Takes the current list of songs shown and filters it for songs who
      * contains the text in the title or in the artist
+     *
      * @param text the text which should be found in the songs title or artist
      * for it to be shown
      */
     public void filterSongList(String text)
     {
         List<Song> songsList = new ArrayList<>();
-        songsList.addAll(player.getSongs());
-        player.getSongs().clear();
+        songsList.addAll(mediaHandler.getSongs());
+        mediaHandler.getSongs().clear();
         for (Song song : songsList)
         {
             if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase()))
             {
-                player.getSongs().add(song);
+                mediaHandler.getSongs().add(song);
             }
         }
     }
 
     /**
      * Creates a playlist with information sent by AddPlaylistView.
+     * @param text
+     * @throws mytunes.bll.BLLException
      */
     public void createPlaylist(String text) throws BLLException
     {
         bllManager.addPlaylist(text);
     }
 
-    public void getDeleteConfirmation()
-    {
-        
-    }
-
     /**
      * First clears the list of genres to stop two lists being fused and then
      * adds all genres for a getter to function.
+     *
      * @throws BLLException
      */
     public void getAllGenres() throws BLLException
@@ -373,6 +398,7 @@ public class MainWindowModel
 
     /**
      * Returns all genres currently active.
+     * @return
      */
     public ObservableList<Genre> getGenres()
     {
@@ -382,6 +408,13 @@ public class MainWindowModel
     /**
      * Sends information to BLL about the song that is being created in
      * AddSongView.
+     * @param artist
+     * @param title
+     * @param album
+     * @param year
+     * @param genre
+     * @param directory
+     * @throws mytunes.bll.BLLException
      */
     public void createSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
     {
@@ -390,41 +423,210 @@ public class MainWindowModel
 
     /**
      * Creates a new genre from AddSongView.
+     * @param genre
+     * @throws mytunes.bll.BLLException
      */
     public void addGenre(String genre) throws BLLException
     {
         bllManager.addGenre(genre);
     }
-    
+
     /**
-     * Saves what object you are curently trying to add to the database.
-     * Is used in CannotAddView as a label.
+     * Saves what object you are curently trying to add to the database. Is used
+     * in CannotAddView as a label.
+     * @param menu
      */
-    public void setCurrentAddMenu(String menu) {
+    public void setCurrentAddMenu(String menu)
+    {
         currentAddMenu = menu;
     }
 
     /**
-     * Getter for currentAddMenu, which shows what object you are trying to create.
+     * Getter for currentAddMenu, which shows what object you are trying to
+     * create.
+     * @return
      */
-    public String getCurrentAddMenu() {
+    public String getCurrentAddMenu()
+    {
         return currentAddMenu;
     }
 
-    public void setChosenSong(Song selectedItem) {
+    public void setChosenSong(Song selectedItem)
+    {
         chosenSong = selectedItem;
     }
-    
-    public Song getChosenSong(){
+
+    public Song getChosenSong()
+    {
         return chosenSong;
     }
-    
-    public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException{
+
+    public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException
+    {
         bllManager.addSongToPlaylist(playlist, song);
+        playlist.addSongToPlaylist(song);
+        mediaHandler.setSongs(playlist);
+
     }
 
-    public void moveSong(int i, Song selectedItem, Playlist selectedItem0) {
-        
+    /**
+     * moves the song
+     *
+     * @param i -1 if it has to go one down and 1 if it has to go one up
+     * @param selectedItem
+     * @param selectedItem0
+     * @return the new indeks of the moved elment. -1 if failed
+     * @throws mytunes.bll.BLLException
+     */
+    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException
+    {
+        List<Song> songsholder = new ArrayList<>();
+        songsholder.addAll(mediaHandler.getSongs());
+
+        int index = songsholder.indexOf(selectedItem);
+        if (index - i >= 0 && index - i + 1 <= songsholder.size())
+        {
+            Song song = songsholder.get(index);
+            songsholder.set(index, songsholder.get(index - i));
+            songsholder.set(index - i, song);
+<<<<<<< HEAD
+            mediaHandler.getSongs().clear();
+            mediaHandler.getSongs().addAll(songsholder);
+            //bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
+=======
+            player.getSongs().clear();
+            player.getSongs().addAll(songsholder);
+            bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
+>>>>>>> 2996ae2866cd028550c400e21fb54006eb33812a
+            return index;
+        }
+        return -1;
+    }
+
+    public void editSongInformation(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
+    {
+        bllManager.updateSong(songId, artist, title, album, year, genre, directory);
+    }
+
+    public void setCurrentSongInformation(int songId, String title, String artist, String album, int year, Genre genre, String path)
+    {
+        currentSongId = songId;
+        currentSongTitle = title;
+        currentSongArtist = artist;
+        currentSongAlbum = album;
+        currentSongYear = year;
+        currentSongGenre = genre;
+        currentSongPath = path;
+    }
+
+    public int getCurrentSongId()
+    {
+        return currentSongId;
+    }
+
+    public String getCurrentSongTitle()
+    {
+        return currentSongTitle;
+    }
+
+    public String getCurrentSongArtist()
+    {
+        return currentSongArtist;
+    }
+
+    public String getCurrentSongAlbum()
+    {
+        return currentSongAlbum;
+    }
+
+    public int getCurrentSongYear()
+    {
+        return currentSongYear;
+    }
+
+    public Genre getCurrentSongGenre()
+    {
+        return currentSongGenre;
+    }
+
+    public String getCurrentSongPath()
+    {
+        return currentSongPath;
+    }
+
+    public void editPlaylistInformation(int PlaylistId, String text) throws BLLException
+    {
+        bllManager.updatePlaylist(PlaylistId, text);
+    }
+
+    public void setCurrentPlaylistInformation(int playlistId, String title)
+    {
+        currentPlaylistId = playlistId;
+        currentPlaylistTitle = title;
+    }
+
+    public int getCurrentPlaylistId()
+    {
+        return currentPlaylistId;
+    }
+
+    public String getCurrentPlaylistTitle()
+    {
+        return currentPlaylistTitle;
+    }
+
+    public void setCurrentIds(int songId, int playlistId)
+    {
+        currentSongId = songId;
+        currentPlaylistId = playlistId;
+    }
+
+    public void setCurrentElementToBeDeleted(String element) throws BLLException
+    {
+        if ("Song".equals(element))
+        {
+            if (currentPlaylistId == -1)
+            {
+                bllManager.deleteSong(currentSongId);
+            }
+            else if (currentPlaylistId != -1)
+            {
+                bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
+            }
+        }
+        else if ("Playlist".equals(element))
+        {
+            bllManager.deletePlaylist(currentPlaylistId);
+        }
+    }
+
+    public void setMuted(boolean mutedSetting)
+    {
+        muted = mutedSetting;
+    }
+
+    public boolean isMuted()
+    {
+        return muted;
+    }
+
+    public void setSongOrPlaylist(String SongOrPlaylist)
+    {
+        songOrPlaylist = SongOrPlaylist;
+    }
+
+    public String getSongOrPlaylist()
+    {
+        return songOrPlaylist;
+    }
+
+    /**
+     * a boolean for if the song is playing
+     * @return true if playing else false
+     */
+    public boolean isPlaying()
+    {
+        return playing;
     }
 
 }

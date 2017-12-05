@@ -479,7 +479,7 @@ public class MainWindowController implements Initializable {
      */
     private void addSongToPlaylist() throws IOException {
         model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
-        startModalWindow("AddSongToPlaylistView");
+        startModalWindow("addSongToPlaylist");
     }
 
     /**
