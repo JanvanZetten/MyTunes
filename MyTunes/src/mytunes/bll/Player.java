@@ -5,10 +5,6 @@
  */
 package mytunes.bll;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 
 /**
@@ -17,59 +13,6 @@ import mytunes.be.Song;
  */
 public interface Player
 {
-
-    /**
-     * gets the observablelist with the songs
-     *
-     * @return a observablelist with Playlist objects
-     */
-    public ObservableList<Song> getSongs();
-
-    /**
-     * Get observable String
-     * @return
-     */
-    public SimpleStringProperty getArtist();
-
-    /**
-     * Get observable String
-     * @return
-     */
-    public SimpleStringProperty getTitle();
-
-    /**
-     * Get observable String
-     * @return
-     */
-    public SimpleStringProperty getAlbum();
-
-    /**
-     * Get observable String
-     * @return
-     */
-    public SimpleStringProperty getCurrentTime();
-
-    /**
-     * Get observable String
-     * @return
-     */
-    public SimpleStringProperty getDurationTime();
-
-    /**
-     * Get observable Double
-     * @return
-     */
-    public SimpleDoubleProperty getProgress();
-
-    /**
-     * set the songs from the given playlist in the observablelist. remember to
-     * add the observablelist to the view with getSong()
-     *
-     * @param selectedItem the playlist from which to take the song
-     * @throws mytunes.bll.BLLException
-     */
-    public void setSongs(Playlist selectedItem) throws BLLException;
-
     /**
      * Play song.
      */
@@ -81,43 +24,26 @@ public interface Player
     public void pauseMedia();
 
     /**
-     * Change to previous song in list.
-     * @throws mytunes.bll.BLLException
+     * Stop song.
      */
-    public void previousMedia() throws BLLException;
+    public void stopMedia();
 
     /**
-     * Change to next song in list.
-     * @throws mytunes.bll.BLLException
+     * Seek song.
+     * @param duration
      */
-    public void nextMedia() throws BLLException;
+    public void seekMedia(double duration);
 
     /**
-     * Get current volume of player.
-     * @return current volume as double.
+     * Set song to play.
+     * @param song
+     * @throws BLLException
      */
-    public double getVolume();
+    public void setSong(Song song) throws BLLException;
 
     /**
      * Set volume of player.
      * @param value new volume as double.
      */
     public void setVolume(double value);
-
-    /**
-     * Switch to wanted song on index.
-     * @param index of song.
-     * @throws BLLException if index does not run.
-     */
-    public void switchSong(int index) throws BLLException;
-
-    /**
-     * Switch looping playlist.
-     */
-    public boolean switchLooping();
-
-    /**
-     * Switch shuffling playlist.
-     */
-    public boolean switchShuffling();
 }

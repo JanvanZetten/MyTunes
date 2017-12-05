@@ -33,19 +33,15 @@ public class AudioMedia
     private int year;
     private String genre;
     private double duration;
+    private String extension;
 
     /**
      * Receives an file assumed to be a Audio File.
      *
      * @param file
-     * @throws IOException
-     * @throws ReadOnlyFileException
-     * @throws CannotReadException
-     * @throws TagException
-     * @throws ReadOnlyFileException
-     * @throws InvalidAudioFrameException
+     * @throws mytunes.dal.DALException
      */
-    public AudioMedia(File file) throws IOException, ReadOnlyFileException, CannotReadException, TagException, ReadOnlyFileException, InvalidAudioFrameException
+    public AudioMedia(File file) throws DALException
     {
         this.file = file;
         loadMetaData();
@@ -111,124 +107,205 @@ public class AudioMedia
         return duration;
     }
 
+    public String getExtension()
+    {
+        return extension;
+    }
+
     /**
      * Sets the artist in the Audio File.
      *
      * @param artist new value.
+     * @throws mytunes.dal.DALException
      */
-    public void setArtist(String artist)
+    public void setArtist(String artist) throws DALException
     {
         this.artist = artist;
-        updateMetaData();
+        try
+        {
+            updateMetaData();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException("Could not set artist: " + artist + ", " + ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
      * Sets the title in the Audio File.
      *
      * @param title new value.
+     * @throws mytunes.dal.DALException
      */
-    public void setTitle(String title)
+    public void setTitle(String title) throws DALException
     {
         this.title = title;
-        updateMetaData();
+        try
+        {
+            updateMetaData();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException("Could not set title: " + title + ", " + ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
      * Sets the album in the Audio File.
      *
      * @param album new value.
+     * @throws mytunes.dal.DALException
      */
-    public void setAlbum(String album)
+    public void setAlbum(String album) throws DALException
     {
         this.album = album;
-        updateMetaData();
+        try
+        {
+            updateMetaData();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException("Could not set album: " + album + ", " + ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
      * Sets the year in the Audio File.
      *
      * @param year new value.
+     * @throws mytunes.dal.DALException
      */
-    public void setYear(int year)
+    public void setYear(int year) throws DALException
     {
         this.year = year;
-        updateMetaData();
+        try
+        {
+            updateMetaData();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException("Could not set year: " + year + ", " + ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
      * Sets the genre in the Audio File.
      *
      * @param genre new value.
+     * @throws mytunes.dal.DALException
      */
-    public void setGenre(String genre)
+    public void setGenre(String genre) throws DALException
     {
         this.genre = genre;
-        updateMetaData();
+        try
+        {
+            updateMetaData();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException("Could not set genre: " + genre + ", " + ex.getMessage(), ex.getCause());
+        }
     }
 
     /**
      * Load in metadata from file. Using jaudiotagger-2.2.6-SNAPSHOT.jar.
      */
-    private void loadMetaData()
+    private void loadMetaData() throws DALException
     {
         try
         {
             AudioFile af = AudioFileIO.read(file);
             Tag tag = af.getTag();
 
-            artist = tag.getFirst(FieldKey.ARTIST);
-            title = tag.getFirst(FieldKey.TITLE);
-            album = tag.getFirst(FieldKey.ALBUM);
-            String str = tag.getFirst(FieldKey.YEAR);
-            if (!str.isEmpty())
+            try
             {
-                if (str.length() > 4)
+                artist = tag.getFirst(FieldKey.ARTIST);
+            }
+            catch (NullPointerException ex)
+            {
+                artist = "";
+            }
+
+            try
+            {
+                title = tag.getFirst(FieldKey.TITLE);
+            }
+            catch (NullPointerException ex)
+            {
+                title = "";
+            }
+
+            try
+            {
+                album = tag.getFirst(FieldKey.ALBUM);
+            }
+            catch (NullPointerException ex)
+            {
+                album = "";
+            }
+
+            try
+            {
+                String str = tag.getFirst(FieldKey.YEAR);
+                if (!str.isEmpty())
                 {
-                    year = Integer.parseInt(str.substring(0, 3));
+                    if (str.length() > 4)
+                    {
+                        year = Integer.parseInt(str.substring(0, 3));
+                    }
+                    else
+                    {
+                        year = Integer.parseInt(str.substring(0, str.length()));
+                    }
                 }
                 else
                 {
-                    year = Integer.parseInt(str.substring(0, str.length()));
+                    year = -1;
                 }
             }
-            else
+            catch (NullPointerException ex)
             {
                 year = -1;
             }
-            genre = tag.getFirst(FieldKey.GENRE);
+
+            try
+            {
+                genre = tag.getFirst(FieldKey.GENRE);
+            }
+            catch (NullPointerException ex)
+            {
+                genre = "";
+            }
             duration = af.getAudioHeader().getTrackLength();
 
+            try
+            {
+                duration = af.getAudioHeader().getTrackLength();
+            }
+            catch (NullPointerException ex)
+            {
+                duration = 0.0;
+            }
+
+            try
+            {
+                extension = af.getExt();
+            }
+            catch (NullPointerException ex)
+            {
+                extension = "";
+            }
         }
-        catch (NumberFormatException ex)
+        catch (NumberFormatException | CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ex)
         {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (CannotReadException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (TagException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (ReadOnlyFileException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (InvalidAudioFrameException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
      * Update in metadata from file. Using jaudiotagger-2.2.6-SNAPSHOT.jar.
      */
-    private void updateMetaData()
+    private void updateMetaData() throws DALException
     {
         try
         {
@@ -247,29 +324,9 @@ public class AudioMedia
             AudioFileIO.write(af);
             loadMetaData();
         }
-        catch (CannotReadException ex)
+        catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | CannotWriteException ex)
         {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (TagException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (ReadOnlyFileException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (InvalidAudioFrameException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
-        }
-        catch (CannotWriteException ex)
-        {
-            throw new RuntimeException(ex.getMessage(), ex.getCause());
+            throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 }

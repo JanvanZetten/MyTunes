@@ -6,20 +6,12 @@
 package mytunes.bll;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 
 /**
@@ -28,130 +20,58 @@ import mytunes.be.Song;
  */
 public class AudioPlayer implements Player
 {
-    private final ObservableList<Song> songs;
-    private final SimpleStringProperty artist;
-    private final SimpleStringProperty title;
-    private final SimpleStringProperty album;
     private final SimpleStringProperty currentTime;
     private final SimpleStringProperty durationTime;
     private final SimpleDoubleProperty progress;
     private Media sound;
     private MediaPlayer mediaPlayer;
-    private int currentIndex;
-    private Double currentVolume;
-    private boolean isLooping;
-    private boolean isShuffling;
-    private final List<Integer> shuffleList;
 
-    public AudioPlayer()
+    public AudioPlayer(Song song, SimpleStringProperty currentTime, SimpleStringProperty durationTime, SimpleDoubleProperty progress) throws BLLException
     {
-        this.songs = FXCollections.observableArrayList();
-        artist = new SimpleStringProperty("");
-        title = new SimpleStringProperty("");
-        album = new SimpleStringProperty("");
-        currentTime = new SimpleStringProperty("");
-        durationTime = new SimpleStringProperty("");
-        progress = new SimpleDoubleProperty(0.0);
-        currentIndex = -1;
-        currentVolume = 1.0;
-        isLooping = false;
-        isShuffling = false;
-        shuffleList = new ArrayList<>();
-    }
+        this.currentTime = currentTime;
+        this.durationTime = durationTime;
+        this.progress = progress;
 
-    /**
-     * gets the observablelist with the songs
-     *
-     * @return a observablelist with Playlist objects
-     */
-    @Override
-    public ObservableList<Song> getSongs()
-    {
-        return songs;
-    }
-
-    /**
-     * Get observable String
-     * @return
-     */
-    @Override
-    public SimpleStringProperty getArtist()
-    {
-        return artist;
-    }
-
-    /**
-     * Get observable String
-     * @return
-     */
-    @Override
-    public SimpleStringProperty getTitle()
-    {
-        return title;
-    }
-
-    /**
-     * Get observable String
-     * @return
-     */
-    @Override
-    public SimpleStringProperty getAlbum()
-    {
-        return album;
-    }
-
-    /**
-     * Get observable String
-     * @return
-     */
-    @Override
-    public SimpleStringProperty getCurrentTime()
-    {
-        return currentTime;
-    }
-
-    /**
-     * Get observable String
-     * @return
-     */
-    @Override
-    public SimpleStringProperty getDurationTime()
-    {
-        return durationTime;
-    }
-
-    /**
-     * Get observable Double
-     * @return
-     */
-    @Override
-    public SimpleDoubleProperty getProgress()
-    {
-        return progress;
-    }
-
-    /**
-     * set the songs from the given playlist in the observablelist. remember to
-     * add the observablelist to the view with getSong()
-     *
-     * @param selectedItem the playlist from which to take the song
-     * @throws mytunes.bll.BLLException
-     */
-    @Override
-    public void setSongs(Playlist selectedItem) throws BLLException
-    {
-        songs.clear();
-        songs.addAll(selectedItem.getSongs());
-
-        if (songs.size() > 0)
+        // Load new media.
+        try
         {
-            currentIndex = 0;
+            sound = new Media(new File(song.getpath()).toURI().toString());
         }
-        else
+        catch (MediaException ex)
         {
-            currentIndex = -1;
+            throw new BLLException("Loading new media: " + song.getpath() + ", " + ex.getMessage(), ex.getCause());
         }
-        switchSong();
+
+        mediaPlayer = new MediaPlayer(sound);
+
+        // When the media is loaded and ready it should update the duration and current time.
+        mediaPlayer.setOnReady(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
+                currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
+            }
+        });
+
+        // When the media is loaded and ready it should update the duration and current time.
+        mediaPlayer.setOnReady(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
+                currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
+            }
+        });
+
+        // A listener which checks if the value of currentTime changed. If so update it.
+        mediaPlayer.currentTimeProperty().addListener((observableValue, oldDuration, newDuration) ->
+        {
+            currentTime.set(sec2minsec(newDuration.toSeconds()));
+            progress.set(newDuration.toSeconds() / mediaPlayer.getMedia().getDuration().toSeconds());
+        });
     }
 
     /**
@@ -160,17 +80,7 @@ public class AudioPlayer implements Player
     @Override
     public void playMedia()
     {
-        if (currentIndex != -1)
-        {
-            if (mediaPlayer.getStatus().equals(Status.PLAYING) || mediaPlayer.getStatus().equals(Status.STOPPED))
-            {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-            else
-            {
-                mediaPlayer.play();
-            }
-        }
+        mediaPlayer.play();
     }
 
     /**
@@ -179,58 +89,26 @@ public class AudioPlayer implements Player
     @Override
     public void pauseMedia()
     {
-        if (currentIndex != -1)
-        {
-            mediaPlayer.pause();
-        }
+        mediaPlayer.pause();
     }
 
     /**
-     * Change to previous song in list.
-     * @throws mytunes.bll.BLLException
+     * Stop song.
      */
     @Override
-    public void previousMedia() throws BLLException
+    public void stopMedia()
     {
-        if (currentIndex - 1 < 0 && isLooping)
-        {
-            currentIndex = songs.size() - 1;
-            switchSong();
-        }
-        else if (currentIndex - 1 >= 0)
-        {
-            currentIndex--;
-            switchSong();
-        }
+        mediaPlayer.stop();
     }
 
     /**
-     * Change to next song in list.
-     * @throws mytunes.bll.BLLException
+     * Seek song.
+     * @param duration
      */
     @Override
-    public void nextMedia() throws BLLException
+    public void seekMedia(double duration)
     {
-        if (currentIndex + 1 >= songs.size() && isLooping)
-        {
-            currentIndex = 0;
-            switchSong();
-        }
-        else if (currentIndex + 1 < songs.size())
-        {
-            currentIndex++;
-            switchSong();
-        }
-    }
-
-    /**
-     * Get current volume of player.
-     * @return current volume as double.
-     */
-    @Override
-    public double getVolume()
-    {
-        return mediaPlayer.getVolume();
+        mediaPlayer.seek(new Duration(duration));
     }
 
     /**
@@ -241,161 +119,24 @@ public class AudioPlayer implements Player
     public void setVolume(double value)
     {
         mediaPlayer.setVolume(value);
-        currentVolume = value;
     }
 
     /**
-     * Switch song to current index.
-     */
-    private void switchSong() throws BLLException
-    {
-        if (currentIndex != -1)
-        {
-            // Checks for shuffle.
-            int index;
-            if (isShuffling)
-            {
-                index = shuffleList.get(currentIndex);
-            }
-            else
-            {
-                index = currentIndex;
-            }
-
-            // Check if the mediaplayer was playing.
-            boolean isPlaying = false;
-            if (mediaPlayer != null)
-            {
-                isPlaying = mediaPlayer.getStatus().equals(Status.PLAYING);
-                mediaPlayer.stop();
-            }
-
-            // Load new media.
-            try
-            {
-                sound = new Media(new File(songs.get(index).getpath()).toURI().toString());
-            }
-            catch (MediaException ex)
-            {
-                throw new BLLException("Loading new media: " + songs.get(index).getpath() + ", " + ex.getMessage(), ex.getCause());
-            }
-
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setVolume(currentVolume);
-
-            SimpleBooleanProperty runException;
-            runException = new SimpleBooleanProperty(false);
-
-            // When the media ends it should execute nextMedia method.
-            mediaPlayer.setOnEndOfMedia(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    try
-                    {
-                        nextMedia();
-                    }
-                    catch (BLLException ex)
-                    {
-                        throw new RuntimeException(ex.getMessage(), ex.getCause());
-                    }
-                }
-            });
-
-            // When the media is loaded and ready it should update the duration and current time.
-            mediaPlayer.setOnReady(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    durationTime.set(sec2minsec(mediaPlayer.getMedia().getDuration().toSeconds()));
-                    currentTime.set(sec2minsec(mediaPlayer.getCurrentTime().toSeconds()));
-                }
-            });
-
-            // A listener which checks if the value of currentTime changed. If so update it.
-            mediaPlayer.currentTimeProperty().addListener((observableValue, oldDuration, newDuration) ->
-            {
-                currentTime.set(sec2minsec(newDuration.toSeconds()));
-                progress.set(newDuration.toSeconds() / mediaPlayer.getMedia().getDuration().toSeconds());
-            });
-
-            // Updates information labels for current media
-            artist.set(songs.get(index).getArtist());
-            title.set(songs.get(index).getTitle());
-            album.set(songs.get(index).getAlbum());
-
-            // Auto play if player was already playing.
-            if (isPlaying)
-            {
-                mediaPlayer.play();
-            }
-        }
-    }
-
-    /**
-     * Switch looping playlist.
-     * @return isLooping.
-     */
-    @Override
-    public boolean switchLooping()
-    {
-        isLooping = !isLooping;
-        return isLooping;
-    }
-
-    /**
-     * Switch shuffling playlist.
-     * @return isShuffling.
-     */
-    @Override
-    public boolean switchShuffling()
-    {
-        isShuffling = !isShuffling;
-        if (isShuffling)
-        {
-            shuffleList.clear();
-            shuffleList.add(currentIndex);
-            currentIndex = 0;
-            for (int i = 0; i < songs.size() - 1; i++)
-            {
-                while (true)
-                {
-                    int randomIndex = new Random().nextInt(songs.size());
-                    if (!shuffleList.contains(randomIndex))
-                    {
-                        shuffleList.add(randomIndex);
-                        break;
-                    }
-                }
-            }
-        }
-        else
-        {
-            currentIndex = songs.indexOf(songs.get(shuffleList.get(currentIndex)));
-        }
-        return isShuffling;
-    }
-
-    /**
-     * Switch to wanted song on index.
-     * @param index of song.
+     * Set song to play.
+     * @param song
      * @throws BLLException if index does not run.
      */
     @Override
-    public void switchSong(int index) throws BLLException
+    public void setSong(Song song) throws BLLException
     {
-        int oldIndex = currentIndex;
-        currentIndex = index;
+        // Load new media.
         try
         {
-            switchSong();
+            sound = new Media(new File(song.getpath()).toURI().toString());
         }
-        catch (BLLException ex)
+        catch (MediaException ex)
         {
-            currentIndex = oldIndex;
-            throw new BLLException("Could not switch to index: " + index + ", " + ex.getMessage(), ex.getCause());
+            throw new BLLException("Loading new media: " + song.getpath() + ", " + ex.getMessage(), ex.getCause());
         }
     }
 
