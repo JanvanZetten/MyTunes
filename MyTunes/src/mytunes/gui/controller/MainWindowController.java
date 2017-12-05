@@ -151,6 +151,7 @@ public class MainWindowController implements Initializable {
     private void setTableItems() {
         tblviewMaster.setItems(model.getSongs());
         listViewPlaylists.setItems(model.getPlaylists());
+        model.addAllPlaylistsToGUI();
         setSongsOnTableview(model.getAllSongsPlaylist());
     }
     
@@ -250,6 +251,9 @@ public class MainWindowController implements Initializable {
         startModalWindow("addSongToPlaylist");
     }
     
+    /**
+     * TO DO
+     */
     @FXML
     private void FilterButtonAction(ActionEvent event) {
         if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
@@ -297,6 +301,9 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    /**
+     * TO DO 
+     */
     @FXML
     private void sliderDragAction(MouseEvent event) {
         File file = new File("src/mytunes/gui/view/pictures/speaker.png");
@@ -444,6 +451,7 @@ public class MainWindowController implements Initializable {
      * all with their own method calls attached.
      */
     private void contextPlaylistMenuHandler() {
+        //Edits the selected playlist and presets the name in the window.
         MenuItem item1 = new MenuItem("Edit playlist");
         item1.setOnAction((ActionEvent e) -> {
             try {
@@ -456,7 +464,8 @@ public class MainWindowController implements Initializable {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-
+        
+        //Deletes the selected playlist.
         MenuItem item2 = new MenuItem("Delete playlist");
         item2.setOnAction((ActionEvent e) -> {
             try {
@@ -466,12 +475,7 @@ public class MainWindowController implements Initializable {
             }
         });
 
-        MenuItem item3 = new MenuItem("Add to queue");
-        item3.setOnAction((ActionEvent e) -> {
-            System.out.println("Needs to be implemented");
-        });
-
-        final ContextMenu contextMenu = new ContextMenu(item1, item2, item3);
+        final ContextMenu contextMenu = new ContextMenu(item1, item2);
         contextMenu.setMaxSize(50, 50);
 
         listViewPlaylists.setContextMenu(contextMenu);
