@@ -6,6 +6,8 @@
 package mytunes.bll;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -35,10 +37,11 @@ public class AudioPlayer implements Player
     private final SimpleDoubleProperty progress;
     private Media sound;
     private MediaPlayer mediaPlayer;
-    private int currentIndex = -1;
-    private Double currentVolume = 1.0;
-    private boolean isLooping = false;
-    private boolean isShuffling = false;
+    private int currentIndex;
+    private Double currentVolume;
+    private boolean isLooping;
+    private boolean isShuffling;
+    private final List<Integer> shuffleList;
 
     public AudioPlayer()
     {
@@ -49,6 +52,11 @@ public class AudioPlayer implements Player
         currentTime = new SimpleStringProperty("");
         durationTime = new SimpleStringProperty("");
         progress = new SimpleDoubleProperty(0.0);
+        currentIndex = -1;
+        currentVolume = 1.0;
+        isLooping = false;
+        isShuffling = false;
+        shuffleList = new ArrayList<>();
     }
 
     /**
@@ -189,11 +197,6 @@ public class AudioPlayer implements Player
             currentIndex = songs.size() - 1;
             switchSong();
         }
-        else if (isShuffling)
-        {
-            currentIndex = new Random().nextInt(songs.size());
-            switchSong();
-        }
         else if (currentIndex - 1 >= 0)
         {
             currentIndex--;
@@ -211,11 +214,6 @@ public class AudioPlayer implements Player
         if (currentIndex + 1 >= songs.size() && isLooping)
         {
             currentIndex = 0;
-            switchSong();
-        }
-        else if (isShuffling)
-        {
-            currentIndex = new Random().nextInt(songs.size());
             switchSong();
         }
         else if (currentIndex + 1 < songs.size())
@@ -253,6 +251,17 @@ public class AudioPlayer implements Player
     {
         if (currentIndex != -1)
         {
+            // Checks for shuffle.
+            int index;
+            if (isShuffling)
+            {
+                index = shuffleList.get(currentIndex);
+            }
+            else
+            {
+                index = currentIndex;
+            }
+
             // Check if the mediaplayer was playing.
             boolean isPlaying = false;
             if (mediaPlayer != null)
@@ -264,11 +273,11 @@ public class AudioPlayer implements Player
             // Load new media.
             try
             {
-                sound = new Media(new File(songs.get(currentIndex).getpath()).toURI().toString());
+                sound = new Media(new File(songs.get(index).getpath()).toURI().toString());
             }
             catch (MediaException ex)
             {
-                throw new BLLException("Loading new media: " + songs.get(currentIndex).getpath() + ", " + ex.getMessage(), ex.getCause());
+                throw new BLLException("Loading new media: " + songs.get(index).getpath() + ", " + ex.getMessage(), ex.getCause());
             }
 
             mediaPlayer = new MediaPlayer(sound);
@@ -313,9 +322,9 @@ public class AudioPlayer implements Player
             });
 
             // Updates information labels for current media
-            artist.set(songs.get(currentIndex).getArtist());
-            title.set(songs.get(currentIndex).getTitle());
-            album.set(songs.get(currentIndex).getAlbum());
+            artist.set(songs.get(index).getArtist());
+            title.set(songs.get(index).getTitle());
+            album.set(songs.get(index).getAlbum());
 
             // Auto play if player was already playing.
             if (isPlaying)
@@ -327,29 +336,45 @@ public class AudioPlayer implements Player
 
     /**
      * Switch looping playlist.
+     * @return isLooping.
      */
+    @Override
     public boolean switchLooping()
     {
-        if (isShuffling)
-        {
-            isShuffling = false;
-        }
-
         isLooping = !isLooping;
         return isLooping;
     }
 
     /**
      * Switch shuffling playlist.
+     * @return isShuffling.
      */
+    @Override
     public boolean switchShuffling()
     {
-        if (isLooping)
-        {
-            isLooping = false;
-        }
-
         isShuffling = !isShuffling;
+        if (isShuffling)
+        {
+            shuffleList.clear();
+            shuffleList.add(currentIndex);
+            currentIndex = 0;
+            for (int i = 0; i < songs.size() - 1; i++)
+            {
+                while (true)
+                {
+                    int randomIndex = new Random().nextInt(songs.size());
+                    if (!shuffleList.contains(randomIndex))
+                    {
+                        shuffleList.add(randomIndex);
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            currentIndex = songs.indexOf(songs.get(shuffleList.get(currentIndex)));
+        }
         return isShuffling;
     }
 
