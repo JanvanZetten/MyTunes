@@ -142,7 +142,126 @@ public class MainWindowController implements Initializable {
     public void afterInitialize() {
         topBar.widthProperty().bind(topBar.getScene().widthProperty());
     }
+    
+    /**
+     * Updates the table and is used after changes are made so the program
+     * updates live.
+     */
+    private void setTableItems() {
+        tblviewMaster.setItems(model.getSongs());
+        listViewPlaylists.setItems(model.getPlaylists());
+        setSongsOnTableview(model.getAllSongsPlaylist());
+    }
+    
+    /**
+     * sets the songs from the given playlist in the table view and updates the
+     * labels to match with the playlist
+     *
+     * @param playlist the playlist to show
+     */
+    private void setSongsOnTableview(Playlist playlist) {
+        model.setSongs(playlist);
+        lblChosenPlaylist.setText(playlist.getName());
+        if (playlist.getSongs().size() > 1) {
+            lblPlaylistInfo.setText(playlist.getSongs().size() + " songs in this playlist");
+        } else if (playlist.getSongs().size() == 1) {
+            lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
+        } else if (playlist.getSongs().size() == 0) {
+            lblPlaylistInfo.setText("No songs in this playlist");
+        } else {
+            lblPlaylistInfo.setText("");
+        }
+    }
+    
+    /**
+     * Starts a new window by sending in the name of the view in the parameters.
+     */
+    private void startModalWindow(String windowView) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/" + windowView + ".fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.showAndWait();
+        setTableItems();
+    }
+    
+    /**
+     * Clicking the "Add" button under the songlist causes a modal window that
+     * assists the user in adding music to the library to appear.
+     */
+    @FXML
+    private void addSongAction(ActionEvent event) throws IOException {
+        startModalWindow("AddSongView");
+    }
 
+    /**
+     * Clicking the "Add" button under the playlists causes a modal window that
+     * assists the user in making a new playlist to appear.
+     */
+    @FXML
+    private void addPlaylistAction(ActionEvent event) throws IOException {
+        startModalWindow("AddPlaylistView");
+    }
+    
+    /**
+     * Clicking the "Delete" button under the songlist causes a confirmation
+     * window to appear.
+     */
+    @FXML
+    private void deleteSongAction() throws IOException, BLLException {
+        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            model.setSongOrPlaylist("Song");
+            String selectedTitle = model.getCurrentSongTitle();
+            String selectedArtist = model.getCurrentSongArtist();
+            model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
+
+            startModalWindow("DeleteConfirmationView");
+        }
+    }
+    
+    /**
+     * Clicking the "Delete" button under the playlists causes a confirmation
+     * window to appear. The all song playlist cannot be deleted.
+     */
+    @FXML
+    private void deletePlaylistAction() throws IOException, BLLException {
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
+                startModalWindow("CannotDeleteView");
+            } else {
+                model.selectedDeletedElements(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
+                model.setSongOrPlaylist("Playlist");
+
+                startModalWindow("DeleteConfirmationView");
+            }
+        }
+    }
+    
+    /**
+     * Opens the window for adding a song to a playlist
+     *
+     * @throws IOException
+     */
+    private void addSongToPlaylist() throws IOException {
+        model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
+        startModalWindow("addSongToPlaylist");
+    }
+    
+    @FXML
+    private void FilterButtonAction(ActionEvent event) {
+        if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
+            model.filterSongList(textfieldFilter.getText().trim());
+            btnFilter.setText("Clear");
+        } else if (btnFilter.getText().equals("Clear")) {
+            setSongsOnTableview(model.getAllSongsPlaylist());
+            listViewPlaylists.getSelectionModel().select(0);
+            btnFilter.setText("Filter");
+        }
+
+    }
+    
     /**
      * Plays the song on button press.
      */
@@ -157,7 +276,31 @@ public class MainWindowController implements Initializable {
             File file = new File("src/mytunes/gui/view/pictures/pause.png");
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
-
+    }
+    
+    /**
+     * Mutes media.
+     */
+    @FXML
+    private void muteSongsAction(ActionEvent event) {
+        if (!model.isMuted()) {
+            File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            volumeSlider.adjustValue(0);
+            model.setMuted(true);
+        } else if (model.isMuted()) {
+            File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            volumeSlider.adjustValue(100);
+            model.setMuted(false);
+        }
+    }
+    
+    @FXML
+    private void sliderDragAction(MouseEvent event) {
+        File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+        imageviewMute.setImage(new Image(file.toURI().toString()));
+        model.setMuted(false);
     }
 
     /**
@@ -212,79 +355,6 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * Mutes media.
-     */
-    @FXML
-    private void muteSongsAction(ActionEvent event) {
-        if (!model.isMuted()) {
-            File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
-            imageviewMute.setImage(new Image(file.toURI().toString()));
-            volumeSlider.adjustValue(0);
-            model.setMuted(true);
-        } else if (model.isMuted()) {
-            File file = new File("src/mytunes/gui/view/pictures/speaker.png");
-            imageviewMute.setImage(new Image(file.toURI().toString()));
-            volumeSlider.adjustValue(100);
-            model.setMuted(false);
-
-        }
-
-    }
-
-    /**
-     * Clicking the "Add" button under the songlist causes a modal window that
-     * assists the user in adding music to the library to appear.
-     */
-    @FXML
-    private void addSongAction(ActionEvent event) throws IOException {
-        startModalWindow("AddSongView");
-    }
-
-    /**
-     * Clicking the "Add" button under the playlists causes a modal window that
-     * assists the user in making a new playlist to appear.
-     */
-    @FXML
-    private void addPlaylistAction(ActionEvent event) throws IOException {
-        startModalWindow("AddPlaylistView");
-    }
-
-    /**
-     * Clicking the "Delete" button under the playlists causes a confirmation
-     * window to appear. The all song playlist cannot be deleted.
-     */
-    @FXML
-    private void deletePlaylistAction() throws IOException, BLLException {
-        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
-            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
-                startModalWindow("CannotAddView");
-            } else {
-                model.setSongOrPlaylist("Playlist");
-                String selectedItem = model.getCurrentPlaylistTitle();
-                model.selectedDeletedElements(selectedItem);
-
-                startModalWindow("DeleteConfirmationView");
-            }
-        }
-    }
-
-    /**
-     * Clicking the "Delete" button under the songlist causes a confirmation
-     * window to appear.
-     */
-    @FXML
-    private void deleteSongAction() throws IOException, BLLException {
-        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
-            model.setSongOrPlaylist("Song");
-            String selectedTitle = model.getCurrentSongTitle();
-            String selectedArtist = model.getCurrentSongArtist();
-            model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
-
-            startModalWindow("DeleteConfirmationView");
-        }
-    }
-
-    /**
      * loads the clikced playlist to the song view
      *
      * @param event
@@ -296,41 +366,25 @@ public class MainWindowController implements Initializable {
             updateIdSelected();
         }
     }
-
+    
     /**
-     * sets the songs from the given playlist in the table view and updates the
-     * labels to match with the playlist
-     *
-     * @param playlist the playlist to show
+     * Updates the ID of the selected playlist and song so that you can track
+     * what items you want to delete. The playlist ID is by default -1 as this
+     * is the ID of "My Library".
      */
-    private void setSongsOnTableview(Playlist playlist) {
-        model.setSongs(playlist);
-        lblChosenPlaylist.setText(playlist.getName());
-        if (playlist.getSongs().size() > 1) {
-            lblPlaylistInfo.setText(playlist.getSongs().size() + " songs in this playlist");
-        } else if (playlist.getSongs().size() == 1) {
-            lblPlaylistInfo.setText(playlist.getSongs().size() + " song in this playlist");
-        } else if (playlist.getSongs().size() == 0) {
-            lblPlaylistInfo.setText("No songs in this playlist");
-        } else {
-            lblPlaylistInfo.setText("");
-        }
-
-    }
-
     @FXML
-    private void FilterButtonAction(ActionEvent event) {
-        if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
-            model.filterSongList(textfieldFilter.getText().trim());
-            btnFilter.setText("Clear");
-        } else if (btnFilter.getText().equals("Clear")) {
-            setSongsOnTableview(model.getAllSongsPlaylist());
-            listViewPlaylists.getSelectionModel().select(0);
-            btnFilter.setText("Filter");
+    private void updateIdSelected() {
+        int currentPlaylistId = -1;
+        int currentSongId = 0;
+        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
+            currentPlaylistId = listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId();
         }
-
+        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
+            currentSongId = tblviewMaster.getSelectionModel().getSelectedItem().getSongId();
+        }
+        model.setCurrentIds(currentSongId, currentPlaylistId);
     }
-
+    
     /**
      * Creates and attaches contect menus to the song list which adds options,
      * all with their own method calls attached.
@@ -421,17 +475,7 @@ public class MainWindowController implements Initializable {
 
         listViewPlaylists.setContextMenu(contextMenu);
     }
-
-    /**
-     * Updates the table and is used after changes are made so the program
-     * updates live.
-     */
-    private void setTableItems() {
-        tblviewMaster.setItems(model.getSongs());
-        listViewPlaylists.setItems(model.getPlaylists());
-        setSongsOnTableview(model.getAllSongsPlaylist());
-    }
-
+    
     /**
      * Keylistener
      *
@@ -468,56 +512,5 @@ public class MainWindowController implements Initializable {
                     break;
             }
         }
-
-    }
-
-    /**
-     * Opens the window for adding a song to a playlist
-     *
-     * @throws IOException
-     */
-    private void addSongToPlaylist() throws IOException {
-        model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
-        startModalWindow("addSongToPlaylist");
-    }
-
-    /**
-     * Updates the ID of the selected playlist and song so that you can track
-     * what items you want to delete. The playlist ID is by default -1 as this
-     * is the ID of "My Library".
-     */
-    @FXML
-    private void updateIdSelected() {
-        int currentPlaylistId = -1;
-        int currentSongId = 0;
-        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
-            currentPlaylistId = listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId();
-        }
-        if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
-            currentSongId = tblviewMaster.getSelectionModel().getSelectedItem().getSongId();
-        }
-        model.setCurrentIds(currentSongId, currentPlaylistId);
-
-    }
-
-    @FXML
-    private void sliderDragAction(MouseEvent event) {
-        File file = new File("src/mytunes/gui/view/pictures/speaker.png");
-        imageviewMute.setImage(new Image(file.toURI().toString()));
-        model.setMuted(false);
-    }
-
-    /**
-     * Starts a new window by sending in the name of the view in the parameters.
-     */
-    private void startModalWindow(String windowView) throws IOException {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/" + windowView + ".fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.showAndWait();
-        setTableItems();
     }
 }
