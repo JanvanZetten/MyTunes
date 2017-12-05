@@ -481,7 +481,7 @@ public class MainWindowModel {
         }
     
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
-        if (element == "Song") {
+        if ("Song".equals(element)) {
             if (currentPlaylistId == -1) {
                 bllManager.deleteSong(currentSongId);
             }
@@ -489,7 +489,7 @@ public class MainWindowModel {
                 bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
             }
         }
-        else if (element == "Playlist") {
+        else if ("Playlist".equals(element)) {
             bllManager.deletePlaylist(currentPlaylistId);
         }
     }

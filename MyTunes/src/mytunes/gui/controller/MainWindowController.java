@@ -212,14 +212,7 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddSongView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.showAndWait();
-        setTableItems();
+        startModalWindow("AddSongView");
     }
 
     /**
@@ -228,13 +221,7 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void addPlaylistAction(ActionEvent event) throws IOException {
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/AddPlaylistView.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+        startModalWindow("AddPlaylistView");
     }
 
     /**
@@ -245,25 +232,13 @@ public class MainWindowController implements Initializable {
     private void deletePlaylistAction() throws IOException, BLLException {
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
-                Stage newStage = new Stage();
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotDeleteView.fxml"));
-                Parent root = fxLoader.load();
-                Scene scene = new Scene(root);
-                newStage.setScene(scene);
-                newStage.show();
+                startModalWindow("CannotAddView");
             } else {
                 String selectedItem = model.getCurrentPlaylistTitle();
                 model.selectedDeletedElements(selectedItem);
                 model.setCurrentElementToBeDeleted("Playlist");
 
-                Stage newStage = new Stage();
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
-                Parent root = fxLoader.load();
-                Scene scene = new Scene(root);
-                newStage.setScene(scene);
-                newStage.show();
+                startModalWindow("DeleteConfirmationView");
             }
         }
     }
@@ -280,14 +255,7 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
             model.setCurrentElementToBeDeleted("Song");
 
-            Stage newStage = new Stage();
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/DeleteConfirmationView.fxml"));
-            Parent root = fxLoader.load();
-            Scene scene = new Scene(root);
-            newStage.setScene(scene);
-            newStage.showAndWait();
-            setTableItems();
+            startModalWindow("DeleteConfirmationView");
         }
     }
 
@@ -365,14 +333,7 @@ public class MainWindowController implements Initializable {
                         tblviewMaster.getSelectionModel().getSelectedItem().getGenre(),
                         tblviewMaster.getSelectionModel().getSelectedItem().getpath());
                 
-                Stage newStage = new Stage();
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditSongView.fxml"));
-                Parent root = fxLoader.load();
-                Scene scene = new Scene(root);
-                newStage.setScene(scene);
-                newStage.showAndWait();
-                setTableItems();
+                startModalWindow("EditSongView");
             }
             catch (IOException ex)
             {
@@ -415,14 +376,7 @@ public class MainWindowController implements Initializable {
                         listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId(),
                         listViewPlaylists.getSelectionModel().getSelectedItem().getName());
                 
-                Stage newStage = new Stage();
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/EditPlaylistView.fxml"));
-                Parent root = fxLoader.load();
-                Scene scene = new Scene(root);
-                newStage.setScene(scene);
-                newStage.showAndWait();
-                setTableItems();
+                startModalWindow("EditPlaylistView");
             } catch (IOException ex) {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -505,13 +459,7 @@ public class MainWindowController implements Initializable {
      */
     private void addSongToPlaylist() throws IOException {
         model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
-        Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/addSongToPlaylist.fxml"));
-        Parent root = fxLoader.load();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+        startModalWindow("AddSongToPlaylistView");
     }
 
     /**
@@ -538,5 +486,19 @@ public class MainWindowController implements Initializable {
         File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
             model.setMuted(false);
+    }
+    
+    /**
+     * Starts a new window by sending in the name of the view in the parameters.
+     */
+    private void startModalWindow (String windowView) throws IOException {
+        Stage newStage = new Stage();
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/" + windowView + ".fxml"));
+                Parent root = fxLoader.load();
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+                newStage.showAndWait();
+                setTableItems();
     }
 }
