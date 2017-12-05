@@ -180,20 +180,17 @@ public class AddSongViewController implements Initializable {
     @FXML
     private void handleFileLocationSearcher() throws IOException {    
         Stage stage = new Stage();
-        stage.setTitle("File Chooser Sample");
         
-        FileChooser fc = new FileChooser();        
-        File selectedFile = fc.showOpenDialog(null);
+        FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
                     if (file != null) {
                         openFile(file);
-    }
+        }
     }
     
-    private void openFile(File file) throws IOException {
-            desktop.open(file);
-            File dest = new File("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes");
-            Files.copy(file, dest);
+    private void openFile(File file) throws IOException {        
+        File dest = new File("MyTunes");
+        Files.copy(file, dest);
         }
 
 }
