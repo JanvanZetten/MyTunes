@@ -30,6 +30,8 @@ public class MediaHandler
     private final SimpleStringProperty album;
     private final SimpleStringProperty currentTime;
     private final SimpleStringProperty durationTime;
+    private final SimpleDoubleProperty currentTimeInDouble;
+    private final SimpleDoubleProperty durationTimeInDouble;
     private final SimpleDoubleProperty progress;
     private Player player;
     private AudioMedia audioMedia;
@@ -48,6 +50,8 @@ public class MediaHandler
         album = new SimpleStringProperty("");
         currentTime = new SimpleStringProperty("");
         durationTime = new SimpleStringProperty("");
+        currentTimeInDouble = new SimpleDoubleProperty(0.0);
+        durationTimeInDouble = new SimpleDoubleProperty(0.0);
         progress = new SimpleDoubleProperty(0.0);
         player = null;
         currentIndex = -1;
@@ -56,6 +60,32 @@ public class MediaHandler
         isShuffling = false;
         isPlaying = false;
         shuffleList = new ArrayList<>();
+
+        currentTime.set(sec2minsec(currentTimeInDouble.doubleValue() / 1000));
+
+        // A listener which checks if the value of currentTime changed. If so update it.
+        currentTimeInDouble.addListener((observableValue, oldDuration, newDuration) ->
+        {
+            if (durationTimeInDouble.get() - newDuration.doubleValue() <= 100)
+            {
+                try
+                {
+                    nextMedia();
+                }
+                catch (BLLException ex)
+                {
+                    throw new RuntimeException(ex.getMessage(), ex.getCause());
+                }
+            }
+            progress.set(newDuration.doubleValue() / durationTimeInDouble.get());
+            currentTime.set(sec2minsec(newDuration.doubleValue() / 1000));
+        });
+
+        // A listener which checks if the value of durationTime changed. If so update it.
+        durationTimeInDouble.addListener((observableValue, oldDuration, newDuration) ->
+        {
+            durationTime.set(sec2minsec(newDuration.doubleValue() / 1000));
+        });
     }
 
     /**
@@ -255,7 +285,7 @@ public class MediaHandler
                 audioMedia = new AudioMedia(new File(songs.get(index).getpath()));
                 if (audioMedia.getExtension().equalsIgnoreCase("mp3"))
                 {
-                    player = new AudioPlayer(songs.get(index), currentTime, durationTime, progress);
+                    player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
                 }
                 System.out.println(audioMedia.getExtension());
             }
@@ -338,6 +368,29 @@ public class MediaHandler
         {
             currentIndex = oldIndex;
             throw new BLLException("Could not switch to index: " + index + ", " + ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Turns double of seconds into a minutes second format 00:00
+     * @param seconds
+     * @return string formated 00:00.
+     */
+    private String sec2minsec(double seconds)
+    {
+        int min;
+        int sec;
+        min = (int) seconds / 60;
+        sec = (int) seconds % 60;
+
+        if (sec > 9)
+        {
+            return min + ":" + sec;
+        }
+        else
+        {
+
+            return min + ":0" + sec;
         }
     }
 }
