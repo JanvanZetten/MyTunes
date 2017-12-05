@@ -275,6 +275,11 @@ public class MediaHandler
                 index = currentIndex;
             }
 
+            // Updates information labels for current media
+            artist.set(songs.get(index).getArtist());
+            title.set(songs.get(index).getTitle());
+            album.set(songs.get(index).getAlbum());
+
             // Load new media.
             if (player != null)
             {
@@ -287,7 +292,29 @@ public class MediaHandler
                 {
                     player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
                 }
-                System.out.println(audioMedia.getExtension());
+                else if (audioMedia.getExtension().equalsIgnoreCase("wav"))
+                {
+                    player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
+                }
+                else if (audioMedia.getExtension().equalsIgnoreCase("flac"))
+                {
+                    System.out.println("No flac player available");
+                    return;
+                }
+                else if (audioMedia.getExtension().equalsIgnoreCase("ogg"))
+                {
+                    System.out.println("No ogg player available");
+                    return;
+                }
+                else if (audioMedia.getExtension().equalsIgnoreCase("wma"))
+                {
+                    System.out.println("No wma player available");
+                    return;
+                }
+                else
+                {
+                    return;
+                }
             }
             catch (DALException ex)
             {
@@ -295,11 +322,6 @@ public class MediaHandler
             }
 
             player.setVolume(currentVolume);
-
-            // Updates information labels for current media
-            artist.set(songs.get(index).getArtist());
-            title.set(songs.get(index).getTitle());
-            album.set(songs.get(index).getAlbum());
 
             // Auto play if player was already playing.
             if (isPlaying)
