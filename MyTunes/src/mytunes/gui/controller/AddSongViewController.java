@@ -5,8 +5,12 @@
  */
 package mytunes.gui.controller;
 
+import com.google.common.io.Files;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,7 +30,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javax.swing.JFileChooser;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
@@ -63,7 +66,8 @@ public class AddSongViewController implements Initializable {
     private int yearInInt;
     MainWindowModel model;
     private String testString = "hello";
-    private Window fileChooserStage;
+    
+    private Desktop desktop = Desktop.getDesktop();
 
     /**
      * Initializes the controller class.
@@ -174,10 +178,24 @@ public class AddSongViewController implements Initializable {
      * Handles and opens a file searcher so a file path can be found.
      */
     @FXML
-    private void handleFileLocationSearcher() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Upload song");
-        fileChooser.showOpenDialog(fileChooserStage);
+    private void handleFileLocationSearcher() throws IOException {    
+        Stage stage = new Stage();
+        stage.setTitle("File Chooser Sample");
+        
+        FileChooser fc = new FileChooser();        
+        File selectedFile = fc.showOpenDialog(null);
+        File file = fc.showOpenDialog(stage);
+                    if (file != null) {
+                        openFile(file);
     }
+    }
+    
+    private void openFile(File file) throws IOException {
+            desktop.open(file);
+            File dest = new File("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes");
+            Files.copy(file, dest);
+        }
 
 }
+
+
