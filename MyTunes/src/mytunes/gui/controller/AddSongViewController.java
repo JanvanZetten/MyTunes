@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
+import org.bouncycastle.util.test.Test;
 
 /**
  * FXML Controller class
@@ -133,9 +134,9 @@ public class AddSongViewController implements Initializable {
                                             txtfieldAlbum.getText(),
                                             yearInInt,
                                             cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                            to.toString());
+                                            selectedFile.toString());
                                     if (!from.toString().equals(to.toString())) {
-                                    Files.copy(from.toFile(), to.toFile());
+                                        Files.copy(from.toFile(), to.toFile());
                                     }
 
                                     Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
@@ -191,15 +192,27 @@ public class AddSongViewController implements Initializable {
 
         if (selectedFile != null) {
             from = Paths.get(selectedFile.toURI());
+            
+            
+            
+            
             String currentDir = System.getProperty("user.dir") + File.separator;
             File dir = new File(currentDir);
-            
+
+//            Path pathAbsolute = Paths.get(dir.toURI() + selectedFile.getName());
+//            Path pathBase = Paths.get("/MyTunes/" + selectedFile.getName());
+//            System.out.println(pathAbsolute);
+//            System.out.println(pathBase);
+//            Path pathRelative = pathBase.relativize(pathAbsolute);
+//
+//            
             
             
             to = Paths.get(dir + "\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
             System.out.println(dir);
             
+
         }
     }
 }
