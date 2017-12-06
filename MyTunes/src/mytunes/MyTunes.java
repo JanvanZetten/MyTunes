@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import mytunes.gui.controller.MainWindowController;
 
@@ -33,6 +34,7 @@ public class MyTunes extends Application
         //Set Stage properties.
         newStage.setScene(scene);
         newStage.setTitle("MyTunes");
+        newStage.getIcons().add(new Image("mytunes/gui/view/pictures/logo.png"));
         newStage.setMinWidth(836);
         newStage.setMinHeight(606);
 
