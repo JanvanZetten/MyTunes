@@ -32,7 +32,6 @@ import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
-import org.bouncycastle.util.test.Test;
 
 /**
  * FXML Controller class
@@ -50,8 +49,6 @@ public class AddSongViewController implements Initializable {
     @FXML
     private TextField txtfieldAlbum;
     @FXML
-    private Button btnFileLocation;
-    @FXML
     private TextField txtfieldFileLocation;
     @FXML
     private ComboBox<Genre> cmboboxGenre;
@@ -59,16 +56,14 @@ public class AddSongViewController implements Initializable {
     private ComboBox<String> cmboboxYear;
     @FXML
     private Button btnSaveChanges;
-    @FXML
-    private Button btnAddGenre;
 
     private Path to;
     private Path from;
     private File selectedFile;
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
-
     private int yearInInt;
+    
     MainWindowModel model;
 
     /**
@@ -82,6 +77,8 @@ public class AddSongViewController implements Initializable {
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
+            
+            
         } catch (BLLException ex) {
             Logger.getLogger(AddSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -191,22 +188,10 @@ public class AddSongViewController implements Initializable {
         selectedFile = fc.showOpenDialog(null);
 
         if (selectedFile != null) {
-            from = Paths.get(selectedFile.toURI());
-            
-            
-            
-            
             String currentDir = System.getProperty("user.dir") + File.separator;
             File dir = new File(currentDir);
-
-//            Path pathAbsolute = Paths.get(dir.toURI() + selectedFile.getName());
-//            Path pathBase = Paths.get("/MyTunes/" + selectedFile.getName());
-//            System.out.println(pathAbsolute);
-//            System.out.println(pathBase);
-//            Path pathRelative = pathBase.relativize(pathAbsolute);
-//
-//            
-
+            
+            from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
         }
