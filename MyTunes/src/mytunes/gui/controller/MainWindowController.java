@@ -382,10 +382,8 @@ public class MainWindowController implements Initializable {
 
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
-            System.out.println(model.getChosenPlaylist().getPlaylistId());
         }
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
-            model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         }
 
 //        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null && tblviewMaster.getSelectionModel().getSelectedItem() != null) {
