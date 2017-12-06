@@ -122,7 +122,7 @@ public class AddSongViewController implements Initializable {
                     if (yearInInt != 0) {
                         if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
                             if (!txtfieldFileLocation.getText().isEmpty()) {
-                                if (txtfieldFileLocation.getText().equals(selectedFile.toString())) {
+                                if (txtfieldFileLocation.getText().equals(selectedFile.getName())) {
                                     model.createSong(
                                             txtfieldArtist.getText(),
                                             txtfieldTitle.getText(),
