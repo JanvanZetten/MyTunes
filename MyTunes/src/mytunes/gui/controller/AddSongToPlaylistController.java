@@ -34,7 +34,6 @@ public class AddSongToPlaylistController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         model = MainWindowModel.getInstance();
-        model.setCurrentAddMenu("playlist");
         listviewPlaylist.setItems(model.getPlaylists());
         
     }    
