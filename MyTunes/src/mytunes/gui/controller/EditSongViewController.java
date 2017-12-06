@@ -96,7 +96,7 @@ public class EditSongViewController implements Initializable {
                     if (yearInInt != 0) {
                         if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
                             if (!txtfieldFileLocation.getText().isEmpty()) {
-                                if (txtfieldFileLocation.getText().equals(selectedFile.toString())) {
+                                if (txtfieldFileLocation.getText().equals(selectedFile.getName())) {
                                     model.editSongInformation(model.getChosenSong().getSongId(),
                                             txtfieldArtist.getText(),
                                             txtfieldTitle.getText(),
@@ -159,12 +159,14 @@ public class EditSongViewController implements Initializable {
     /**
      * Converts the year strings into int for database use.
      */
-    private int stringToInt(String s) {
-        try {
-            yearInInt = Integer.parseInt(s);
-            return yearInInt;
-        } catch (NumberFormatException e) {
-            return 0;
+    private void stringToInt(String s) {
+        if (s.equals("Unknown")) {
+            yearInInt = -1;
+        } else {
+            try {
+                yearInInt = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+            }
         }
     }
 
