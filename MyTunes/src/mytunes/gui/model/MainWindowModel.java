@@ -441,12 +441,10 @@ public class MainWindowModel {
 
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
-            if (chosenPlaylist == null || chosenPlaylist.getPlaylistId() == -1) {
-                System.out.println("Wrong path:-(");
+            if (chosenPlaylist.getPlaylistId() == -1) {
                 bllManager.deleteSong(chosenSong.getSongId());
                 mediaHandler.getSongs().remove(chosenSong);
             } else {
-                System.out.println("Good path");
                 bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
                 chosenPlaylist.getSongs().remove(chosenSong);
             }
@@ -481,8 +479,10 @@ public class MainWindowModel {
     }
 
     /**
-     * Sets the chosen playlist for use with methods based on the chossen playlist
-     * @param chosenPlaylist 
+     * Sets the chosen playlist for use with methods based on the chossen
+     * playlist
+     *
+     * @param chosenPlaylist
      */
     public void setChosenPlaylist(Playlist chosenPlaylist) {
         this.chosenPlaylist = chosenPlaylist;
@@ -490,6 +490,7 @@ public class MainWindowModel {
 
     /**
      * gets the latest chosen playlist
+     *
      * @return be.Playlist object
      */
     public Playlist getChosenPlaylist() {

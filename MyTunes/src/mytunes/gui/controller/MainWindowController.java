@@ -52,7 +52,7 @@ import mytunes.bll.BLLException;
  * @author janvanzetten
  */
 public class MainWindowController implements Initializable {
-    
+
     @FXML
     private Label lblSongTitleTopBar;
     @FXML
@@ -91,7 +91,7 @@ public class MainWindowController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Rectangle topBar;
-    
+
     MainWindowModel model;
     @FXML
     private ImageView imageviewMute;
@@ -101,7 +101,7 @@ public class MainWindowController implements Initializable {
     private Button Btnshuffle;
     @FXML
     private ImageView imageviewPlayPause;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -113,6 +113,8 @@ public class MainWindowController implements Initializable {
 
         //set observables
         setTableItems();
+        listViewPlaylists.getSelectionModel().selectFirst();
+        model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
         lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
         lblSongTitleTopBar.textProperty().bind(Bindings.convert(model.getTitle()));
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
@@ -222,8 +224,9 @@ public class MainWindowController implements Initializable {
             String selectedTitle = model.getChosenSong().getTitle();
             String selectedArtist = model.getChosenSong().getArtist();
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
-            
+
             startModalWindow("DeleteConfirmationView");
+            setTableItems();
         }
     }
 
@@ -239,7 +242,7 @@ public class MainWindowController implements Initializable {
             } else {
                 model.selectedDeletedElements(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
                 model.setSongOrPlaylist("Playlist");
-                
+
                 startModalWindow("DeleteConfirmationView");
             }
         }
@@ -268,7 +271,7 @@ public class MainWindowController implements Initializable {
             listViewPlaylists.getSelectionModel().select(0);
             btnFilter.setText("Filter");
         }
-        
+
     }
 
     /**
@@ -354,7 +357,7 @@ public class MainWindowController implements Initializable {
         } else {
             Btnshuffle.setStyle("-fx-background-color: #3E606F;}");
         }
-        
+
     }
 
     /**
@@ -376,7 +379,7 @@ public class MainWindowController implements Initializable {
      * is the ID of "My Library".
      */
     private void updateSelected() {
-        
+
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
             System.out.println(model.getChosenPlaylist().getPlaylistId());
@@ -384,7 +387,7 @@ public class MainWindowController implements Initializable {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         }
-        
+
 //        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null && tblviewMaster.getSelectionModel().getSelectedItem() != null) {
 //            model.setCurrentIds(model.getChosenSong().getSongId(), model.getChosenPlaylist().getPlaylistId());
 //        }
@@ -466,7 +469,7 @@ public class MainWindowController implements Initializable {
 //                        listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId(),
 //                        listViewPlaylists.getSelectionModel().getSelectedItem().getName());
                     model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
-                    
+
                     startModalWindow("EditPlaylistView");
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
@@ -483,10 +486,10 @@ public class MainWindowController implements Initializable {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         final ContextMenu contextMenu = new ContextMenu(item1, item2);
         contextMenu.setMaxSize(50, 50);
-        
+
         listViewPlaylists.setContextMenu(contextMenu);
     }
 
@@ -499,12 +502,12 @@ public class MainWindowController implements Initializable {
     @FXML
     private void keyReleasedTable(KeyEvent event) throws IOException, BLLException {
         KeyCode key = event.getCode();
-        
+
         if (null != key) {
             switch (key) {
                 case LEFT:
                     addSongToPlaylist();
-                    
+
                     break;
                 case UP:
                     int indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
@@ -526,7 +529,7 @@ public class MainWindowController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
