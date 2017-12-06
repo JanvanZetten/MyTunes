@@ -39,22 +39,10 @@ public class MainWindowModel {
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
+    private Playlist chosenPlaylist;
     private boolean muted = false;
     private boolean playing = false;
     private String songOrPlaylist;
-
-    //All variables below refer to the current selected song in the song list.
-    private int currentSongId;
-    private String currentSongTitle;
-    private String currentSongArtist;
-    private String currentSongAlbum;
-    private int currentSongYear;
-    private Genre currentSongGenre;
-    private String currentSongPath;
-
-    //All variables below refer to the current selected playlist.
-    private int currentPlaylistId;
-    private String currentPlaylistTitle;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
@@ -76,7 +64,6 @@ public class MainWindowModel {
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
-            currentPlaylistId = -1;
 
         } catch (BLLException ex) {
             throw new RuntimeException(ex.getMessage(), ex.getCause());
@@ -448,76 +435,20 @@ public class MainWindowModel {
         bllManager.updateSong(songId, artist, title, album, year, genre, directory);
     }
 
-    public void setCurrentSongInformation(int songId, String title, String artist, String album, int year, Genre genre, String path) {
-        currentSongId = songId;
-        currentSongTitle = title;
-        currentSongArtist = artist;
-        currentSongAlbum = album;
-        currentSongYear = year;
-        currentSongGenre = genre;
-        currentSongPath = path;
-    }
-
-    public int getCurrentSongId() {
-        return currentSongId;
-    }
-
-    public String getCurrentSongTitle() {
-        return currentSongTitle;
-    }
-
-    public String getCurrentSongArtist() {
-        return currentSongArtist;
-    }
-
-    public String getCurrentSongAlbum() {
-        return currentSongAlbum;
-    }
-
-    public int getCurrentSongYear() {
-        return currentSongYear;
-    }
-
-    public Genre getCurrentSongGenre() {
-        return currentSongGenre;
-    }
-
-    public String getCurrentSongPath() {
-        return currentSongPath;
-    }
-
     public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
         bllManager.updatePlaylist(PlaylistId, text);
     }
 
-    public void setCurrentPlaylistInformation(int playlistId, String title) {
-        currentPlaylistId = playlistId;
-        currentPlaylistTitle = title;
-    }
-
-    public int getCurrentPlaylistId() {
-        return currentPlaylistId;
-    }
-
-    public String getCurrentPlaylistTitle() {
-        return currentPlaylistTitle;
-    }
-
-    public void setCurrentIds(int songId, int playlistId) {
-        currentSongId = songId;
-        currentPlaylistId = playlistId;
-    }
-
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
-            if (currentPlaylistId == -1) {
-                bllManager.deleteSong(currentSongId);
-                
-            } else if (currentPlaylistId != -1) {
-                bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
+            if (chosenPlaylist != null) {
+                bllManager.deleteSong(chosenSong.getSongId());
+                mediaHandler.getSongs().remove(chosenSong);
+            } else if (chosenPlaylist.getName().equals("My Libary")) {
+                bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
             }
         } else if ("Playlist".equals(element)) {
-            bllManager.deletePlaylist(currentPlaylistId);
+            bllManager.deletePlaylist(chosenPlaylist.getPlaylistId());
         }
     }
 
@@ -544,6 +475,22 @@ public class MainWindowModel {
      */
     public boolean isPlaying() {
         return playing;
+    }
+
+    /**
+     * Sets the chosen playlist for use with methods based on the chossen playlist
+     * @param chosenPlaylist 
+     */
+    public void setChosenPlaylist(Playlist chosenPlaylist) {
+        this.chosenPlaylist = chosenPlaylist;
+    }
+
+    /**
+     * gets the latest chosen playlist
+     * @return be.Playlist object
+     */
+    public Playlist getChosenPlaylist() {
+        return chosenPlaylist;
     }
 
 }

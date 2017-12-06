@@ -42,14 +42,14 @@ public class EditPlaylistViewController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws BLLException {
         model.editPlaylistInformation(
-                model.getCurrentPlaylistId(), 
+                model.getChosenPlaylist().getPlaylistId(), 
                 txtfieldTitle.getText());
         Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
         stage.close();
     }
 
     private void textSetter() {
-        txtfieldTitle.setText(model.getCurrentPlaylistTitle());
+        txtfieldTitle.setText(model.getChosenPlaylist().getName());
     }
     
 }

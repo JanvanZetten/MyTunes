@@ -82,7 +82,7 @@ public class EditSongViewController implements Initializable {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
         
-        model.editSongInformation(model.getCurrentSongId(),
+        model.editSongInformation(model.getChosenSong().getSongId(),
                                   txtfieldArtist.getText(),
                                   txtfieldTitle.getText(),
                                   txtfieldAlbum.getText(),
