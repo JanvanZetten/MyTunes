@@ -39,6 +39,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
@@ -142,7 +143,7 @@ public class MainWindowController implements Initializable {
     public void afterInitialize() {
         topBar.widthProperty().bind(topBar.getScene().widthProperty());
     }
-    
+
     /**
      * Updates the table and is used after changes are made so the program
      * updates live.
@@ -153,7 +154,7 @@ public class MainWindowController implements Initializable {
         model.addAllPlaylistsToGUI();
         setSongsOnTableview(model.getAllSongsPlaylist());
     }
-    
+
     /**
      * sets the songs from the given playlist in the table view and updates the
      * labels to match with the playlist
@@ -173,7 +174,7 @@ public class MainWindowController implements Initializable {
             lblPlaylistInfo.setText("");
         }
     }
-    
+
     /**
      * Starts a new window by sending in the name of the view in the parameters.
      */
@@ -187,7 +188,7 @@ public class MainWindowController implements Initializable {
         newStage.showAndWait();
         setTableItems();
     }
-    
+
     /**
      * Clicking the "Add" button under the songlist causes a modal window that
      * assists the user in adding music to the library to appear.
@@ -205,7 +206,7 @@ public class MainWindowController implements Initializable {
     private void addPlaylistAction(ActionEvent event) throws IOException {
         startModalWindow("AddPlaylistView");
     }
-    
+
     /**
      * Clicking the "Delete" button under the songlist causes a confirmation
      * window to appear.
@@ -221,7 +222,7 @@ public class MainWindowController implements Initializable {
             startModalWindow("DeleteConfirmationView");
         }
     }
-    
+
     /**
      * Clicking the "Delete" button under the playlists causes a confirmation
      * window to appear. The all song playlist cannot be deleted.
@@ -239,7 +240,7 @@ public class MainWindowController implements Initializable {
             }
         }
     }
-    
+
     /**
      * Opens the window for adding a song to a playlist
      *
@@ -249,7 +250,7 @@ public class MainWindowController implements Initializable {
         model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         startModalWindow("addSongToPlaylist");
     }
-    
+
     /**
      * TO DO
      */
@@ -265,7 +266,7 @@ public class MainWindowController implements Initializable {
         }
 
     }
-    
+
     /**
      * Plays the song on button press.
      */
@@ -281,7 +282,7 @@ public class MainWindowController implements Initializable {
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
     }
-    
+
     /**
      * Mutes media.
      */
@@ -299,9 +300,9 @@ public class MainWindowController implements Initializable {
             model.setMuted(false);
         }
     }
-    
+
     /**
-     * TO DO 
+     * TO DO
      */
     @FXML
     private void sliderDragAction(MouseEvent event) {
@@ -313,7 +314,6 @@ public class MainWindowController implements Initializable {
     /**
      * Pauses the song on button press.
      */
-    @FXML
     private void pauseSongAction(ActionEvent event) {
         model.pauseMedia();
     }
@@ -373,13 +373,12 @@ public class MainWindowController implements Initializable {
             updateIdSelected();
         }
     }
-    
+
     /**
      * Updates the ID of the selected playlist and song so that you can track
      * what items you want to delete. The playlist ID is by default -1 as this
      * is the ID of "My Library".
      */
-    @FXML
     private void updateIdSelected() {
         int currentPlaylistId = -1;
         int currentSongId = 0;
@@ -391,7 +390,7 @@ public class MainWindowController implements Initializable {
         }
         model.setCurrentIds(currentSongId, currentPlaylistId);
     }
-    
+
     /**
      * Creates and attaches contect menus to the song list which adds options,
      * all with their own method calls attached.
@@ -463,7 +462,7 @@ public class MainWindowController implements Initializable {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         //Deletes the selected playlist.
         MenuItem item2 = new MenuItem("Delete playlist");
         item2.setOnAction((ActionEvent e) -> {
@@ -479,7 +478,7 @@ public class MainWindowController implements Initializable {
 
         listViewPlaylists.setContextMenu(contextMenu);
     }
-    
+
     /**
      * Keylistener
      *
@@ -514,6 +513,20 @@ public class MainWindowController implements Initializable {
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+    @FXML
+    private void tableviewMouseClicked(MouseEvent event) {
+        updateIdSelected();
+        doubleClickTblview(event);
+    }
+
+    private void doubleClickTblview(MouseEvent event) {
+        if(event.getButton().equals(MouseButton.PRIMARY)){
+            if(event.getClickCount() == 2){
+                System.out.println("Double clicked");
             }
         }
     }
