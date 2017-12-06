@@ -18,7 +18,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -186,7 +188,7 @@ public class MainWindowController implements Initializable {
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.showAndWait();
-        setTableItems();
+        //setTableItems();
     }
 
     /**
@@ -401,6 +403,7 @@ public class MainWindowController implements Initializable {
         MenuItem item2 = new MenuItem("Edit song");
         item2.setOnAction((ActionEvent e) -> {
             try {
+                model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
                 model.setCurrentSongInformation(
                         tblviewMaster.getSelectionModel().getSelectedItem().getSongId(),
                         tblviewMaster.getSelectionModel().getSelectedItem().getTitle(),
@@ -417,9 +420,14 @@ public class MainWindowController implements Initializable {
         });
 
         //Adds the selected song to the queue.
-        MenuItem item3 = new MenuItem("Add to queue");
+        MenuItem item3 = new MenuItem("Add to playlist");
         item3.setOnAction((ActionEvent e) -> {
-            System.out.println("Needs to be implemented");
+            try {
+                addSongToPlaylist();
+            } catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Could not add to Playlist: " + ex.getMessage() + ".", ButtonType.OK);
+                alert.showAndWait();
+            }
         });
 
         //Deletes the selected song.
@@ -487,7 +495,7 @@ public class MainWindowController implements Initializable {
             switch (key) {
                 case LEFT:
                     addSongToPlaylist();
-                    setTableItems();
+                    
 
                     break;
                 case UP:

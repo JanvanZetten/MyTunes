@@ -512,6 +512,7 @@ public class MainWindowModel {
         if ("Song".equals(element)) {
             if (currentPlaylistId == -1) {
                 bllManager.deleteSong(currentSongId);
+                
             } else if (currentPlaylistId != -1) {
                 bllManager.deleteSongInPlaylist(currentSongId, currentPlaylistId);
             }

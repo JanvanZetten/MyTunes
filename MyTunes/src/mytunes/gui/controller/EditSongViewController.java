@@ -151,12 +151,12 @@ public class EditSongViewController implements Initializable {
      * Presets the information about the song into the text fields.
      */
     private void textSetter() {
-        txtfieldTitle.setText(model.getCurrentSongTitle());
-        txtfieldArtist.setText(model.getCurrentSongArtist());
-        txtfieldAlbum.setText(model.getCurrentSongAlbum());
-        cmboboxGenre.setValue(model.getCurrentSongGenre());
-        cmboboxYear.setValue(model.getCurrentSongYear() + "");
-        txtfieldFileLocation.setText(model.getCurrentSongPath());
+        txtfieldTitle.setText(model.getChosenSong().getTitle());
+        txtfieldArtist.setText(model.getChosenSong().getArtist());
+        txtfieldAlbum.setText(model.getChosenSong().getAlbum());
+        cmboboxGenre.setValue(model.getChosenSong().getGenre());
+        cmboboxYear.setValue(model.getChosenSong().getYear() + "");
+        txtfieldFileLocation.setText(model.getChosenSong().getpath());
     }
 
 }
