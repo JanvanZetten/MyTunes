@@ -6,12 +6,11 @@
 package mytunes.gui.controller;
 
 import com.google.common.io.Files;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,7 +29,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
@@ -60,15 +58,17 @@ public class AddSongViewController implements Initializable {
     private ComboBox<String> cmboboxYear;
     @FXML
     private Button btnSaveChanges;
-    private ObservableList<String> yearOL = FXCollections.observableArrayList();
-    private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     @FXML
     private Button btnAddGenre;
+
+    private Path to;
+    private Path from;
+    private File selectedFile;
+    private ObservableList<String> yearOL = FXCollections.observableArrayList();
+    private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
+
     private int yearInInt;
     MainWindowModel model;
-    private String testString = "hello";
-    
-    private Desktop desktop = Desktop.getDesktop();
 
     /**
      * Initializes the controller class.
@@ -126,16 +126,19 @@ public class AddSongViewController implements Initializable {
                     if (yearInInt != 0) {
                         if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
                             if (!txtfieldFileLocation.getText().isEmpty()) {
-                                model.createSong(
-                                        txtfieldArtist.getText(),
-                                        txtfieldTitle.getText(),
-                                        txtfieldAlbum.getText(),
-                                        yearInInt,
-                                        cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                        txtfieldFileLocation.getText());
+                                if (txtfieldFileLocation.getText().equals(selectedFile.toString())) {
+                                    model.createSong(
+                                            txtfieldArtist.getText(),
+                                            txtfieldTitle.getText(),
+                                            txtfieldAlbum.getText(),
+                                            yearInInt,
+                                            cmboboxGenre.getSelectionModel().getSelectedItem(),
+                                            txtfieldFileLocation.getText());
+                                    Files.copy(from.toFile(), to.toFile());
 
-                                Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
-                                stage.close();
+                                    Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+                                    stage.close();
+                                }
                             }
                         }
                     }
@@ -179,23 +182,15 @@ public class AddSongViewController implements Initializable {
      * Handles and opens a file searcher so a file path can be found.
      */
     @FXML
-    private void handleFileLocationSearcher() throws IOException {    
-        Stage stage = new Stage();
-        
+    private void handleFileLocationSearcher() throws IOException {
         FileChooser fc = new FileChooser();
-        File file = fc.showOpenDialog(stage);
-                    if (file != null) {
-                        openFile(file);
+        fc.setTitle("Attach a file");
+        selectedFile = fc.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            from = Paths.get(selectedFile.toURI());
+            to = Paths.get("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes\\" + selectedFile.getName());
+            txtfieldFileLocation.setText(selectedFile.toString());
         }
     }
-    
-    private void openFile(File file) throws IOException {
-        File dest = new File("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes");
-        Paths.get(dest.getAbsolutePath()).getFileName();
-        System.out.println(Paths.get(dest.getAbsolutePath()).getFileName());
-        
-        }
-
 }
-
-
