@@ -442,9 +442,11 @@ public class MainWindowModel {
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
             if (chosenPlaylist == null || chosenPlaylist.getPlaylistId() == -1) {
+                System.out.println("Wrong path:-(");
                 bllManager.deleteSong(chosenSong.getSongId());
                 mediaHandler.getSongs().remove(chosenSong);
             } else {
+                System.out.println("Good path");
                 bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
                 chosenPlaylist.getSongs().remove(chosenSong);
             }
