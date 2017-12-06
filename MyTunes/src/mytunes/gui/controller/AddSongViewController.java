@@ -134,7 +134,7 @@ public class AddSongViewController implements Initializable {
                                             txtfieldAlbum.getText(),
                                             yearInInt,
                                             cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                            selectedFile.toString());
+                                            selectedFile.getName());
                                     if (!from.toString().equals(to.toString())) {
                                         Files.copy(from.toFile(), to.toFile());
                                     }
@@ -206,13 +206,9 @@ public class AddSongViewController implements Initializable {
 //            Path pathRelative = pathBase.relativize(pathAbsolute);
 //
 //            
-            
-            
+
             to = Paths.get(dir + "\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
-            System.out.println(dir);
-            
-
         }
     }
 }
