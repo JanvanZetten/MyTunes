@@ -5,7 +5,12 @@
  */
 package mytunes.gui.controller;
 
+import com.google.common.io.Files;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -14,11 +19,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import mytunes.be.Genre;
@@ -41,8 +50,6 @@ public class EditSongViewController implements Initializable {
     @FXML
     private TextField txtfieldAlbum;
     @FXML
-    private Button btnFileLocation;
-    @FXML
     private TextField txtfieldFileLocation;
     @FXML
     private ComboBox<Genre> cmboboxGenre;
@@ -50,12 +57,14 @@ public class EditSongViewController implements Initializable {
     private ComboBox<String> cmboboxYear;
     @FXML
     private Button btnSaveChanges;
-    private Window fileChooserStage;
 
     MainWindowModel model;
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;
+    private File selectedFile;
+    private Path from;
+    private Path to;
 
     /**
      * Initializes the controller class.
@@ -74,33 +83,67 @@ public class EditSongViewController implements Initializable {
     }
 
     /**
-     * Handles the button that sends the edited song information to the 
-     * database and then closes the window.
+     * Handles the button that sends the edited song information to the database
+     * and then closes the window.
      */
     @FXML
-    private void handleEditSongAction() throws BLLException {
+    private void handleEditSongAction() throws BLLException, IOException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
-        
-        model.editSongInformation(model.getChosenSong().getSongId(),
-                                  txtfieldArtist.getText(),
-                                  txtfieldTitle.getText(),
-                                  txtfieldAlbum.getText(),
-                                  yearInInt,
-                                  cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                  txtfieldFileLocation.getText());
-        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
-        stage.close();
+        if (!txtfieldArtist.getText().isEmpty()) {
+            if (!txtfieldTitle.getText().isEmpty()) {
+                if (!txtfieldAlbum.getText().isEmpty()) {
+                    if (yearInInt != 0) {
+                        if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
+                            if (!txtfieldFileLocation.getText().isEmpty()) {
+                                if (txtfieldFileLocation.getText().equals(selectedFile.toString())) {
+                                    model.editSongInformation(model.getChosenSong().getSongId(),
+                                            txtfieldArtist.getText(),
+                                            txtfieldTitle.getText(),
+                                            txtfieldAlbum.getText(),
+                                            yearInInt,
+                                            cmboboxGenre.getSelectionModel().getSelectedItem(),
+                                            selectedFile.getName());
+                                    if (!from.toString().equals(to.toString())) {
+                                        Files.copy(from.toFile(), to.toFile());
+                                    }
+                                    Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+                                    stage.close();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            Stage newStage = new Stage();
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotAddView.fxml"));
+            Parent root = fxLoader.load();
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+            newStage.show();
+        }
+
     }
-    
+
     /**
      * Handles and opens a file searcher so a file path can be found.
      */
     @FXML
-    private void handleFileLocationSearcher(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Upload song");
-        fileChooser.showOpenDialog(fileChooserStage);
+    private void handleFileLocationSearcher() throws IOException {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Attach a file");
+        selectedFile = fc.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            String currentDir = System.getProperty("user.dir") + File.separator;
+            File dir = new File(currentDir);
+
+            from = Paths.get(selectedFile.toURI());
+            to = Paths.get(dir + "\\" + selectedFile.getName());
+            txtfieldFileLocation.setText(selectedFile.getName());
+        }
     }
 
     /**
@@ -112,7 +155,7 @@ public class EditSongViewController implements Initializable {
         genreGetter();
         cmboboxGenre.getSelectionModel().selectLast();
     }
-    
+
     /**
      * Converts the year strings into int for database use.
      */

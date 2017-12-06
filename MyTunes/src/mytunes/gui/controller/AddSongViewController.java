@@ -77,8 +77,6 @@ public class AddSongViewController implements Initializable {
             yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
-            
-            
         } catch (BLLException ex) {
             Logger.getLogger(AddSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -193,7 +191,7 @@ public class AddSongViewController implements Initializable {
             
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "\\" + selectedFile.getName());
-            txtfieldFileLocation.setText(selectedFile.toString());
+            txtfieldFileLocation.setText(selectedFile.getName());
         }
     }
 }
