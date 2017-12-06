@@ -526,7 +526,7 @@ public class MainWindowController implements Initializable {
     private void doubleClickTblview(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY)){
             if(event.getClickCount() == 2){
-                System.out.println("Double clicked");
+                model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
             }
         }
     }
