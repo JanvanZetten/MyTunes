@@ -7,9 +7,7 @@ package mytunes.bll;
 
 import java.io.File;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaException;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.*;
 import javafx.util.Duration;
 import mytunes.be.Song;
 
