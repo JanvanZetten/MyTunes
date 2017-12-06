@@ -133,10 +133,10 @@ public class AddSongViewController implements Initializable {
                                             txtfieldAlbum.getText(),
                                             yearInInt,
                                             cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                            txtfieldFileLocation.getText());
-//                                    if (!from.toString().equals(to.toString())) {
+                                            to.toString());
+                                    if (!from.toString().equals(to.toString())) {
                                     Files.copy(from.toFile(), to.toFile());
-//                                    }
+                                    }
 
                                     Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
                                     stage.close();
@@ -191,13 +191,15 @@ public class AddSongViewController implements Initializable {
 
         if (selectedFile != null) {
             from = Paths.get(selectedFile.toURI());
+            String currentDir = System.getProperty("user.dir") + File.separator;
+            File dir = new File(currentDir);
             
-            File file = new File("./MyTunes/Mytunes/");
             
-            to = Paths.get(file + "/" + selectedFile.getName());
+            
+            to = Paths.get(dir + "\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
-            System.out.println(file);
-            System.out.println(to);
+            System.out.println(dir);
+            
         }
     }
 }
