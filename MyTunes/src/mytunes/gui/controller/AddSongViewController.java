@@ -134,7 +134,9 @@ public class AddSongViewController implements Initializable {
                                             yearInInt,
                                             cmboboxGenre.getSelectionModel().getSelectedItem(),
                                             txtfieldFileLocation.getText());
-                                    Files.copy(from.toFile(), to.toFile());
+//                                    if (!from.toString().equals(to.toString())) {
+                                        Files.copy(from.toFile(), to.toFile());
+//                                    }
 
                                     Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
                                     stage.close();
@@ -183,13 +185,16 @@ public class AddSongViewController implements Initializable {
      */
     @FXML
     private void handleFileLocationSearcher() throws IOException {
+        FXMLLoader fxLoader = new FXMLLoader();
+        Parent root = fxLoader.load();
+            
         FileChooser fc = new FileChooser();
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
 
         if (selectedFile != null) {
             from = Paths.get(selectedFile.toURI());
-            to = Paths.get("MyTunes\\" + selectedFile.getName());
+            to = Paths.get("" + root + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
         }
     }
