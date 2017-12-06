@@ -441,11 +441,12 @@ public class MainWindowModel {
 
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
-            if (chosenPlaylist != null) {
+            if (chosenPlaylist == null || chosenPlaylist.getPlaylistId() == -1) {
                 bllManager.deleteSong(chosenSong.getSongId());
                 mediaHandler.getSongs().remove(chosenSong);
-            } else if (chosenPlaylist.getName().equals("My Libary")) {
+            } else {
                 bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
+                chosenPlaylist.getSongs().remove(chosenSong);
             }
         } else if ("Playlist".equals(element)) {
             bllManager.deletePlaylist(chosenPlaylist.getPlaylistId());

@@ -199,6 +199,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
         startModalWindow("AddSongView");
+        setTableItems();
     }
 
     /**
@@ -378,10 +379,12 @@ public class MainWindowController implements Initializable {
         
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
             model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
+            System.out.println(model.getChosenPlaylist().getPlaylistId());
         }
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         }
+        
 //        if (listViewPlaylists.getSelectionModel().getSelectedItem() != null && tblviewMaster.getSelectionModel().getSelectedItem() != null) {
 //            model.setCurrentIds(model.getChosenSong().getSongId(), model.getChosenPlaylist().getPlaylistId());
 //        }
