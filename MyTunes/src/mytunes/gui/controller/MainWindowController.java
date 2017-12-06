@@ -391,8 +391,10 @@ public class MainWindowController implements Initializable {
         //Plays the selected song.
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction((ActionEvent e) -> {
-            model.playMedia();
-            System.out.println("Not supported properly yet!");
+            model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+                if (!model.isPlaying()) {
+                    playSong();
+                }
         });
 
         //Edits the selected song and presets text fields with current information.
