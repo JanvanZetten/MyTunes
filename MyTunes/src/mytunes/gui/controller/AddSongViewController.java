@@ -189,7 +189,7 @@ public class AddSongViewController implements Initializable {
 
         if (selectedFile != null) {
             from = Paths.get(selectedFile.toURI());
-            to = Paths.get("C:\\Users\\Alex\\Documents\\GitHub\\Gruppe J\\MyTunes\\MyTunes\\" + selectedFile.getName());
+            to = Paths.get("MyTunes\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.toString());
         }
     }
