@@ -63,7 +63,7 @@ public class AddSongViewController implements Initializable {
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;
-    
+
     MainWindowModel model;
 
     /**
@@ -157,12 +157,14 @@ public class AddSongViewController implements Initializable {
     /**
      * Converts the year strings into int for database use.
      */
-    private int stringToInt(String s) {
-        try {
-            yearInInt = Integer.parseInt(s);
-            return yearInInt;
-        } catch (NumberFormatException e) {
-            return 0;
+    private void stringToInt(String s) {
+        if (s.equals("Unknown")) {
+            yearInInt = -1;
+        } else {
+            try {
+                yearInInt = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+            }
         }
     }
 
@@ -188,7 +190,7 @@ public class AddSongViewController implements Initializable {
         if (selectedFile != null) {
             String currentDir = System.getProperty("user.dir") + File.separator;
             File dir = new File(currentDir);
-            
+
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "\\" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.getName());
