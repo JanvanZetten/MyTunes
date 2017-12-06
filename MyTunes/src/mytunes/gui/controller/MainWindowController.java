@@ -272,15 +272,7 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void playSongAction(ActionEvent event) {
-        if (model.isPlaying()) {
-            model.pauseMedia();
-            File file = new File("src/mytunes/gui/view/pictures/play.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
-        } else {
-            model.playMedia();
-            File file = new File("src/mytunes/gui/view/pictures/pause.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
-        }
+        playSong();
     }
 
     /**
@@ -523,11 +515,34 @@ public class MainWindowController implements Initializable {
         doubleClickTblview(event);
     }
 
+    /**
+     * cheks for double click on mouseevent and runs the switch song stuff
+     *
+     * @param event
+     */
     private void doubleClickTblview(MouseEvent event) {
-        if(event.getButton().equals(MouseButton.PRIMARY)){
-            if(event.getClickCount() == 2){
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            if (event.getClickCount() == 2) {
                 model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+                if (!model.isPlaying()) {
+                    playSong();
+                }
             }
+        }
+    }
+
+    /**
+     * Plays the song and handels the button image
+     */
+    private void playSong() {
+        if (model.isPlaying()) {
+            model.pauseMedia();
+            File file = new File("src/mytunes/gui/view/pictures/play.png");
+            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+        } else {
+            model.playMedia();
+            File file = new File("src/mytunes/gui/view/pictures/pause.png");
+            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
     }
 }
