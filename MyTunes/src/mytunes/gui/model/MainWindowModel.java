@@ -283,7 +283,7 @@ public class MainWindowModel
     /**
      * Switch song to index.
      */
-    private void switchSong(int index)
+    public void switchSong(int index)
     {
         try
         {

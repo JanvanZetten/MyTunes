@@ -204,7 +204,7 @@
       </StackPane>
       <StackPane minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="120.0">
          <children>
-              <TableView fx:id="tblviewMaster" onKeyPressed="#keyReleasedTable" onMouseClicked="#updateIdSelected" prefHeight="439.0" prefWidth="641.0">
+              <TableView fx:id="tblviewMaster" onKeyPressed="#keyReleasedTable" onMouseClicked="#tableviewMouseClicked" prefHeight="439.0" prefWidth="641.0">
                   <columns>
                       <TableColumn fx:id="tblviewSong" prefWidth="157.0" text="Title" />
                       <TableColumn fx:id="tblviewArtist" prefWidth="138.0" text="Artist" />
