@@ -287,28 +287,22 @@ public class MediaHandler
             }
             try
             {
-                String[] strArr = songs.get(index).getpath().split("\\.");
-                String ext = strArr[strArr.length - 1];
-                if (ext.equalsIgnoreCase("mp3") || ext.equalsIgnoreCase("wav"))
-                {
-                    audioMedia = new AudioMedia(new File(songs.get(index).getpath()));
-                    player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
-                }
-                else if (ext.equalsIgnoreCase("aac"))
+                audioMedia = new AudioMedia(new File(songs.get(index).getpath()));
+                if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("mp4") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
                 {
                     player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
                 }
-                else if (ext.equalsIgnoreCase("flac"))
+                else if (audioMedia.getExtension().equalsIgnoreCase("flac"))
                 {
                     System.out.println("No flac player available");
                     return;
                 }
-                else if (ext.equalsIgnoreCase("ogg"))
+                else if (audioMedia.getExtension().equalsIgnoreCase("ogg"))
                 {
                     System.out.println("No ogg player available");
                     return;
                 }
-                else if (ext.equalsIgnoreCase("wma"))
+                else if (audioMedia.getExtension().equalsIgnoreCase("wma"))
                 {
                     System.out.println("No wma player available");
                     return;
