@@ -526,8 +526,8 @@ public class MainWindowModel {
             public void invalidated(Observable observable) {
                 if (musicSlider.pressedProperty().get()){
                     
-                    //mediaHandler.seek(musicSlider.getValue()*1000);
-                    
+                    //mediaHandler.seek();
+                    //TODO Make this working when seek is working
                 }
             }
         });
