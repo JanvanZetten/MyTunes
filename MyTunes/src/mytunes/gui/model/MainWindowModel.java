@@ -516,4 +516,15 @@ public class MainWindowModel {
         return chosenPlaylist;
     }
 
+    public void musicSliderSetup(Slider musicSlider) {
+        
+        musicSlider.valueProperty().bind(mediaHandler.getProgress().subtract(0.0001));
+//        musicSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//                mediaHandler.seek(musicSlider.getValue()*1000);
+//            }
+//        });
+        
+    }
 }

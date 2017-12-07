@@ -7,8 +7,15 @@ and open the template in the editor.
     Created on : 28-11-2017, 13:31:49
     Author     : janvanzetten
 */
+
+
 .slider .track {
     -fx-background-color: #3e606f;
+}
+
+
+.slider#musicSlider .track {
+    -fx-background-color: transparent;
 }
 
 .slider .axis .axis-tick-mark, .slider .axis .axis-minor-tick-mark {
@@ -18,6 +25,10 @@ and open the template in the editor.
 
 .slider .thumb {
     -fx-background-color: #fcfff5;
+}
+
+.slider#musicSlider .thumb{
+    -fx-background-radius: 3;
 }
 
 .root {

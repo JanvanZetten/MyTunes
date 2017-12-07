@@ -90,8 +90,6 @@ public class MainWindowController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Rectangle topBar;
-
-    MainWindowModel model;
     @FXML
     private ImageView imageviewMute;
     @FXML
@@ -100,6 +98,11 @@ public class MainWindowController implements Initializable {
     private Button Btnshuffle;
     @FXML
     private ImageView imageviewPlayPause;
+    
+    
+    MainWindowModel model;
+    @FXML
+    private Slider musicSlider;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -136,6 +139,7 @@ public class MainWindowController implements Initializable {
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
+        model.musicSliderSetup(musicSlider);
 
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
@@ -564,5 +568,5 @@ public class MainWindowController implements Initializable {
 //            tblviewYear.getCellData(i)
         }
     }
-    
+
 }

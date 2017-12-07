@@ -19,7 +19,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
-import mytunes.dal.FlacPlayer;
+//import mytunes.dal.FlacPlayer;
 
 /**
  *
@@ -312,8 +312,8 @@ public class MediaHandler
                 }
                 else if (audioMedia.getExtension().equalsIgnoreCase("flac"))
                 {
-                    player = new FlacPlayer(currentTimeInDouble, durationTimeInDouble);
-                    player.setSong(songs.get(index));
+                    //player = new FlacPlayer(currentTimeInDouble, durationTimeInDouble);
+                    //player.setSong(songs.get(index));
                 }
                 else if (audioMedia.getExtension().equalsIgnoreCase("ogg"))
                 {
