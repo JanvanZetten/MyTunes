@@ -115,7 +115,7 @@
                </StackPane.margin>
             </Label>
               <Line endY="-20.0" startY="20.0" stroke="#193441" StackPane.alignment="CENTER_RIGHT" />
-              <Slider fx:id="volumeSlider" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" onDragDetected="#sliderDragAction" prefHeight="30.0" prefWidth="100.0" showTickMarks="true" value="100.0" StackPane.alignment="BOTTOM_LEFT">
+              <Slider fx:id="volumeSlider" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" onMouseReleased="#sliderDragAction" prefHeight="30.0" prefWidth="100.0" showTickMarks="true" value="100.0" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
                   <Insets bottom="5.0" left="290.0" />
                </StackPane.margin>
