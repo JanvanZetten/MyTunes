@@ -266,7 +266,14 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
         {
             try
             {
-                playFlac(duration, -1);
+                if (duration >= 0.0 || duration <= 1.0)
+                {
+                    playFlac(duration * 100, -1);
+                }
+                else
+                {
+                    playFlac(0, -1);
+                }
             }
             catch (IOException | LineUnavailableException ex)
             {

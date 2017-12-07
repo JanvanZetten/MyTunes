@@ -41,6 +41,7 @@ public class MediaHandler
     private boolean isLooping;
     private boolean isShuffling;
     private boolean isPlaying;
+    private boolean isProgressing;
     private final List<Integer> shuffleList;
 
     public MediaHandler()
@@ -60,26 +61,30 @@ public class MediaHandler
         isLooping = false;
         isShuffling = false;
         isPlaying = false;
+        isProgressing = true;
         shuffleList = new ArrayList<>();
 
         currentTime.set(sec2minsec(currentTimeInDouble.doubleValue() / 1000));
 
         // A listener which checks if the value of currentTime changed. If so update it.
-        currentTimeInDouble.addListener((observableValue, oldDuration, newDuration) ->
+        currentTimeInDouble.addListener((observable, oldValue, newValue) ->
         {
-            if (durationTimeInDouble.get() - newDuration.doubleValue() <= 100)
+            if (isProgressing)
             {
-                try
+                if (durationTimeInDouble.get() - newValue.doubleValue() <= 100)
                 {
-                    nextMedia();
+                    try
+                    {
+                        nextMedia();
+                    }
+                    catch (BLLException ex)
+                    {
+                        throw new RuntimeException(ex.getMessage(), ex.getCause());
+                    }
                 }
-                catch (BLLException ex)
-                {
-                    throw new RuntimeException(ex.getMessage(), ex.getCause());
-                }
+                progress.set(newValue.doubleValue() / durationTimeInDouble.get());
+                currentTime.set(sec2minsec(newValue.doubleValue() / 1000));
             }
-            progress.set(newDuration.doubleValue() / durationTimeInDouble.get());
-            currentTime.set(sec2minsec(newDuration.doubleValue() / 1000));
         });
 
         // A listener which checks if the value of durationTime changed. If so update it.
@@ -179,19 +184,12 @@ public class MediaHandler
     /**
      * Play song.
      */
-    public void playMedia()
+    public void playMedia() throws BLLException
     {
         if (player != null)
         {
             isPlaying = true;
-            try
-            {
-                player.playMedia();
-            }
-            catch (BLLException ex)
-            {
-                System.out.println("LOL ERROR");
-            }
+            player.playMedia();
         }
     }
 
@@ -403,6 +401,11 @@ public class MediaHandler
             currentIndex = oldIndex;
             throw new BLLException("Could not switch to index: " + index + ", " + ex.getMessage(), ex.getCause());
         }
+    }
+
+    public void setProgressing(boolean bool)
+    {
+        isProgressing = bool;
     }
 
     /**

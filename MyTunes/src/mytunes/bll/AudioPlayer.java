@@ -96,7 +96,7 @@ public class AudioPlayer implements Player
     @Override
     public void seekMedia(double duration) throws BLLException
     {
-        mediaPlayer.seek(new Duration(duration));
+        mediaPlayer.seek(new Duration(durationTime.get() * duration));
     }
 
     /**
