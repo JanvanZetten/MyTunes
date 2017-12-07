@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -44,6 +46,7 @@ import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 import mytunes.bll.BLLException;
 
 /**
@@ -90,8 +93,6 @@ public class MainWindowController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Rectangle topBar;
-
-    MainWindowModel model;
     @FXML
     private ImageView imageviewMute;
     @FXML
@@ -100,6 +101,11 @@ public class MainWindowController implements Initializable {
     private Button Btnshuffle;
     @FXML
     private ImageView imageviewPlayPause;
+    
+    
+    MainWindowModel model;
+    @FXML
+    private Slider musicSlider;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,7 +125,7 @@ public class MainWindowController implements Initializable {
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
         lblCurrentTime.textProperty().bind(Bindings.convert(model.getCurrentTime()));
         lblTotalTimeSong.textProperty().bind(Bindings.convert(model.getDurationTime()));
-        progressBar.progressProperty().bind(model.getProgress());
+        progressBar.progressProperty().bind(model.getProgress().add(0.01));
 
         //add the songs to the view
         tblviewSong.setCellValueFactory(
@@ -131,16 +137,27 @@ public class MainWindowController implements Initializable {
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
         tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("year"));
+                new Callback<TableColumn.CellDataFeatures<Song, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Song, String> param) {
+                if (param.getValue().getYear() == -1) {
+                    return new ReadOnlyObjectWrapper<>("Unknown");
+                }
+                else {
+                    return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
+                }
+            }
+        });
         
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
+        model.musicSliderSetup(musicSlider);
 
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
-        unknownYearHandler(model.getAllSongsPlaylist());
+        
     }
 
     /**
@@ -523,7 +540,6 @@ public class MainWindowController implements Initializable {
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
         doubleClickTblview(event);
-        unknownYearHandler(model.getAllSongsPlaylist());
     }
 
     /**
@@ -555,14 +571,5 @@ public class MainWindowController implements Initializable {
             File file = new File("src/mytunes/gui/view/pictures/pause.png");
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
-    }
-    
-    private void unknownYearHandler(Playlist playlist) {
-        
-        for (int i = 0; i < playlist.getSongs().size(); i++) {
-            System.out.println(i);
-//            tblviewYear.getCellData(i)
-        }
-    }
-    
+    }    
 }

@@ -516,4 +516,21 @@ public class MainWindowModel {
         return chosenPlaylist;
     }
 
+    public void musicSliderSetup(Slider musicSlider) {
+        
+        //musicSlider.valueProperty().bind(mediaHandler.getProgress().subtract(0.01));
+        musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
+        
+        musicSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                if (musicSlider.pressedProperty().get()){
+                    
+                    //mediaHandler.seek();
+                    //TODO Make this working when seek is working
+                }
+            }
+        });
+        
+    }
 }

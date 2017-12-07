@@ -120,6 +120,11 @@
                   <Insets bottom="5.0" left="290.0" />
                </StackPane.margin>
             </Slider>
+            <Slider id="musicSlider" fx:id="musicSlider" max="1.0" prefHeight="20.0" prefWidth="300.0" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets left="50.0" right="50.0" top="15.0" />
+               </StackPane.margin>
+            </Slider>
          </children>
       </StackPane>
       <StackPane minHeight="83.0" minWidth="430.0" prefHeight="83.0" prefWidth="430.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

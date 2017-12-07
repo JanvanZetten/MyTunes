@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -44,6 +46,7 @@ import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 import mytunes.bll.BLLException;
 
 /**
@@ -90,8 +93,6 @@ public class MainWindowController implements Initializable {
     private ProgressBar progressBar;
     @FXML
     private Rectangle topBar;
-
-    MainWindowModel model;
     @FXML
     private ImageView imageviewMute;
     @FXML
@@ -100,6 +101,11 @@ public class MainWindowController implements Initializable {
     private Button Btnshuffle;
     @FXML
     private ImageView imageviewPlayPause;
+    
+    
+    MainWindowModel model;
+    @FXML
+    private Slider musicSlider;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -111,7 +117,7 @@ public class MainWindowController implements Initializable {
         model.addAllPlaylistsToGUI();
 
         //set observables
-        setTableItems();
+        refreshAndSetElements();
         listViewPlaylists.getSelectionModel().selectFirst();
         model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
         lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
@@ -130,27 +136,28 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("album"));
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
-<<<<<<< HEAD
-        if (tblviewYear.equals("-1")) {
-            tblviewYear.setCellValueFactory(
-                    new PropertyValueFactory("Unknown"));
-        } else {
-            tblviewYear.setCellValueFactory(
-                    new PropertyValueFactory("year"));
-        }
-=======
         tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("year"));
+                new Callback<TableColumn.CellDataFeatures<Song, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Song, String> param) {
+                if (param.getValue().getYear() == -1) {
+                    return new ReadOnlyObjectWrapper<>("Unknown");
+                }
+                else {
+                    return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
+                }
+            }
+        });
         
->>>>>>> 19e4c9ad661feb40332e0bf19c4cc9e91cd8e99b
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
+        model.musicSliderSetup(musicSlider);
 
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
-        unknownYearHandler(model.getAllSongsPlaylist());
+        
     }
 
     /**
@@ -164,7 +171,7 @@ public class MainWindowController implements Initializable {
      * Updates the table and is used after changes are made so the program
      * updates live.
      */
-    private void setTableItems() {
+    private void refreshAndSetElements() {
         tblviewMaster.setItems(model.getSongs());
         listViewPlaylists.setItems(model.getPlaylists());
         model.addAllPlaylistsToGUI();
@@ -211,7 +218,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
         startModalWindow("AddSongView");
-        setTableItems();
+        refreshAndSetElements();
     }
 
     /**
@@ -221,6 +228,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addPlaylistAction(ActionEvent event) throws IOException {
         startModalWindow("AddPlaylistView");
+        refreshAndSetElements();
     }
 
     /**
@@ -236,7 +244,7 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
 
             startModalWindow("DeleteConfirmationView");
-            setTableItems();
+            refreshAndSetElements();
         }
     }
 
@@ -423,7 +431,7 @@ public class MainWindowController implements Initializable {
             try {
                 model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
                 startModalWindow("EditSongView");
-                setTableItems();
+                refreshAndSetElements();
             } catch (IOException ex) {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -532,7 +540,6 @@ public class MainWindowController implements Initializable {
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
         doubleClickTblview(event);
-        unknownYearHandler(model.getAllSongsPlaylist());
     }
 
     /**
@@ -564,10 +571,8 @@ public class MainWindowController implements Initializable {
             File file = new File("src/mytunes/gui/view/pictures/pause.png");
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
-    }
 <<<<<<< HEAD
-}
-=======
+    }
     
     private void unknownYearHandler(Playlist playlist) {
         
@@ -576,6 +581,8 @@ public class MainWindowController implements Initializable {
 //            tblviewYear.getCellData(i)
         }
     }
-    
+
+=======
+    }    
+>>>>>>> 1fd27c99d9bb63dd589e518d2dd50af849fb71a2
 }
->>>>>>> 19e4c9ad661feb40332e0bf19c4cc9e91cd8e99b
