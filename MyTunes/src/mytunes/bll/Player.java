@@ -32,7 +32,7 @@ public interface Player
      * Seek song.
      * @param duration
      */
-    public void seekMedia(double duration);
+    public void seekMedia(double duration) throws BLLException;
 
     /**
      * Set song to play.

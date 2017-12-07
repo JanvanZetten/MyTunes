@@ -9,8 +9,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -19,7 +17,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
-import mytunes.dal.FlacPlayer;
+import mytunes.dal.flac.FlacPlayer;
 
 /**
  *
@@ -267,7 +265,7 @@ public class MediaHandler
         currentVolume = value;
     }
 
-    public void seek(double value)
+    public void seek(double value) throws BLLException
     {
         if (player != null)
         {

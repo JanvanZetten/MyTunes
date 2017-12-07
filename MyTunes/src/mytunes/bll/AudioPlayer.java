@@ -91,9 +91,10 @@ public class AudioPlayer implements Player
      * Seek song.
      *
      * @param duration
+     * @throws mytunes.bll.BLLException
      */
     @Override
-    public void seekMedia(double duration)
+    public void seekMedia(double duration) throws BLLException
     {
         mediaPlayer.seek(new Duration(duration));
     }
