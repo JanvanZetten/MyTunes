@@ -192,7 +192,6 @@ public class MainWindowController implements Initializable {
         } else {
             lblPlaylistInfo.setText("");
         }
-        unknownYearHandler(playlist);
     }
 
     /**
@@ -568,16 +567,5 @@ public class MainWindowController implements Initializable {
             File file = new File("src/mytunes/gui/view/pictures/pause.png");
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
-    }
-    
-    private void unknownYearHandler(Playlist playlist) {
-        
-        for (int i = 0; i < playlist.getSongs().size(); i++) {
-            System.out.println(playlist.getSongs().get(i).getYear());
-            if (playlist.getSongs().get(i).getYear() == -1) {
-//                System.out.println(tblviewYear.get);
-            }
-        }
-    }
-    
+    }    
 }
