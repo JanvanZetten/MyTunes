@@ -520,12 +520,17 @@ public class MainWindowModel {
         
         //musicSlider.valueProperty().bind(mediaHandler.getProgress().subtract(0.01));
         musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
-//        musicSlider.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//                mediaHandler.seek(musicSlider.getValue()*1000);
-//            }
-//        });
+        
+        musicSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                if (musicSlider.pressedProperty().get()){
+                    
+                    //mediaHandler.seek(musicSlider.getValue()*1000);
+                    
+                }
+            }
+        });
         
     }
 }
