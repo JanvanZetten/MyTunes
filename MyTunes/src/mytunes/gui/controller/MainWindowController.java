@@ -114,7 +114,7 @@ public class MainWindowController implements Initializable {
         model.addAllPlaylistsToGUI();
 
         //set observables
-        setTableItems();
+        refreshAndSetElements();
         listViewPlaylists.getSelectionModel().selectFirst();
         model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
         lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
@@ -167,7 +167,7 @@ public class MainWindowController implements Initializable {
      * Updates the table and is used after changes are made so the program
      * updates live.
      */
-    private void setTableItems() {
+    private void refreshAndSetElements() {
         tblviewMaster.setItems(model.getSongs());
         listViewPlaylists.setItems(model.getPlaylists());
         model.addAllPlaylistsToGUI();
@@ -215,7 +215,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
         startModalWindow("AddSongView");
-        setTableItems();
+        refreshAndSetElements();
     }
 
     /**
@@ -225,6 +225,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addPlaylistAction(ActionEvent event) throws IOException {
         startModalWindow("AddPlaylistView");
+        refreshAndSetElements();
     }
 
     /**
@@ -240,7 +241,7 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
 
             startModalWindow("DeleteConfirmationView");
-            setTableItems();
+            refreshAndSetElements();
         }
     }
 
@@ -319,9 +320,15 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void sliderDragAction(MouseEvent event) {
-        File file = new File("src/mytunes/gui/view/pictures/speaker.png");
-        imageviewMute.setImage(new Image(file.toURI().toString()));
-        model.setMuted(false);
+        if (volumeSlider.getValue() != volumeSlider.getMin()) {
+            File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(false);
+        } else {
+            File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(true);
+        }
     }
 
     /**
@@ -421,7 +428,7 @@ public class MainWindowController implements Initializable {
             try {
                 model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
                 startModalWindow("EditSongView");
-                setTableItems();
+                refreshAndSetElements();
             } catch (IOException ex) {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
+import mytunes.dal.FlacPlayer;
 
 /**
  *
@@ -183,7 +186,14 @@ public class MediaHandler
         if (player != null)
         {
             isPlaying = true;
-            player.playMedia();
+            try
+            {
+                player.playMedia();
+            }
+            catch (BLLException ex)
+            {
+                System.out.println("LOL ERROR");
+            }
         }
     }
 
@@ -257,6 +267,14 @@ public class MediaHandler
         currentVolume = value;
     }
 
+    public void seek(double value)
+    {
+        if (player != null)
+        {
+            player.seekMedia(value);
+        }
+    }
+
     /**
      * Switch song to current index.
      */
@@ -290,12 +308,12 @@ public class MediaHandler
                 audioMedia = new AudioMedia(new File(songs.get(index).getpath()));
                 if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("mp4") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
                 {
-                    player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble, progress);
+                    player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble);
                 }
                 else if (audioMedia.getExtension().equalsIgnoreCase("flac"))
                 {
-                    System.out.println("No flac player available");
-                    return;
+                    player = new FlacPlayer(currentTimeInDouble, durationTimeInDouble);
+                    player.setSong(songs.get(index));
                 }
                 else if (audioMedia.getExtension().equalsIgnoreCase("ogg"))
                 {
