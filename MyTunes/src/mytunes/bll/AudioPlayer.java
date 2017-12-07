@@ -37,7 +37,7 @@ public class AudioPlayer implements Player {
 
         mediaPlayer = new MediaPlayer(sound);
 
-        // When the media is loaded and ready it should update the duration and current time.
+         //When the media is loaded and ready it should update the duration and current time.
         mediaPlayer.setOnReady(new Runnable() {
             @Override
             public void run() {
