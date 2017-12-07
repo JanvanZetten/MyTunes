@@ -183,9 +183,9 @@ public class AddSongViewController implements Initializable {
      */
     @FXML
     private void handleFileLocationSearcher() throws IOException {
+        FileChooser fc = new FileChooser();
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
-        FileChooser fc = new FileChooser();
         fc.setInitialDirectory(dir);
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
