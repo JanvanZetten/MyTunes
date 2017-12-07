@@ -16,7 +16,7 @@ public interface Player
     /**
      * Play song.
      */
-    public void playMedia();
+    public void playMedia() throws BLLException;
 
     /**
      * Pause song.
