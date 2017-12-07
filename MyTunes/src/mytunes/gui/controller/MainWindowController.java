@@ -132,11 +132,10 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("genre"));
         if (tblviewYear.equals("-1")) {
             tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("Unknown"));
-        }
-        else {
-        tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("year"));
+                    new PropertyValueFactory("Unknown"));
+        } else {
+            tblviewYear.setCellValueFactory(
+                    new PropertyValueFactory("year"));
         }
 
         //volumeSlider
@@ -309,9 +308,15 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void sliderDragAction(MouseEvent event) {
-        File file = new File("src/mytunes/gui/view/pictures/speaker.png");
-        imageviewMute.setImage(new Image(file.toURI().toString()));
-        model.setMuted(false);
+        if (volumeSlider.getValue() != volumeSlider.getMin()) {
+            File file = new File("src/mytunes/gui/view/pictures/speaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(false);
+        } else {
+            File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
+            imageviewMute.setImage(new Image(file.toURI().toString()));
+            model.setMuted(true);
+        }
     }
 
     /**

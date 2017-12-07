@@ -271,6 +271,8 @@ public class MainWindowModel {
             @Override
             public void invalidated(Observable observable) {
                 mediaHandler.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
+                if (volumeSlider.getValue() == 0){
+                }
             }
         });
 
