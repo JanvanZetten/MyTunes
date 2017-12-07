@@ -131,8 +131,14 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("album"));
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
+        if (tblviewYear.equals("-1")) {
+            tblviewYear.setCellValueFactory(
+                new PropertyValueFactory("Unknown"));
+        }
+        else {
         tblviewYear.setCellValueFactory(
                 new PropertyValueFactory("year"));
+        }
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
