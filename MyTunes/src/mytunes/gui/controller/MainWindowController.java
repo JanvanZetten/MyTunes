@@ -411,6 +411,7 @@ public class MainWindowController implements Initializable {
             try {
                 model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
                 startModalWindow("EditSongView");
+                setTableItems();
             } catch (IOException ex) {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -551,4 +552,12 @@ public class MainWindowController implements Initializable {
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
     }
+    
+    private void unknownYearHandler(Playlist playlist) {
+        
+        for (int i = 0; i < playlist.getSongs().size(); i++) {
+            System.out.println(tblviewYear.getCellData(i));
+        }
+    }
+    
 }
