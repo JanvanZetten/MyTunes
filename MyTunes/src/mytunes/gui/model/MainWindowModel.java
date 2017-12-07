@@ -390,14 +390,23 @@ public class MainWindowModel {
         return currentAddMenu;
     }
 
-    public void setChosenSong(Song selectedItem) {
-        chosenSong = selectedItem;
+    /**
+     * Sets the chosen song call this when a song element is clicked
+     * @param selectedSong a song object
+     */
+    public void setChosenSong(Song selectedSong) {
+        chosenSong = selectedSong;
     }
 
+    /**
+     * returns the latest song given in setChosenSong()
+     * @return a song object
+     */
     public Song getChosenSong() {
         return chosenSong;
     }
 
+    
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
@@ -453,10 +462,18 @@ public class MainWindowModel {
         }
     }
 
+    /**
+     * change the muted varibel
+     * @param mutedSetting true when muted false when unmuted
+     */
     public void setMuted(boolean mutedSetting) {
         muted = mutedSetting;
     }
 
+    /**
+     * returns the muted varibel
+     * @return 
+     */
     public boolean isMuted() {
         return muted;
     }
