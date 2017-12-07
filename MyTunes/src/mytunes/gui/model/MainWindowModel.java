@@ -75,7 +75,7 @@ public class MainWindowModel
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
-
+            setChosenPlaylist(playlists.get(0));
         }
         catch (BLLException ex)
         {
@@ -93,7 +93,6 @@ public class MainWindowModel
         playlists.clear();
         try
         {
-            playlists.add(getAllSongsPlaylist());
             playlists.addAll(bllManager.getAllPlaylists());
         }
         catch (BLLException ex)
@@ -199,27 +198,6 @@ public class MainWindowModel
         {
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
-        }
-    }
-
-    /**
-     * gets the playlist with all the songs
-     *
-     * @return playlist with all the known songs
-     */
-    public Playlist getAllSongsPlaylist()
-    {
-        Playlist playlist = new Playlist(-1, "My Library");
-        try
-        {
-            playlist.addAllSongToPlaylist(bllManager.getAllSongs());
-            return playlist;
-        }
-        catch (BLLException ex)
-        {
-            Alert alert = new Alert(AlertType.WARNING, "Could not get Library: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-            return null;
         }
     }
 
@@ -533,7 +511,7 @@ public class MainWindowModel
     {
         if ("Song".equals(element))
         {
-            if (chosenPlaylist.getPlaylistId() == -1)
+            if (chosenPlaylist.getPlaylistId() == 1)
             {
                 bllManager.deleteSong(chosenSong.getSongId());
                 mediaHandler.getSongs().remove(chosenSong);
