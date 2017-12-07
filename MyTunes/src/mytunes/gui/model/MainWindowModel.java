@@ -518,7 +518,8 @@ public class MainWindowModel {
 
     public void musicSliderSetup(Slider musicSlider) {
         
-        musicSlider.valueProperty().bind(mediaHandler.getProgress().subtract(0.0001));
+        //musicSlider.valueProperty().bind(mediaHandler.getProgress().subtract(0.01));
+        musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
 //        musicSlider.valueProperty().addListener(new InvalidationListener() {
 //            @Override
 //            public void invalidated(Observable observable) {

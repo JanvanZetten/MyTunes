@@ -125,7 +125,7 @@ public class MainWindowController implements Initializable {
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
         lblCurrentTime.textProperty().bind(Bindings.convert(model.getCurrentTime()));
         lblTotalTimeSong.textProperty().bind(Bindings.convert(model.getDurationTime()));
-        progressBar.progressProperty().bind(model.getProgress());
+        progressBar.progressProperty().bind(model.getProgress().add(0.01));
 
         //add the songs to the view
         tblviewSong.setCellValueFactory(
