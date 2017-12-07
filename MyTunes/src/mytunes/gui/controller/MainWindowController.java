@@ -130,14 +130,9 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("album"));
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
-        if (tblviewYear.equals("-1")) {
-            tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("Unknown"));
-        }
-        else {
         tblviewYear.setCellValueFactory(
                 new PropertyValueFactory("year"));
-        }
+        
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
@@ -145,6 +140,7 @@ public class MainWindowController implements Initializable {
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
+        unknownYearHandler(model.getAllSongsPlaylist());
     }
 
     /**
@@ -520,6 +516,7 @@ public class MainWindowController implements Initializable {
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
         doubleClickTblview(event);
+        unknownYearHandler(model.getAllSongsPlaylist());
     }
 
     /**
@@ -556,7 +553,8 @@ public class MainWindowController implements Initializable {
     private void unknownYearHandler(Playlist playlist) {
         
         for (int i = 0; i < playlist.getSongs().size(); i++) {
-            System.out.println(tblviewYear.getCellData(i));
+            System.out.println(i);
+//            tblviewYear.getCellData(i)
         }
     }
     
