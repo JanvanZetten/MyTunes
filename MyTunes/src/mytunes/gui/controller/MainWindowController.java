@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -44,6 +46,7 @@ import mytunes.gui.model.MainWindowModel;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 import mytunes.bll.BLLException;
 
 /**
@@ -131,7 +134,17 @@ public class MainWindowController implements Initializable {
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
         tblviewYear.setCellValueFactory(
-                new PropertyValueFactory("year"));
+                new Callback<TableColumn.CellDataFeatures<Song, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Song, String> param) {
+                if (param.getValue().getYear() == -1) {
+                    return new ReadOnlyObjectWrapper<>("Unknown");
+                }
+                else {
+                    return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
+                }
+            }
+        });
         
 
         //volumeSlider
@@ -140,7 +153,7 @@ public class MainWindowController implements Initializable {
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
-        unknownYearHandler(model.getAllSongsPlaylist());
+        
     }
 
     /**
@@ -179,6 +192,7 @@ public class MainWindowController implements Initializable {
         } else {
             lblPlaylistInfo.setText("");
         }
+        unknownYearHandler(playlist);
     }
 
     /**
@@ -516,7 +530,6 @@ public class MainWindowController implements Initializable {
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
         doubleClickTblview(event);
-        unknownYearHandler(model.getAllSongsPlaylist());
     }
 
     /**
@@ -553,8 +566,10 @@ public class MainWindowController implements Initializable {
     private void unknownYearHandler(Playlist playlist) {
         
         for (int i = 0; i < playlist.getSongs().size(); i++) {
-            System.out.println(i);
-//            tblviewYear.getCellData(i)
+            System.out.println(playlist.getSongs().get(i).getYear());
+            if (playlist.getSongs().get(i).getYear() == -1) {
+//                System.out.println(tblviewYear.get);
+            }
         }
     }
     
