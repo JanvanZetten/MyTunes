@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import mytunes.gui.controller.MainWindowController;
 
 /**
@@ -33,14 +30,14 @@ public class MyTunes extends Application
 
         //Instanciate Scene.
         Scene scene = new Scene(root);
-        
+
         //Set Stage properties.
         newStage.setScene(scene);
         newStage.setTitle("MyTunes");
         newStage.getIcons().add(new Image("mytunes/gui/view/pictures/logo.png"));
         newStage.setMinWidth(836);
         newStage.setMinHeight(606);
-        
+
         //Get controller and run afterInitialize.
         MainWindowController cont = fxLoader.getController();
         cont.afterInitialize();

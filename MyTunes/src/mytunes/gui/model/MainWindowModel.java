@@ -608,7 +608,6 @@ public class MainWindowModel
             @Override
             public void handle(MouseEvent event)
             {
-                System.out.println(musicSlider.getValue());
                 try
                 {
                     mediaHandler.seek(musicSlider.getValue());

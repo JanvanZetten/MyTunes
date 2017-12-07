@@ -347,14 +347,14 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
                 else if (value > 0.0 || value <= 1.0)
                 {
                     mute.setValue(false);
-                    float f = volume.getMaximum() - (volume.getMinimum() + 40);
+                    float f = 0 - (volume.getMinimum() + 40);
                     volume.setValue((float) ((f / 100) * (value * 100)) + (volume.getMinimum() + 40));
                     currentVolume = value;
                 }
                 else
                 {
                     mute.setValue(false);
-                    volume.setValue(volume.getMaximum());
+                    volume.setValue(0);
                     currentVolume = 1.0;
                 }
             }
