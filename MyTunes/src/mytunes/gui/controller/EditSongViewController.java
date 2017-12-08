@@ -23,7 +23,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -65,6 +67,8 @@ public class EditSongViewController implements Initializable {
     private File selectedFile;
     private Path from;
     private Path to;
+    private boolean newFileSelected;
+    private String lastPart;
 
     /**
      * Initializes the controller class.
@@ -78,12 +82,8 @@ public class EditSongViewController implements Initializable {
             textSetter();
             File preset = new File(txtfieldFileLocation.getText());
             selectedFile = preset;
-            System.out.println(selectedFile);
-            System.out.println(txtfieldArtist.getText());
-            System.out.println(txtfieldTitle.getText());
-            System.out.println(txtfieldAlbum.getText());
-            System.out.println(yearInInt);
-            System.out.println(cmboboxGenre.getSelectionModel().getSelectedItem());
+            directory();
+
         } catch (BLLException ex) {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,39 +97,36 @@ public class EditSongViewController implements Initializable {
     private void handleEditSongAction() throws BLLException, IOException {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
-        if (!txtfieldArtist.getText().isEmpty()) {
-            if (!txtfieldTitle.getText().isEmpty()) {
-                if (!txtfieldAlbum.getText().isEmpty()) {
-                    if (yearInInt != 0) {
-                        if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
-                            if (!txtfieldFileLocation.getText().isEmpty()) {
-                                if (txtfieldFileLocation.getText().equals(selectedFile.getName())) {
-                                    model.editSongInformation(model.getChosenSong().getSongId(),
-                                            txtfieldArtist.getText(),
-                                            txtfieldTitle.getText(),
-                                            txtfieldAlbum.getText(),
-                                            yearInInt,
-                                            cmboboxGenre.getSelectionModel().getSelectedItem(),
-                                            "music/" + selectedFile.getName());
-                                    if (!from.toString().equals(to.toString())) {
-                                        Files.copy(from.toFile(), to.toFile());
-                                    }
-                                    Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
-                                    stage.close();
-                                }
-                            }
-                        }
-                    }
+
+        System.out.println(selectedFile);
+
+        if ((!txtfieldArtist.getText().isEmpty())
+                && (!txtfieldTitle.getText().isEmpty())
+                && (!txtfieldAlbum.getText().isEmpty())
+                && (yearInInt != 0)
+                && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
+                && (!txtfieldFileLocation.getText().isEmpty())
+                && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
+                || txtfieldFileLocation.getText().equals(lastPart)) {
+
+            model.editSongInformation(model.getChosenSong().getSongId(),
+                    txtfieldArtist.getText(),
+                    txtfieldTitle.getText(),
+                    txtfieldAlbum.getText(),
+                    yearInInt,
+                    cmboboxGenre.getSelectionModel().getSelectedItem(),
+                    directory());
+            if (newFileSelected == true) {
+                if (!from.toString().equals(to.toString())) {
+                    Files.copy(from.toFile(), to.toFile());
                 }
             }
+            Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+            stage.close();
+
         } else {
-            Stage newStage = new Stage();
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotAddView.fxml"));
-            Parent root = fxLoader.load();
-            Scene scene = new Scene(root);
-            newStage.setScene(scene);
-            newStage.show();
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The song cannot be edited. Please fill out all the fields.", ButtonType.OK);
+            alert.showAndWait();
         }
 
     }
@@ -150,7 +147,21 @@ public class EditSongViewController implements Initializable {
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/music/" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.getName());
+            newFileSelected = true;
         }
+    }
+
+    private String directory() {
+        if (newFileSelected == false) {
+            File dir = new File(selectedFile + "");
+            String[] splitDir = dir.toString().split("\\\\");
+            lastPart = splitDir[splitDir.length - 1];
+            txtfieldFileLocation.setText(lastPart);
+            return lastPart;
+        } else if (newFileSelected == true) {
+            return "music/" + selectedFile;
+        }
+        return "Nothing";
     }
 
     /**
@@ -209,9 +220,8 @@ public class EditSongViewController implements Initializable {
         cmboboxGenre.setValue(model.getChosenSong().getGenre());
         if (model.getChosenSong().getYear() == -1) {
             cmboboxYear.setValue("Unknown");
-        }
-        else {
-        cmboboxYear.setValue(model.getChosenSong().getYear() + "");
+        } else {
+            cmboboxYear.setValue(model.getChosenSong().getYear() + "");
         }
         txtfieldFileLocation.setText(model.getChosenSong().getPath());
     }
