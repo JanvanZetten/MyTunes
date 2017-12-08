@@ -27,10 +27,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
+import mytunes.dal.AudioMedia;
+import mytunes.dal.DALException;
 import mytunes.gui.model.MainWindowModel;
 
 /**
@@ -38,7 +41,8 @@ import mytunes.gui.model.MainWindowModel;
  *
  * @author janvanzetten
  */
-public class AddSongViewController implements Initializable {
+public class AddSongViewController implements Initializable
+{
 
     @FXML
     private TextField txtfieldTitle;
@@ -70,13 +74,17 @@ public class AddSongViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        try
+        {
             model = MainWindowModel.getInstance();
             model.setCurrentAddMenu("song");
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Logger.getLogger(AddSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -85,10 +93,12 @@ public class AddSongViewController implements Initializable {
      * Takes the current year from the calendar and adds all years down to 1700
      * to the cmboboxYear.
      */
-    private ObservableList<String> yearGenerator() {
+    private ObservableList<String> yearGenerator()
+    {
         int yearCounter = Calendar.getInstance().get(Calendar.YEAR);
         yearOL.add("Unknown");
-        for (int i = yearCounter; i >= 1700; i--) {
+        for (int i = yearCounter; i >= 1700; i--)
+        {
             yearOL.add(i + "");
         }
         return yearOL;
@@ -97,7 +107,8 @@ public class AddSongViewController implements Initializable {
     /**
      * Gets and sets all the genres that are available into a combo box.
      */
-    private void genreGetter() throws BLLException {
+    private void genreGetter() throws BLLException
+    {
         model.getAllGenres();
         genreOL = model.getGenres();
         cmboboxGenre.setItems(genreOL);
@@ -111,17 +122,25 @@ public class AddSongViewController implements Initializable {
      * area telling the user to fill out all fields.
      */
     @FXML
-    private void handleAddSongAction(ActionEvent event) throws BLLException, IOException {
+    private void handleAddSongAction(ActionEvent event) throws BLLException, IOException
+    {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
 
-        if (!txtfieldArtist.getText().isEmpty()) {
-            if (!txtfieldTitle.getText().isEmpty()) {
-                if (!txtfieldAlbum.getText().isEmpty()) {
-                    if (yearInInt != 0) {
-                        if (cmboboxGenre.getSelectionModel().getSelectedItem() != null) {
-                            if (!txtfieldFileLocation.getText().isEmpty()) {
-                                if (txtfieldFileLocation.getText().equals(selectedFile.getName())) {
+        if (!txtfieldArtist.getText().isEmpty())
+        {
+            if (!txtfieldTitle.getText().isEmpty())
+            {
+                if (!txtfieldAlbum.getText().isEmpty())
+                {
+                    if (yearInInt != 0)
+                    {
+                        if (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
+                        {
+                            if (!txtfieldFileLocation.getText().isEmpty())
+                            {
+                                if (txtfieldFileLocation.getText().equals(selectedFile.getName()))
+                                {
                                     model.createSong(
                                             txtfieldArtist.getText(),
                                             txtfieldTitle.getText(),
@@ -129,7 +148,8 @@ public class AddSongViewController implements Initializable {
                                             yearInInt,
                                             cmboboxGenre.getSelectionModel().getSelectedItem(),
                                             "music/" + selectedFile.getName());
-                                    if (!from.toString().equals(to.toString())) {
+                                    if (!from.toString().equals(to.toString()))
+                                    {
                                         Files.copy(from.toFile(), to.toFile());
                                     }
 
@@ -141,7 +161,9 @@ public class AddSongViewController implements Initializable {
                     }
                 }
             }
-        } else {
+        }
+        else
+        {
             Stage newStage = new Stage();
             newStage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/view/CannotAddView.fxml"));
@@ -156,13 +178,20 @@ public class AddSongViewController implements Initializable {
     /**
      * Converts the year strings into int for database use.
      */
-    private void stringToInt(String s) {
-        if (s.equals("Unknown")) {
+    private void stringToInt(String s)
+    {
+        if (s.equals("Unknown"))
+        {
             yearInInt = -1;
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 yearInInt = Integer.parseInt(s);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e)
+            {
             }
         }
     }
@@ -171,7 +200,8 @@ public class AddSongViewController implements Initializable {
      * Handles the button that adds a new genre to the database.
      */
     @FXML
-    private void handleAddGenreAction(ActionEvent event) throws BLLException {
+    private void handleAddGenreAction(ActionEvent event) throws BLLException
+    {
         model.addGenre(txtfieldNewGenre.getText());
         genreGetter();
         cmboboxGenre.getSelectionModel().selectLast();
@@ -181,18 +211,70 @@ public class AddSongViewController implements Initializable {
      * Handles and opens a file searcher so a file path can be found.
      */
     @FXML
-    private void handleFileLocationSearcher() throws IOException {
+    private void handleFileLocationSearcher() throws IOException
+    {
+        ExtensionFilter filter = new ExtensionFilter("Audio Files", "*.mp3", "*.wav", "*.flac", "*.aiff");
         FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(filter);
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
         fc.setInitialDirectory(dir);
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/music/" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.getName());
+            try
+            {
+                AudioMedia am = new AudioMedia(from.toFile());
+
+                txtfieldArtist.setText(am.getArtist().trim());
+                txtfieldTitle.setText(am.getTitle().trim());
+                txtfieldAlbum.setText(am.getAlbum().trim());
+
+                int count = 0;
+                for (Genre genre : genreOL)
+                {
+                    if (genre.getGenre().equalsIgnoreCase(am.getGenre().trim()))
+                    {
+                        cmboboxGenre.getSelectionModel().select(genre);
+                        count = 1;
+                        break;
+                    }
+                }
+                if (count == 0)
+                {
+                    if (am.getGenre().trim().isEmpty())
+                    {
+                        cmboboxGenre.getSelectionModel().selectFirst();
+                    }
+                    else
+                    {
+                        txtfieldNewGenre.setText(am.getGenre().trim());
+                    }
+                }
+
+                if (am.getYear() == -1)
+                {
+                    cmboboxYear.getSelectionModel().selectFirst();
+                }
+                else if (cmboboxYear.getItems().contains(String.valueOf(am.getYear())))
+                {
+                    cmboboxYear.getSelectionModel().select(String.valueOf(am.getYear()));
+                }
+            }
+            catch (DALException ex)
+            {
+                txtfieldArtist.setText("");
+                txtfieldTitle.setText("");
+                txtfieldAlbum.setText("");
+                txtfieldNewGenre.setText("");
+                cmboboxGenre.getSelectionModel().selectFirst();
+                cmboboxYear.getSelectionModel().selectFirst();
+            }
         }
     }
 }

@@ -159,16 +159,15 @@ public class MediaHandler
     }
 
     /**
-     * set the songs from the given playlist in the observablelist. remember to
-     * add the observablelist to the view with getSong()
+     * set the songs from the given list in the observablelist. 
      *
-     * @param selectedItem the playlist from which to take the song
+     * @param selectedItem the list of songs from which to take the song
      * @throws mytunes.bll.BLLException
      */
-    public void setSongs(Playlist selectedItem) throws BLLException
+    public void setSongs(ObservableList<Song> selectedItem) throws BLLException
     {
         songs.clear();
-        songs.addAll(selectedItem.getSongs());
+        songs.addAll(selectedItem);
 
         if (songs.size() > 0)
         {
