@@ -519,24 +519,47 @@ public class DatabaseDAO implements DAO
     {
         try (Connection con = dbc.getConnection())
         {
-            String sql = "DELETE Genre WHERE genreId=?;";
+            String sql = "SELECT COUNT(*) as count FROM Song WHERE genreId = ?;";
 
-            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+            PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, genreId);
 
-            if (statement.executeUpdate() == 1)
+            ResultSet rs = statement.executeQuery(sql);
+            rs.next();
+            int count = rs.getInt("count");
+
+            if (count > 0)
             {
-                return true;
+                try
+                {
+                    sql = "DELETE Genre WHERE genreId=?;";
+
+                    statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                    statement.setInt(1, genreId);
+
+                    if (statement.executeUpdate() == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new DALException("Could not delete genre: " + genreId);
+                    }
+                }
+                catch (SQLException ex)
+                {
+                    throw new DALException("Deleting genre: " + ex.getMessage(), ex.getCause());
+                }
             }
             else
             {
-                throw new DALException("Could not delete genre: " + genreId);
+                throw new DALException("Could not delete genre: " + genreId + ", genre is used by one or many songs!");
             }
         }
         catch (SQLException ex)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("Getting genre used count: " + ex.getMessage(), ex.getCause());
         }
     }
 
@@ -561,7 +584,6 @@ public class DatabaseDAO implements DAO
 
             if (statement.executeUpdate() == 1)
             {
-                deleteSongInPlaylist(songId, 1);
                 return true;
             }
             else
@@ -585,27 +607,34 @@ public class DatabaseDAO implements DAO
     @Override
     public boolean deletePlaylist(int playlistId) throws DALException
     {
-        try (Connection con = dbc.getConnection())
+        if (playlistId != 1)
         {
-            String sql = "DELETE SongsInPlaylist WHERE playlistId=?; DELETE Playlist WHERE playlistId=?;";
-
-            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setInt(1, playlistId);
-            statement.setInt(2, playlistId);
-
-            if (statement.executeUpdate() == 1)
+            try (Connection con = dbc.getConnection())
             {
-                return true;
+                String sql = "DELETE SongsInPlaylist WHERE playlistId=?; DELETE Playlist WHERE playlistId=?;";
+
+                PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                statement.setInt(1, playlistId);
+                statement.setInt(2, playlistId);
+
+                if (statement.executeUpdate() == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new DALException("Could not delete playlist: " + playlistId);
+                }
             }
-            else
+            catch (SQLException ex)
             {
-                throw new DALException("Could not delete playlist: " + playlistId);
+                throw new DALException(ex.getMessage(), ex.getCause());
             }
         }
-        catch (SQLException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("Cannot delete Main Playlist!");
         }
     }
 
@@ -621,27 +650,34 @@ public class DatabaseDAO implements DAO
     @Override
     public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
     {
-        try (Connection con = dbc.getConnection())
+        if (playlistId != 1)
         {
-            String sql = "DELETE SongsInPlaylist WHERE songId=? AND playlistId=?;";
-
-            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setInt(1, songId);
-            statement.setInt(2, playlistId);
-
-            if (statement.executeUpdate() == 1)
+            try (Connection con = dbc.getConnection())
             {
-                return true;
+                String sql = "DELETE SongsInPlaylist WHERE songId=? AND playlistId=?;";
+
+                PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                statement.setInt(1, songId);
+                statement.setInt(2, playlistId);
+
+                if (statement.executeUpdate() == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
+                }
             }
-            else
+            catch (SQLException ex)
             {
-                throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
+                throw new DALException(ex.getMessage(), ex.getCause());
             }
         }
-        catch (SQLException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            throw new DALException("Cannot delete song from Main Playlist!");
         }
     }
 

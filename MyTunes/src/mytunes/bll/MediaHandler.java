@@ -301,7 +301,7 @@ public class MediaHandler
             try
             {
                 audioMedia = new AudioMedia(new File(songs.get(index).getPath()));
-                if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("mp4") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
+                if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
                 {
                     player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble);
                 }
@@ -309,16 +309,6 @@ public class MediaHandler
                 {
                     player = new FlacPlayer(currentTimeInDouble, durationTimeInDouble);
                     player.setSong(songs.get(index));
-                }
-                else if (audioMedia.getExtension().equalsIgnoreCase("ogg"))
-                {
-                    System.out.println("No ogg player available");
-                    return;
-                }
-                else if (audioMedia.getExtension().equalsIgnoreCase("wma"))
-                {
-                    System.out.println("No wma player available");
-                    return;
                 }
                 else
                 {
