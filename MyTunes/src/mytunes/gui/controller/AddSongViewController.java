@@ -74,7 +74,6 @@ public class AddSongViewController implements Initializable {
         try {
             model = MainWindowModel.getInstance();
             model.setCurrentAddMenu("song");
-            yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
         } catch (BLLException ex) {

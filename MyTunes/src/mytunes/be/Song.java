@@ -143,7 +143,7 @@ public class Song
      *
      * @return string path
      */
-    public String getpath()
+    public String getPath()
     {
         return path;
     }

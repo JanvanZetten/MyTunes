@@ -300,7 +300,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
         {
             try
             {
-                audioPath = song.getpath();
+                audioPath = song.getPath();
                 is = new FileInputStream(audioPath);
                 decoder = new FLACDecoder(is);
                 StreamInfo si = decoder.readStreamInfo();

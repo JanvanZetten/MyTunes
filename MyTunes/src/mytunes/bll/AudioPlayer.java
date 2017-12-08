@@ -31,11 +31,11 @@ public class AudioPlayer implements Player
         // Load new media.
         try
         {
-            sound = new Media(new File(song.getpath()).toURI().toString());
+            sound = new Media(new File(song.getPath()).toURI().toString());
         }
         catch (MediaException ex)
         {
-            throw new BLLException("Loading new media: " + song.getpath() + ", " + ex.getMessage(), ex.getCause());
+            throw new BLLException("Loading new media: " + song.getPath() + ", " + ex.getMessage(), ex.getCause());
         }
 
         mediaPlayer = new MediaPlayer(sound);
@@ -122,11 +122,11 @@ public class AudioPlayer implements Player
         // Load new media.
         try
         {
-            sound = new Media(new File(song.getpath()).toURI().toString());
+            sound = new Media(new File(song.getPath()).toURI().toString());
         }
         catch (MediaException ex)
         {
-            throw new BLLException("Loading new media: " + song.getpath() + ", " + ex.getMessage(), ex.getCause());
+            throw new BLLException("Loading new media: " + song.getPath() + ", " + ex.getMessage(), ex.getCause());
         }
     }
 }

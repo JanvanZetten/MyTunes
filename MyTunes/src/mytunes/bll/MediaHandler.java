@@ -301,7 +301,7 @@ public class MediaHandler
             }
             try
             {
-                audioMedia = new AudioMedia(new File(songs.get(index).getpath()));
+                audioMedia = new AudioMedia(new File(songs.get(index).getPath()));
                 if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("mp4") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
                 {
                     player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble);
@@ -328,7 +328,7 @@ public class MediaHandler
             }
             catch (DALException ex)
             {
-                throw new BLLException("Loading new media: " + songs.get(index).getpath() + ", " + ex.getMessage(), ex.getCause());
+                throw new BLLException("Loading new media: " + songs.get(index).getPath() + ", " + ex.getMessage(), ex.getCause());
             }
 
             player.setVolume(currentVolume);
