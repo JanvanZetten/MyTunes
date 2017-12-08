@@ -5,12 +5,13 @@
  */
 package mytunes.gui.controller;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.*;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -41,7 +42,8 @@ import mytunes.gui.model.MainWindowModel;
  *
  * @author Alex
  */
-public class EditSongViewController implements Initializable {
+public class EditSongViewController implements Initializable
+{
 
     @FXML
     private TextField txtfieldTitle;
@@ -74,8 +76,10 @@ public class EditSongViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        try
+        {
             model = MainWindowModel.getInstance();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
@@ -84,7 +88,9 @@ public class EditSongViewController implements Initializable {
             selectedFile = preset;
             directory();
 
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -94,20 +100,22 @@ public class EditSongViewController implements Initializable {
      * and then closes the window.
      */
     @FXML
-    private void handleEditSongAction() throws BLLException, IOException {
+    private void handleEditSongAction() throws BLLException, IOException
+    {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
 
         System.out.println(selectedFile);
 
         if ((!txtfieldArtist.getText().isEmpty())
-             && (!txtfieldTitle.getText().isEmpty())
-             && (!txtfieldAlbum.getText().isEmpty())
-             && (yearInInt != 0)
-             && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
-             && (!txtfieldFileLocation.getText().isEmpty())
-             && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
-             || txtfieldFileLocation.getText().equals(lastPart)) {
+                && (!txtfieldTitle.getText().isEmpty())
+                && (!txtfieldAlbum.getText().isEmpty())
+                && (yearInInt != 0)
+                && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
+                && (!txtfieldFileLocation.getText().isEmpty())
+                && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
+                || txtfieldFileLocation.getText().equals(lastPart))
+        {
 
             model.editSongInformation(model.getChosenSong().getSongId(),
                     txtfieldArtist.getText(),
@@ -116,15 +124,19 @@ public class EditSongViewController implements Initializable {
                     yearInInt,
                     cmboboxGenre.getSelectionModel().getSelectedItem(),
                     directory());
-            if (newFileSelected == true) {
-                if (!from.toString().equals(to.toString())) {
-                    Files.copy(from.toFile(), to.toFile());
+            if (newFileSelected == true)
+            {
+                if (!from.toString().equals(to.toString()))
+                {
+                    Files.copy(from, to, REPLACE_EXISTING);
                 }
             }
             Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
             stage.close();
 
-        } else {
+        }
+        else
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "The song cannot be edited. Please fill out all the fields.", ButtonType.OK);
             alert.showAndWait();
         }
@@ -135,7 +147,8 @@ public class EditSongViewController implements Initializable {
      * Handles and opens a file searcher so a file path can be found.
      */
     @FXML
-    private void handleFileLocationSearcher() throws IOException {
+    private void handleFileLocationSearcher() throws IOException
+    {
         FileChooser fc = new FileChooser();
         String currentDir = System.getProperty("user.dir") + File.separator;
         File dir = new File(currentDir);
@@ -143,7 +156,8 @@ public class EditSongViewController implements Initializable {
         fc.setTitle("Attach a file");
         selectedFile = fc.showOpenDialog(null);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/music/" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.getName());
@@ -153,19 +167,23 @@ public class EditSongViewController implements Initializable {
 
     /**
      * If no new file has been selected through the FileChooser, then the
-     * program needs to cut down the file path so that only the name of the
-     * file is selected. If another file is selected through the FileChooser, 
-     * then it proceeds as normal.
-     * @return 
+     * program needs to cut down the file path so that only the name of the file
+     * is selected. If another file is selected through the FileChooser, then it
+     * proceeds as normal.
+     * @return
      */
-    private String directory() {
-        if (newFileSelected == false) {
+    private String directory()
+    {
+        if (newFileSelected == false)
+        {
             File dir = new File(selectedFile + "");
             String[] splitDir = dir.toString().split("\\\\");
             lastPart = splitDir[splitDir.length - 1];
             txtfieldFileLocation.setText(lastPart);
             return lastPart;
-        } else if (newFileSelected == true) {
+        }
+        else if (newFileSelected == true)
+        {
             return "music/" + selectedFile;
         }
         return "Nothing";
@@ -175,7 +193,8 @@ public class EditSongViewController implements Initializable {
      * Handles the button that adds a new genre to the database.
      */
     @FXML
-    private void handleAddGenreAction(ActionEvent event) throws BLLException {
+    private void handleAddGenreAction(ActionEvent event) throws BLLException
+    {
         model.addGenre(txtfieldNewGenre.getText());
         genreGetter();
         cmboboxGenre.getSelectionModel().selectLast();
@@ -184,13 +203,20 @@ public class EditSongViewController implements Initializable {
     /**
      * Converts the year strings into int for database use.
      */
-    private void stringToInt(String s) {
-        if (s.equals("Unknown")) {
+    private void stringToInt(String s)
+    {
+        if (s.equals("Unknown"))
+        {
             yearInInt = -1;
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 yearInInt = Integer.parseInt(s);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e)
+            {
             }
         }
     }
@@ -199,10 +225,12 @@ public class EditSongViewController implements Initializable {
      * Takes the current year from the calendar and adds all years down to 1700
      * to the cmboboxYear.
      */
-    private ObservableList<String> yearGenerator() {
+    private ObservableList<String> yearGenerator()
+    {
         int yearCounter = Calendar.getInstance().get(Calendar.YEAR);
         yearOL.add("Unknown");
-        for (int i = yearCounter; i >= 1700; i--) {
+        for (int i = yearCounter; i >= 1700; i--)
+        {
             yearOL.add(i + "");
         }
         return yearOL;
@@ -211,7 +239,8 @@ public class EditSongViewController implements Initializable {
     /**
      * Gets and sets all the genres that are available into a combo box.
      */
-    private void genreGetter() throws BLLException {
+    private void genreGetter() throws BLLException
+    {
         model.getAllGenres();
         genreOL = model.getGenres();
         cmboboxGenre.setItems(genreOL);
@@ -220,14 +249,18 @@ public class EditSongViewController implements Initializable {
     /**
      * Presets the information about the song into the text fields.
      */
-    private void textSetter() {
+    private void textSetter()
+    {
         txtfieldTitle.setText(model.getChosenSong().getTitle());
         txtfieldArtist.setText(model.getChosenSong().getArtist());
         txtfieldAlbum.setText(model.getChosenSong().getAlbum());
         cmboboxGenre.setValue(model.getChosenSong().getGenre());
-        if (model.getChosenSong().getYear() == -1) {
+        if (model.getChosenSong().getYear() == -1)
+        {
             cmboboxYear.setValue("Unknown");
-        } else {
+        }
+        else
+        {
             cmboboxYear.setValue(model.getChosenSong().getYear() + "");
         }
         txtfieldFileLocation.setText(model.getChosenSong().getPath());

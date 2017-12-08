@@ -5,12 +5,13 @@
  */
 package mytunes.gui.controller;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.*;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -150,7 +151,7 @@ public class AddSongViewController implements Initializable
                                             "music/" + selectedFile.getName());
                                     if (!from.toString().equals(to.toString()))
                                     {
-                                        Files.copy(from.toFile(), to.toFile());
+                                        Files.copy(from, to, REPLACE_EXISTING);
                                     }
 
                                     Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
