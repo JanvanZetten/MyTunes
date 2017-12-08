@@ -298,7 +298,7 @@ public class AudioMedia
                 extension = "";
             }
         }
-        catch (NumberFormatException | CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ex)
+        catch (Exception ex)
         {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
