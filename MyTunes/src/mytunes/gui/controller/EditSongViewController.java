@@ -101,13 +101,13 @@ public class EditSongViewController implements Initializable {
         System.out.println(selectedFile);
 
         if ((!txtfieldArtist.getText().isEmpty())
-                && (!txtfieldTitle.getText().isEmpty())
-                && (!txtfieldAlbum.getText().isEmpty())
-                && (yearInInt != 0)
-                && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
-                && (!txtfieldFileLocation.getText().isEmpty())
-                && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
-                || txtfieldFileLocation.getText().equals(lastPart)) {
+             && (!txtfieldTitle.getText().isEmpty())
+             && (!txtfieldAlbum.getText().isEmpty())
+             && (yearInInt != 0)
+             && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
+             && (!txtfieldFileLocation.getText().isEmpty())
+             && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
+             || txtfieldFileLocation.getText().equals(lastPart)) {
 
             model.editSongInformation(model.getChosenSong().getSongId(),
                     txtfieldArtist.getText(),
@@ -151,6 +151,13 @@ public class EditSongViewController implements Initializable {
         }
     }
 
+    /**
+     * If no new file has been selected through the FileChooser, then the
+     * program needs to cut down the file path so that only the name of the
+     * file is selected. If another file is selected through the FileChooser, 
+     * then it proceeds as normal.
+     * @return 
+     */
     private String directory() {
         if (newFileSelected == false) {
             File dir = new File(selectedFile + "");
