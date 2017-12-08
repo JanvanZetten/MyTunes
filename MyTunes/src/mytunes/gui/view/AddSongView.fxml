@@ -11,26 +11,26 @@
 <AnchorPane id="AnchorPane" prefHeight="337.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.AddSongViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91aab4" height="64.0" layoutX="-2.0" layoutY="-19.0" stroke="#91aab4" strokeType="INSIDE" width="428.0" />
-      <TextField fx:id="txtfieldTitle" layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="192.0" promptText="Title..." />
-      <TextField fx:id="txtfieldArtist" layoutX="132.0" layoutY="115.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
-      <ComboBox fx:id="cmboboxGenre" layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" />
-      <TextField fx:id="txtfieldNewGenre" layoutX="232.0" layoutY="150.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
-      <Button fx:id="btnAddGenre" layoutX="336.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleAddGenreAction" prefHeight="25.0" prefWidth="55.0" text="Add" />
-      <ComboBox fx:id="cmboboxYear" layoutX="132.0" layoutY="183.0" prefHeight="25.0" prefWidth="92.0" />
-      <TextField fx:id="txtfieldAlbum" layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
-      <TextField fx:id="txtfieldFileLocation" layoutX="132.0" layoutY="254.0" prefHeight="25.0" prefWidth="192.0" />
-      <Button fx:id="btnFileLocation" layoutX="336.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleFileLocationSearcher" text="Browse" />
+      <TextField fx:id="txtfieldTitle" layoutX="132.0" layoutY="114.0" prefHeight="25.0" prefWidth="192.0" promptText="Title..." />
+      <TextField fx:id="txtfieldArtist" layoutX="132.0" layoutY="150.0" prefHeight="25.0" prefWidth="192.0" promptText="Artist..." />
+      <ComboBox fx:id="cmboboxGenre" layoutX="132.0" layoutY="185.0" prefHeight="25.0" prefWidth="92.0" />
+      <TextField fx:id="txtfieldNewGenre" layoutX="232.0" layoutY="185.0" prefHeight="25.0" prefWidth="92.0" promptText="New genre..." />
+      <Button fx:id="btnAddGenre" layoutX="336.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleAddGenreAction" prefHeight="25.0" prefWidth="55.0" text="Add" />
+      <ComboBox fx:id="cmboboxYear" layoutX="132.0" layoutY="218.0" prefHeight="25.0" prefWidth="92.0" />
+      <TextField fx:id="txtfieldAlbum" layoutX="132.0" layoutY="253.0" prefHeight="25.0" prefWidth="192.0" promptText="Album..." />
       <Button fx:id="btnSaveChanges" layoutX="132.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleAddSongAction" text="Add song" />
       <Label layoutX="142.0" layoutY="6.0" text="Add new song" textFill="#193441">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="92.0" layoutY="83.0" text="Title:" textFill="#193441" />
-      <Label layoutX="86.0" layoutY="119.0" text="Artist:" textFill="#193441" />
-      <Label layoutX="84.0" layoutY="154.0" text="Genre:" textFill="#193441" />
-      <Label layoutX="92.0" layoutY="187.0" text="Year:" textFill="#193441" />
-      <Label layoutX="83.0" layoutY="222.0" text="Album:" textFill="#193441" />
-      <Label layoutX="53.0" layoutY="258.0" text="File location:" textFill="#193441" />
+      <Label layoutX="92.0" layoutY="118.0" text="Title:" textFill="#193441" />
+      <Label layoutX="86.0" layoutY="154.0" text="Artist:" textFill="#193441" />
+      <Label layoutX="84.0" layoutY="189.0" text="Genre:" textFill="#193441" />
+      <Label layoutX="92.0" layoutY="222.0" text="Year:" textFill="#193441" />
+      <Label layoutX="83.0" layoutY="257.0" text="Album:" textFill="#193441" />
+      <Label layoutX="53.0" layoutY="83.0" text="File location:" textFill="#193441" />
+      <TextField fx:id="txtfieldFileLocation" layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="192.0" />
+      <Button fx:id="btnFileLocation" layoutX="336.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleFileLocationSearcher" text="Browse" />
    </children>
 </AnchorPane>
