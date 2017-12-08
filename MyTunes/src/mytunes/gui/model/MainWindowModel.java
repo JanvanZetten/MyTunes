@@ -43,6 +43,7 @@ public class MainWindowModel
     private MediaHandler mediaHandler;
     private ObservableList<Playlist> playlists;
     private ObservableList<Genre> genres;
+    private ObservableList<Song> shownSongs;
     private String selectedElement;
     private String currentAddMenu;
     private Song chosenSong;
@@ -74,6 +75,7 @@ public class MainWindowModel
             mediaHandler = new MediaHandler();
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
+            shownSongs = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
             setChosenPlaylist(playlists.get(0));
         }
@@ -119,7 +121,8 @@ public class MainWindowModel
      */
     public ObservableList<Song> getSongs()
     {
-        return mediaHandler.getSongs();
+        //return mediaHandler.getSongs();
+        return shownSongs;
     }
 
     /**
@@ -190,15 +193,18 @@ public class MainWindowModel
      */
     public void setSongs(Playlist selectedItem)
     {
-        try
-        {
-            mediaHandler.setSongs(selectedItem);
-        }
-        catch (BLLException ex)
-        {
-            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
+       // try
+       // {
+            //mediaHandler.setSongs(selectedItem);
+            shownSongs.clear();
+            shownSongs.addAll(selectedItem.getSongs());
+            
+//        }
+//        catch (BLLException ex)
+//        {
+//            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
+//            alert.showAndWait();
+//        }
     }
 
     /**
@@ -349,13 +355,13 @@ public class MainWindowModel
     public void filterSongList(String text)
     {
         List<Song> songsList = new ArrayList<>();
-        songsList.addAll(mediaHandler.getSongs());
-        mediaHandler.getSongs().clear();
+        songsList.addAll(shownSongs);
+        shownSongs.clear();
         for (Song song : songsList)
         {
             if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase()))
             {
-                mediaHandler.getSongs().add(song);
+                shownSongs.add(song);
             }
         }
     }
@@ -465,7 +471,7 @@ public class MainWindowModel
     {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
-        mediaHandler.setSongs(playlist);
+        //mediaHandler.setSongs(playlist);
 
     }
 
@@ -481,7 +487,7 @@ public class MainWindowModel
     public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException
     {
         List<Song> songsholder = new ArrayList<>();
-        songsholder.addAll(mediaHandler.getSongs());
+        songsholder.addAll(shownSongs);
 
         int index = songsholder.indexOf(selectedItem);
         if (index - i >= 0 && index - i + 1 <= songsholder.size())
@@ -489,8 +495,8 @@ public class MainWindowModel
             Song song = songsholder.get(index);
             songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
-            mediaHandler.getSongs().clear();
-            mediaHandler.getSongs().addAll(songsholder);
+            shownSongs.clear();
+            shownSongs.addAll(songsholder);
             bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
             return index;
         }
@@ -514,7 +520,7 @@ public class MainWindowModel
             if (chosenPlaylist.getPlaylistId() == 1)
             {
                 bllManager.deleteSong(chosenSong.getSongId());
-                mediaHandler.getSongs().remove(chosenSong);
+                shownSongs.remove(chosenSong);
             }
             else
             {
@@ -619,5 +625,13 @@ public class MainWindowModel
                 mediaHandler.setProgressing(true);
             }
         });
+    }
+    
+    /**
+     * Sets the currently shown songs for playing
+     */
+    public void setCurrentShownSongsForPlaying(){
+        mediaHandler.getSongs().clear();
+        mediaHandler.getSongs().addAll(shownSongs);
     }
 }
