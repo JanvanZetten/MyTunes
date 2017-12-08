@@ -251,10 +251,12 @@ public class DatabaseDAO implements DAO
             {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
-                Song newSong = new Song(rs.getInt(1), title, artist, directory);
+                int id = rs.getInt(1);
+                Song newSong = new Song(id, title, artist, directory);
                 newSong.setAlbum(album);
                 newSong.setYear(year);
                 newSong.setGenre(genre);
+                addSongToPlaylist(new Playlist(1, "My Library"), newSong);
                 return newSong;
             }
             else
@@ -514,6 +516,7 @@ public class DatabaseDAO implements DAO
 
             if (statement.executeUpdate() == 1)
             {
+                deleteSongInPlaylist(songId, 1);
                 return true;
             }
             else
@@ -651,11 +654,11 @@ public class DatabaseDAO implements DAO
         {
             String sql = "SELECT sipId FROM SongsInPlaylist WHERE songId=? AND playlistId=?;";
 
-            PreparedStatement statement = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-            
+            PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
             statement.setInt(1, songId);
             statement.setInt(2, playlistId);
-            
+
             ResultSet rs = statement.executeQuery();
             rs.next();
             int id = rs.getInt("sipID");
