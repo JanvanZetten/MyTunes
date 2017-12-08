@@ -193,8 +193,8 @@ public class MainWindowModel
      */
     public void setSongs(Playlist selectedItem)
     {
-       // try
-       // {
+//        try
+//        {
             //mediaHandler.setSongs(selectedItem);
             shownSongs.clear();
             shownSongs.addAll(selectedItem.getSongs());
@@ -631,7 +631,12 @@ public class MainWindowModel
      * Sets the currently shown songs for playing
      */
     public void setCurrentShownSongsForPlaying(){
-        mediaHandler.getSongs().clear();
-        mediaHandler.getSongs().addAll(shownSongs);
+        try {
+            mediaHandler.setSongs(shownSongs);
+        } catch (BLLException ex) {
+            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
+            alert.showAndWait();
+        }
+        
     }
 }
