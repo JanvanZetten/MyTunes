@@ -19,7 +19,7 @@ public class Song
     private int year;
     private Genre genre;
     private final String path;
-    private double duration;
+    private String duration;
 
     public Song(int songId, String title, String artist, String path)
     {
@@ -86,7 +86,20 @@ public class Song
      */
     public void setDuration(double duration)
     {
-        this.duration = duration;
+        int min;
+        int sec;
+        min = (int) duration / 60;
+        sec = (int) duration % 60;
+
+        if (sec > 9)
+        {
+            this.duration = min + ":" + sec;
+        }
+        else
+        {
+
+            this.duration = min + ":0" + sec;
+        }
     }
 
     /**
@@ -164,7 +177,7 @@ public class Song
      *
      * @return string duration
      */
-    public double getDuration()
+    public String getDuration()
     {
         return duration;
     }

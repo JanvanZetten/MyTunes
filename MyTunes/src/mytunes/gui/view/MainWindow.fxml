@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
+<AnchorPane id="AnchorPane" minHeight="606.0" minWidth="836.0" prefHeight="606.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MainWindowController">
     <children>
       <StackPane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -216,6 +216,7 @@
                       <TableColumn fx:id="tblviewAlbum" prefWidth="160.0" text="Album" />
                       <TableColumn fx:id="tblviewGenre" prefWidth="116.0" text="Genre" />
                       <TableColumn fx:id="tblviewYear" prefWidth="69.0" text="Year" />
+                  <TableColumn fx:id="tblviewTime" prefWidth="69.0" text="Time" />
                   </columns>
               </TableView>
          </children>
