@@ -5,21 +5,319 @@
  */
 package mytunes.dal;
 
+import java.util.List;
+import mytunes.be.Genre;
+import mytunes.be.Playlist;
+import mytunes.be.Song;
+
 /**
  *
  * @author janvanzetten
  */
 public class DALManager
 {
-    DAO dao;
+    DAO databaseDAO;
 
     public DALManager() throws DALException
     {
-        dao = new DatabaseDAO();
+        databaseDAO = new DatabaseDAO();
     }
 
-    public DAO getDAO()
+    /**
+     * Get all Playlists in data.
+     *
+     * @return A list of Playlist objects.
+     * @throws DALException
+     */
+    public List<Playlist> getAllPlaylists() throws DALException
     {
-        return dao;
+        try
+        {
+            return databaseDAO.getAllPlaylists();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Get all Songs in data.
+     *
+     * @return A list of Song objects
+     * @throws DALException
+     */
+    public List<Song> getAllSongs() throws DALException
+    {
+        try
+        {
+            return databaseDAO.getAllSongs();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Get all genres in data.
+     *
+     * @return A list of Genre.
+     * @throws DALException
+     */
+    public List<Genre> getAllGenres() throws DALException
+    {
+        try
+        {
+            return databaseDAO.getAllGenres();
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Add new Genre to data and return the new genre.
+     *
+     * @param genre new genre to add.
+     * @return Genre object with new information.
+     * @throws DALException
+     */
+    public Genre addGenre(String genre) throws DALException
+    {
+        try
+        {
+            return databaseDAO.addGenre(genre);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Add new Song to data and return the new song.
+     *
+     * @param artist new artist of song.
+     * @param title new title of song.
+     * @param album new album of song.
+     * @param year new year of song.
+     * @param genre new genre of song.
+     * @param directory new directory of song.
+     * @return Song object with new information.
+     * @throws DALException
+     */
+    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException
+    {
+        try
+        {
+            return databaseDAO.addSong(artist, title, album, year, genre, directory);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Add new Playlist to data and return the new playlist.
+     *
+     * @param name new name of playlist.
+     * @return Playlist object with new information.
+     * @throws DALException
+     */
+    public Playlist addPlaylist(String name) throws DALException
+    {
+        try
+        {
+            return databaseDAO.addPlaylist(name);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Add a Song to a Playlist in data.
+     *
+     * @param playlist wanted to add to.
+     * @param song wanted added.
+     * @return true if song was added to playlist.
+     * @throws DALException
+     */
+    public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException
+    {
+        try
+        {
+            return databaseDAO.addSongToPlaylist(playlist, song);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Update Genre in data and return the updated genre.
+     *
+     * @param genreId genre wanted renamed.
+     * @param genre new genre.
+     * @return updated Genre object.
+     * @throws DALException
+     */
+    public Genre updateGenre(int genreId, String genre) throws DALException
+    {
+        try
+        {
+            return databaseDAO.updateGenre(genreId, genre);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Update Song in data and return the updated song.
+     *
+     * @param songId Id of song wanted updated.
+     * @param artist new artist of song.
+     * @param title new title of song.
+     * @param album new album of song.
+     * @param year new year of song.
+     * @param genre new genre of song.
+     * @param directory new directory of song.
+     * @return Song object with new information.
+     * @throws DALException
+     */
+    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException
+    {
+        try
+        {
+            return databaseDAO.updateSong(songId, artist, title, album, year, genre, directory);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Update Playlist in data and return the updated playlist.
+     *
+     * @param playlistId Id of playlist wanted updated.
+     * @param name new name of playlist.
+     * @return Playlist object with new information.
+     * @throws DALException
+     */
+    public Playlist updatePlaylist(int playlistId, String name) throws DALException
+    {
+        try
+        {
+            return databaseDAO.updatePlaylist(playlistId, name);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Delete Genre from data and return true if operation succeeded.
+     *
+     * @param genreId genre wanted removed.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    public boolean deleteGenre(int genreId) throws DALException
+    {
+        try
+        {
+            return databaseDAO.deleteGenre(genreId);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Delete Song from data and return true if operation succeeded.
+     *
+     * @param songId song wanted removed.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    public boolean deleteSong(int songId) throws DALException
+    {
+        try
+        {
+            return databaseDAO.deleteSong(songId);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Delete Playlist from data and return true if operation succeeded.
+     *
+     * @param playlistId playlist wanted removed.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    public boolean deletePlaylist(int playlistId) throws DALException
+    {
+        try
+        {
+            return databaseDAO.deletePlaylist(playlistId);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * Delete Song from Playlist in data and return true if operation succeeded.
+     *
+     * @param songId song wanted removed from playlist.
+     * @param playlistId playlist wanted song removed from.
+     * @return succession boolean.
+     * @throws DALException
+     */
+    public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
+    {
+        try
+        {
+            return databaseDAO.deleteSongInPlaylist(songId, playlistId);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    /**
+     * swab the placement of two songs in a playlist in the database
+     * @param firstSongId
+     * @param secondSongId
+     * @param playlistId
+     * @return
+     * @throws DALException
+     */
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException
+    {
+        try
+        {
+            return databaseDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+        }
+        catch (DALException ex)
+        {
+            throw new DALException(ex.getMessage(), ex.getCause());
+        }
     }
 }

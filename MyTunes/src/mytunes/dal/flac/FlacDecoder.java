@@ -18,8 +18,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 import mytunes.be.Song;
-import mytunes.bll.BLLException;
-import mytunes.bll.Player;
+import mytunes.dal.DALException;
 
 import org.jflac.FrameListener;
 import org.jflac.PCMProcessor;
@@ -36,7 +35,7 @@ import org.jflac.util.ByteData;
  * 1.5.3.
  * @author Asbamz
  */
-public class FlacPlayer implements PCMProcessor, FrameListener, Player
+public class FlacDecoder implements PCMProcessor, FrameListener
 {
     private final SimpleDoubleProperty currentTime;
     private final SimpleDoubleProperty durationTime;
@@ -51,7 +50,6 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     private SourceDataLine line;
     private String audioPath;
     private FLACDecoder decoder;
-    private FileInputStream is;
     private FlacRunnable fr;
     private FlacProgressListener fpl;
 
@@ -62,9 +60,8 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
      * Setup flac player.
      * @param currentTime
      * @param durationTime
-     * @throws BLLException
      */
-    public FlacPlayer(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime) throws BLLException
+    public FlacDecoder(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime)
     {
         this.currentTime = currentTime;
         this.durationTime = durationTime;
@@ -73,7 +70,6 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     /**
      * Process the StreamInfo block.
      * @param streamInfo the StreamInfo block
-     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Override
     public void processStreamInfo(StreamInfo streamInfo)
@@ -129,7 +125,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     @Override
     public void processError(String msg)
     {
-        System.out.println("FLAC Error: " + msg);
+        //System.out.println("FLAC Error: " + msg);
     }
 
     /**
@@ -145,7 +141,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
         RandomFileInputStream is = new RandomFileInputStream(audioPath);
 
         // Setup decoder.
-        FLACDecoder decoder = new FLACDecoder(is);
+        decoder = new FLACDecoder(is);
         decoder.addPCMProcessor(this);
         decoder.addFrameListener(this);
         decoder.readMetadata();
@@ -192,10 +188,9 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
 
     /**
      * Play loaded media.
-     * @throws BLLException
+     * @throws DALException
      */
-    @Override
-    public void playMedia() throws BLLException
+    public void playMedia() throws DALException
     {
         // If the thread t is not instantiated.
         if (t == null)
@@ -207,7 +202,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
             }
             catch (IOException | LineUnavailableException ex)
             {
-                throw new BLLException("Playing Flac: " + ex.getMessage(), ex.getCause());
+                throw new DALException("Playing Flac: " + ex.getMessage(), ex.getCause());
             }
         }
         else
@@ -220,7 +215,6 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     /**
      * Pause decoding.
      */
-    @Override
     public void pauseMedia()
     {
         // If the thread t is instantiated.
@@ -234,7 +228,6 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     /**
      * Stop decoding.
      */
-    @Override
     public void stopMedia()
     {
         // If the thread t is instantiated.
@@ -256,10 +249,9 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     /**
      * Seek media.
      * @param duration
-     * @throws BLLException
+     * @throws DALException
      */
-    @Override
-    public void seekMedia(double duration) throws BLLException
+    public void seekMedia(double duration) throws DALException
     {
         // If the thread t is not instantiated.
         if (t == null)
@@ -277,7 +269,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
             }
             catch (IOException | LineUnavailableException ex)
             {
-                throw new BLLException("Playing Flac: " + ex.getMessage(), ex.getCause());
+                throw new DALException("Seek in Flac: " + ex.getMessage(), ex.getCause());
             }
         }
         else
@@ -290,10 +282,9 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
     /**
      * Add song to FileInputStream.
      * @param song.
-     * @throws BLLException
+     * @throws DALException
      */
-    @Override
-    public void setSong(Song song) throws BLLException
+    public void setSong(Song song) throws DALException
     {
         // If the thread t is not instantiated.
         if (t == null)
@@ -301,7 +292,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
             try
             {
                 audioPath = song.getPath();
-                is = new FileInputStream(audioPath);
+                FileInputStream is = new FileInputStream(audioPath);
                 decoder = new FLACDecoder(is);
                 StreamInfo si = decoder.readStreamInfo();
 
@@ -312,7 +303,7 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
             }
             catch (IOException ex)
             {
-                throw new BLLException("Loading FLAC: " + ex.getMessage(), ex.getCause());
+                throw new DALException("Loading Flac: " + ex.getMessage(), ex.getCause());
             }
         }
         else
@@ -326,7 +317,6 @@ public class FlacPlayer implements PCMProcessor, FrameListener, Player
      * Sets volume of SourceDataLine.
      * @param value between 0 and 100.
      */
-    @Override
     public void setVolume(double value)
     {
         // If line exists.

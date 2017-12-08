@@ -17,7 +17,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
-import mytunes.dal.flac.FlacPlayer;
+import mytunes.dal.flac.FlacDecoder;
 
 /**
  *
@@ -159,7 +159,7 @@ public class MediaHandler
     }
 
     /**
-     * set the songs from the given list in the observablelist. 
+     * set the songs from the given list in the observablelist.
      *
      * @param selectedItem the list of songs from which to take the song
      * @throws mytunes.bll.BLLException

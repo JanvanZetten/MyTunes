@@ -82,7 +82,7 @@ public class Song
     /**
      * set the duration of the song.
      *
-     * @param duration as double.
+     * @param duration as double seconds.
      */
     public void setDuration(double duration)
     {
@@ -97,7 +97,6 @@ public class Song
         }
         else
         {
-
             this.duration = min + ":0" + sec;
         }
     }

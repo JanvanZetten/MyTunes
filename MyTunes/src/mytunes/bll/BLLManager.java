@@ -6,8 +6,6 @@
 package mytunes.bll;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -44,7 +42,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().getAllPlaylists();
+            return dalManager.getAllPlaylists();
         }
         catch (DALException ex)
         {
@@ -62,7 +60,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().getAllSongs();
+            return dalManager.getAllSongs();
         }
         catch (DALException ex)
         {
@@ -80,7 +78,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().getAllGenres();
+            return dalManager.getAllGenres();
         }
         catch (DALException ex)
         {
@@ -99,7 +97,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().addGenre(genre);
+            return dalManager.addGenre(genre);
         }
         catch (DALException ex)
         {
@@ -123,7 +121,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().addSong(artist, title, album, year, genre, directory);
+            return dalManager.addSong(artist, title, album, year, genre, directory);
         }
         catch (DALException ex)
         {
@@ -142,7 +140,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().addPlaylist(name);
+            return dalManager.addPlaylist(name);
         }
         catch (DALException ex)
         {
@@ -162,7 +160,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().addSongToPlaylist(playlist, song);
+            return dalManager.addSongToPlaylist(playlist, song);
         }
         catch (DALException ex)
         {
@@ -182,7 +180,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().updateGenre(genreId, genre);
+            return dalManager.updateGenre(genreId, genre);
         }
         catch (DALException ex)
         {
@@ -207,7 +205,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().updateSong(songId, artist, title, album, year, genre, directory);
+            return dalManager.updateSong(songId, artist, title, album, year, genre, directory);
         }
         catch (DALException ex)
         {
@@ -227,7 +225,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().updatePlaylist(playlistId, name);
+            return dalManager.updatePlaylist(playlistId, name);
         }
         catch (DALException ex)
         {
@@ -246,7 +244,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().deleteGenre(genreId);
+            return dalManager.deleteGenre(genreId);
         }
         catch (DALException ex)
         {
@@ -265,7 +263,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().deleteSong(songId);
+            return dalManager.deleteSong(songId);
         }
         catch (DALException ex)
         {
@@ -284,7 +282,7 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().deletePlaylist(playlistId);
+            return dalManager.deletePlaylist(playlistId);
         }
         catch (DALException ex)
         {
@@ -304,29 +302,31 @@ public class BLLManager
     {
         try
         {
-            return dalManager.getDAO().deleteSongInPlaylist(songId, playlistId);
+            return dalManager.deleteSongInPlaylist(songId, playlistId);
         }
         catch (DALException ex)
         {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
-    
-    
+
     /**
      * swab the placement of two songs in a playlist in the database
      * @param firstSongId
      * @param secondSongId
      * @param playlistId
-     * @return 
-     * @throws BLLException 
+     * @return
+     * @throws BLLException
      */
-     public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException{
-        try {
-            return dalManager.getDAO().swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
-        } catch (DALException ex) {
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException
+    {
+        try
+        {
+            return dalManager.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+        }
+        catch (DALException ex)
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
-     }
-
+    }
 }
