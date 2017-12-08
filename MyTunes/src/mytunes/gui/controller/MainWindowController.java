@@ -154,7 +154,7 @@ public class MainWindowController implements Initializable {
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
-        
+
         model.setCurrentShownSongsForPlaying();
 
     }
@@ -418,8 +418,8 @@ public class MainWindowController implements Initializable {
     private void contextSongMenuHandler() {
         //Plays the selected song.
         MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction((ActionEvent e) ->
-        {
+        item1.setOnAction((ActionEvent e)
+                -> {
             model.setCurrentShownSongsForPlaying();
             model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
             if (!model.isPlaying()) {
@@ -558,12 +558,9 @@ public class MainWindowController implements Initializable {
      *
      * @param event
      */
-    private void doubleClickTblview(MouseEvent event)
-    {
-        if (event.getButton().equals(MouseButton.PRIMARY))
-        {
-            if (event.getClickCount() == 2)
-            {
+    private void doubleClickTblview(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            if (event.getClickCount() == 2) {
                 model.setCurrentShownSongsForPlaying();
                 model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
                 if (!model.isPlaying()) {
