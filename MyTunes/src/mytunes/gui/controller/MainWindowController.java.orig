@@ -101,8 +101,7 @@ public class MainWindowController implements Initializable {
     private Button Btnshuffle;
     @FXML
     private ImageView imageviewPlayPause;
-    
-    
+
     MainWindowModel model;
     @FXML
     private Slider musicSlider;
@@ -125,7 +124,7 @@ public class MainWindowController implements Initializable {
         lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
         lblCurrentTime.textProperty().bind(Bindings.convert(model.getCurrentTime()));
         lblTotalTimeSong.textProperty().bind(Bindings.convert(model.getDurationTime()));
-        progressBar.progressProperty().bind(model.getProgress());
+        progressBar.progressProperty().bind(model.getProgress().add(0.01));
 
         //add the songs to the view
         tblviewSong.setCellValueFactory(
@@ -142,13 +141,11 @@ public class MainWindowController implements Initializable {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Song, String> param) {
                 if (param.getValue().getYear() == -1) {
                     return new ReadOnlyObjectWrapper<>("Unknown");
-                }
-                else {
+                } else {
                     return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
                 }
             }
         });
-        
 
         //volumeSlider
         model.volumeSliderSetup(volumeSlider);
@@ -158,6 +155,8 @@ public class MainWindowController implements Initializable {
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
         
+        model.setCurrentShownSongsForPlaying();
+
     }
 
     /**
@@ -175,7 +174,7 @@ public class MainWindowController implements Initializable {
         tblviewMaster.setItems(model.getSongs());
         listViewPlaylists.setItems(model.getPlaylists());
         model.addAllPlaylistsToGUI();
-        setSongsOnTableview(model.getAllSongsPlaylist());
+        setSongsOnTableview(model.getChosenPlaylist());
     }
 
     /**
@@ -255,8 +254,9 @@ public class MainWindowController implements Initializable {
     @FXML
     private void deletePlaylistAction() throws IOException, BLLException {
         if (listViewPlaylists.getSelectionModel().getSelectedItem() != null) {
-            if (listViewPlaylists.getSelectionModel().getSelectedItem().getName() == "My Library") {
-                startModalWindow("CannotDeleteView");
+            if (listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId() == 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "This playlist cannot be deleted.", ButtonType.OK);
+                alert.showAndWait();
             } else {
                 model.selectedDeletedElements(listViewPlaylists.getSelectionModel().getSelectedItem().getName());
                 model.setSongOrPlaylist("Playlist");
@@ -285,7 +285,7 @@ public class MainWindowController implements Initializable {
             model.filterSongList(textfieldFilter.getText().trim());
             btnFilter.setText("Clear");
         } else if (btnFilter.getText().equals("Clear")) {
-            setSongsOnTableview(model.getAllSongsPlaylist());
+            setSongsOnTableview(model.getChosenPlaylist());
             listViewPlaylists.getSelectionModel().select(0);
             btnFilter.setText("Filter");
         }
@@ -418,7 +418,14 @@ public class MainWindowController implements Initializable {
     private void contextSongMenuHandler() {
         //Plays the selected song.
         MenuItem item1 = new MenuItem("Play");
-        item1.setOnAction((ActionEvent e) -> {
+<<<<<<< HEAD
+        item1.setOnAction((ActionEvent e) ->
+        {
+            model.setCurrentShownSongsForPlaying();
+=======
+        item1.setOnAction((ActionEvent e)
+                -> {
+>>>>>>> 58da4ccc23b488344b0eb615e8e7ec1dcc130722
             model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
             if (!model.isPlaying()) {
                 playSong();
@@ -427,7 +434,8 @@ public class MainWindowController implements Initializable {
 
         //Edits the selected song and presets text fields with current information.
         MenuItem item2 = new MenuItem("Edit song");
-        item2.setOnAction((ActionEvent e) -> {
+        item2.setOnAction((ActionEvent e)
+                -> {
             try {
                 model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
                 startModalWindow("EditSongView");
@@ -439,7 +447,8 @@ public class MainWindowController implements Initializable {
 
         //Adds the selected song to the queue.
         MenuItem item3 = new MenuItem("Add to playlist");
-        item3.setOnAction((ActionEvent e) -> {
+        item3.setOnAction((ActionEvent e)
+                -> {
             try {
                 addSongToPlaylist();
             } catch (IOException ex) {
@@ -450,7 +459,8 @@ public class MainWindowController implements Initializable {
 
         //Deletes the selected song.
         MenuItem item4 = new MenuItem("Delete song");
-        item4.setOnAction((ActionEvent e) -> {
+        item4.setOnAction((ActionEvent e)
+                -> {
             try {
                 deleteSongAction();
             } catch (IOException | BLLException ex) {
@@ -474,19 +484,25 @@ public class MainWindowController implements Initializable {
         item1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                try {
-                    model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
+                if (listViewPlaylists.getSelectionModel().getSelectedItem().getPlaylistId() == 1) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "This playlist cannot be edited.", ButtonType.OK);
+                    alert.showAndWait();
+                } else {
+                    try {
+                        model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
 
-                    startModalWindow("EditPlaylistView");
-                } catch (IOException ex) {
-                    Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                        startModalWindow("EditPlaylistView");
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
 
         //Deletes the selected playlist.
         MenuItem item2 = new MenuItem("Delete playlist");
-        item2.setOnAction((ActionEvent e) -> {
+        item2.setOnAction((ActionEvent e)
+                -> {
             try {
                 deletePlaylistAction();
             } catch (IOException | BLLException ex) {
@@ -547,9 +563,19 @@ public class MainWindowController implements Initializable {
      *
      * @param event
      */
+<<<<<<< HEAD
+    private void doubleClickTblview(MouseEvent event)
+    {
+        if (event.getButton().equals(MouseButton.PRIMARY))
+        {
+            if (event.getClickCount() == 2)
+            {
+                model.setCurrentShownSongsForPlaying();
+=======
     private void doubleClickTblview(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             if (event.getClickCount() == 2) {
+>>>>>>> 58da4ccc23b488344b0eb615e8e7ec1dcc130722
                 model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
                 if (!model.isPlaying()) {
                     playSong();
@@ -571,18 +597,5 @@ public class MainWindowController implements Initializable {
             File file = new File("src/mytunes/gui/view/pictures/pause.png");
             imageviewPlayPause.setImage(new Image(file.toURI().toString()));
         }
-<<<<<<< HEAD
     }
-    
-    private void unknownYearHandler(Playlist playlist) {
-        
-        for (int i = 0; i < playlist.getSongs().size(); i++) {
-            System.out.println(i);
-//            tblviewYear.getCellData(i)
-        }
-    }
-
-=======
-    }    
->>>>>>> 1fd27c99d9bb63dd589e518d2dd50af849fb71a2
 }

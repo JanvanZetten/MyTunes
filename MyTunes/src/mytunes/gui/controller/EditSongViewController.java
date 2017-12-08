@@ -73,10 +73,17 @@ public class EditSongViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             model = MainWindowModel.getInstance();
-            yearGenerator();
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
             textSetter();
+            File preset = new File(txtfieldFileLocation.getText());
+            selectedFile = preset;
+            System.out.println(selectedFile);
+            System.out.println(txtfieldArtist.getText());
+            System.out.println(txtfieldTitle.getText());
+            System.out.println(txtfieldAlbum.getText());
+            System.out.println(yearInInt);
+            System.out.println(cmboboxGenre.getSelectionModel().getSelectedItem());
         } catch (BLLException ex) {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -200,8 +207,13 @@ public class EditSongViewController implements Initializable {
         txtfieldArtist.setText(model.getChosenSong().getArtist());
         txtfieldAlbum.setText(model.getChosenSong().getAlbum());
         cmboboxGenre.setValue(model.getChosenSong().getGenre());
+        if (model.getChosenSong().getYear() == -1) {
+            cmboboxYear.setValue("Unknown");
+        }
+        else {
         cmboboxYear.setValue(model.getChosenSong().getYear() + "");
-        txtfieldFileLocation.setText(model.getChosenSong().getpath());
+        }
+        txtfieldFileLocation.setText(model.getChosenSong().getPath());
     }
 
 }

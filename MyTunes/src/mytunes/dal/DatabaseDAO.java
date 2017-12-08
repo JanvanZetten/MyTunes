@@ -5,6 +5,7 @@
  */
 package mytunes.dal;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,6 +101,17 @@ public class DatabaseDAO implements DAO
                 song.setAlbum(rs.getString("album"));
                 song.setYear(rs.getInt("year"));
                 song.setGenre(new Genre(rs.getInt("genreId"), rs.getString("genre")));
+
+                try
+                {
+                    AudioMedia am = new AudioMedia(new File(rs.getString("directory")));
+                    song.setDuration(am.getDuration());
+                }
+                catch (DALException ex)
+                {
+                    song.setDuration(0.0);
+                }
+
                 songs.add(song);
             }
 
@@ -140,6 +152,17 @@ public class DatabaseDAO implements DAO
                 song.setAlbum(rs.getString("album"));
                 song.setYear(rs.getInt("year"));
                 song.setGenre(new Genre(rs.getInt("genreId"), rs.getString("genre")));
+
+                try
+                {
+                    AudioMedia am = new AudioMedia(new File(rs.getString("directory")));
+                    song.setDuration(am.getDuration());
+                }
+                catch (DALException ex)
+                {
+                    song.setDuration(0.0);
+                }
+
                 songs.add(song);
             }
 
@@ -257,6 +280,17 @@ public class DatabaseDAO implements DAO
                 newSong.setYear(year);
                 newSong.setGenre(genre);
                 addSongToPlaylist(new Playlist(1, "My Library"), newSong);
+
+                try
+                {
+                    AudioMedia am = new AudioMedia(new File(directory));
+                    newSong.setDuration(am.getDuration());
+                }
+                catch (DALException ex)
+                {
+                    newSong.setDuration(0.0);
+                }
+
                 return newSong;
             }
             else
@@ -413,6 +447,17 @@ public class DatabaseDAO implements DAO
                 newSong.setAlbum(album);
                 newSong.setYear(year);
                 newSong.setGenre(genre);
+
+                try
+                {
+                    AudioMedia am = new AudioMedia(new File(directory));
+                    newSong.setDuration(am.getDuration());
+                }
+                catch (DALException ex)
+                {
+                    newSong.setDuration(0.0);
+                }
+
                 return newSong;
             }
             else

@@ -19,6 +19,7 @@ public class Song
     private int year;
     private Genre genre;
     private final String path;
+    private double duration;
 
     public Song(int songId, String title, String artist, String path)
     {
@@ -76,6 +77,16 @@ public class Song
     public void setGenre(Genre genre)
     {
         this.genre = genre;
+    }
+
+    /**
+     * set the duration of the song.
+     *
+     * @param duration as double.
+     */
+    public void setDuration(double duration)
+    {
+        this.duration = duration;
     }
 
     /**
@@ -143,9 +154,19 @@ public class Song
      *
      * @return string path
      */
-    public String getpath()
+    public String getPath()
     {
         return path;
+    }
+
+    /**
+     * returns the duration
+     *
+     * @return string duration
+     */
+    public double getDuration()
+    {
+        return duration;
     }
 
     @Override
