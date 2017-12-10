@@ -146,9 +146,8 @@ public class FlacDecoder implements PCMProcessor, FrameListener
         decoder.addFrameListener(this);
         decoder.readMetadata();
 
-        // Get length of file and reset.
+        // Get length of file.
         long lengthOfFile = is.getLength();
-        is.reset();
 
         // Calculate start seek point.
         SeekPoint from = null;

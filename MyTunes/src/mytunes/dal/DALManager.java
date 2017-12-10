@@ -5,6 +5,7 @@
  */
 package mytunes.dal;
 
+import java.sql.SQLException;
 import java.util.List;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
@@ -16,11 +17,18 @@ import mytunes.be.Song;
  */
 public class DALManager
 {
+    DatabaseConnector dc;
     DAO databaseDAO;
+    DAO localDAO;
+    boolean offlineMode;
 
     public DALManager() throws DALException
     {
         databaseDAO = new DatabaseDAO();
+        localDAO = new LocalDAO();
+        dc = new DatabaseConnector();
+        offlineMode = false;
+        syncAll();
     }
 
     /**
@@ -31,13 +39,41 @@ public class DALManager
      */
     public List<Playlist> getAllPlaylists() throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.getAllPlaylists();
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try getting playlist from database");
+                        List<Playlist> tmp = databaseDAO.getAllPlaylists();
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try getting playlist from local");
+                        return localDAO.getAllPlaylists();
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.getAllPlaylists();
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.getAllPlaylists();
         }
     }
 
@@ -49,13 +85,41 @@ public class DALManager
      */
     public List<Song> getAllSongs() throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.getAllSongs();
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try getting songs from database");
+                        List<Song> tmp = databaseDAO.getAllSongs();
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try getting songs from local");
+                        return localDAO.getAllSongs();
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.getAllSongs();
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.getAllSongs();
         }
     }
 
@@ -67,13 +131,41 @@ public class DALManager
      */
     public List<Genre> getAllGenres() throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.getAllGenres();
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try getting genres from database");
+                        List<Genre> tmp = databaseDAO.getAllGenres();
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try getting genres from local");
+                        return localDAO.getAllGenres();
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.getAllGenres();
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.getAllGenres();
         }
     }
 
@@ -86,13 +178,41 @@ public class DALManager
      */
     public Genre addGenre(String genre) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.addGenre(genre);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try adding genre to database");
+                        Genre tmp = databaseDAO.addGenre(genre);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try adding genre to local");
+                        return localDAO.addGenre(genre);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.addGenre(genre);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.addGenre(genre);
         }
     }
 
@@ -110,13 +230,41 @@ public class DALManager
      */
     public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.addSong(artist, title, album, year, genre, directory);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try adding song to database");
+                        Song tmp = databaseDAO.addSong(artist, title, album, year, genre, directory);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try adding song to local");
+                        return localDAO.addSong(artist, title, album, year, genre, directory);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.addSong(artist, title, album, year, genre, directory);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.addSong(artist, title, album, year, genre, directory);
         }
     }
 
@@ -129,13 +277,41 @@ public class DALManager
      */
     public Playlist addPlaylist(String name) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.addPlaylist(name);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try adding playlist to database");
+                        Playlist tmp = databaseDAO.addPlaylist(name);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try adding playlist to local");
+                        return localDAO.addPlaylist(name);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.addPlaylist(name);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.addPlaylist(name);
         }
     }
 
@@ -149,13 +325,41 @@ public class DALManager
      */
     public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.addSongToPlaylist(playlist, song);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try adding song playlist relation to database");
+                        boolean tmp = databaseDAO.addSongToPlaylist(playlist, song);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try adding song playlist relation to local");
+                        return localDAO.addSongToPlaylist(playlist, song);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.addSongToPlaylist(playlist, song);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.addSongToPlaylist(playlist, song);
         }
     }
 
@@ -169,13 +373,41 @@ public class DALManager
      */
     public Genre updateGenre(int genreId, String genre) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.updateGenre(genreId, genre);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try updating genre in database");
+                        Genre tmp = databaseDAO.updateGenre(genreId, genre);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try updating genre in local");
+                        return localDAO.updateGenre(genreId, genre);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.updateGenre(genreId, genre);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.updateGenre(genreId, genre);
         }
     }
 
@@ -194,13 +426,41 @@ public class DALManager
      */
     public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.updateSong(songId, artist, title, album, year, genre, directory);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try updating song in database");
+                        Song tmp = databaseDAO.updateSong(songId, artist, title, album, year, genre, directory);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try updating song in local");
+                        return localDAO.updateSong(songId, artist, title, album, year, genre, directory);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.updateSong(songId, artist, title, album, year, genre, directory);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.updateSong(songId, artist, title, album, year, genre, directory);
         }
     }
 
@@ -214,13 +474,41 @@ public class DALManager
      */
     public Playlist updatePlaylist(int playlistId, String name) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.updatePlaylist(playlistId, name);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try updating playlist in database");
+                        Playlist tmp = databaseDAO.updatePlaylist(playlistId, name);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try updating playlist in local");
+                        return localDAO.updatePlaylist(playlistId, name);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.updatePlaylist(playlistId, name);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.updatePlaylist(playlistId, name);
         }
     }
 
@@ -233,13 +521,41 @@ public class DALManager
      */
     public boolean deleteGenre(int genreId) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.deleteGenre(genreId);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try deleting genre from database");
+                        boolean tmp = databaseDAO.deleteGenre(genreId);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try deleting genre from local");
+                        return localDAO.deleteGenre(genreId);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.deleteGenre(genreId);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.deleteGenre(genreId);
         }
     }
 
@@ -252,13 +568,41 @@ public class DALManager
      */
     public boolean deleteSong(int songId) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.deleteSong(songId);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try deleting song from database");
+                        boolean tmp = databaseDAO.deleteSong(songId);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try deleting song from local");
+                        return localDAO.deleteSong(songId);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.deleteSong(songId);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.deleteSong(songId);
         }
     }
 
@@ -271,13 +615,41 @@ public class DALManager
      */
     public boolean deletePlaylist(int playlistId) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.deletePlaylist(playlistId);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try deleting playlist from database");
+                        boolean tmp = databaseDAO.deletePlaylist(playlistId);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try deleting playlist from local");
+                        return localDAO.deletePlaylist(playlistId);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.deletePlaylist(playlistId);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.deletePlaylist(playlistId);
         }
     }
 
@@ -291,13 +663,41 @@ public class DALManager
      */
     public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
     {
-        try
+        if (!offlineMode)
         {
-            return databaseDAO.deleteSongInPlaylist(songId, playlistId);
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try deleting song playlist relation in database");
+                        boolean tmp = databaseDAO.deleteSongInPlaylist(songId, playlistId);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try deleting song playlist relation in local");
+                        return localDAO.deleteSongInPlaylist(songId, playlistId);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.deleteSongInPlaylist(songId, playlistId);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
         }
-        catch (DALException ex)
+        else
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            return localDAO.deleteSongInPlaylist(songId, playlistId);
         }
     }
 
@@ -311,13 +711,77 @@ public class DALManager
      */
     public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException
     {
+        if (!offlineMode)
+        {
+            try
+            {
+                try
+                {
+                    System.out.println("Try Connection");
+                    if (dc.getConnection().isValid(1))
+                    {
+                        System.out.println("Try swapping song in databse");
+                        boolean tmp = databaseDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+                        syncLocal();
+                        return tmp;
+                    }
+                    else
+                    {
+                        System.out.println("Try swapping song in local");
+                        return localDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+                    }
+                }
+                catch (SQLException e)
+                {
+                    offlineMode = true;
+                    System.out.println("Connection failed! Went offline mode!");
+                    return localDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+                }
+            }
+            catch (DALException ex)
+            {
+                throw new DALException(ex.getMessage(), ex.getCause());
+            }
+        }
+        else
+        {
+            return localDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+        }
+    }
+
+    private void syncAll() throws DALException
+    {
         try
         {
-            return databaseDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
+            System.out.println("Try Connection");
+            if (dc.getConnection().isValid(1))
+            {
+                System.out.println("Try Syncing");
+                databaseDAO.sync(localDAO);
+                localDAO.sync(databaseDAO);
+            }
         }
-        catch (DALException ex)
+        catch (SQLException e)
         {
-            throw new DALException(ex.getMessage(), ex.getCause());
+            offlineMode = true;
+            System.out.println("Connection or sync failed! Went offline mode!");
+        }
+    }
+
+    private void syncLocal() throws DALException
+    {
+        try
+        {
+            System.out.println("Try Connection");
+            if (dc.getConnection().isValid(1))
+            {
+                System.out.println("Try Syncing");
+                localDAO.sync(databaseDAO);
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Connection or sync failed!");
         }
     }
 }

@@ -5,13 +5,14 @@
  */
 package mytunes.be;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Asbamz
  */
-public class Genre
+public class Genre implements Serializable
 {
-
     private final int genreId;
     private String genre;
 
@@ -55,5 +56,19 @@ public class Genre
     public String toString()
     {
         return genre;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (obj instanceof Genre)
+        {
+            return this.genreId == ((Genre) obj).getGenreId();
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
     }
 }

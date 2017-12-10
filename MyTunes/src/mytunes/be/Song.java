@@ -5,13 +5,14 @@
  */
 package mytunes.be;
 
+import java.io.Serializable;
+
 /**
  *
  * @author janvanzetten
  */
-public class Song
+public class Song implements Serializable
 {
-
     private final int songId;
     private String title;
     private String album;
@@ -187,4 +188,17 @@ public class Song
         return "Song{" + "title=" + title + ", album=" + album + ", artist=" + artist + ", year=" + year + ", genre=" + genre + '}';
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (obj instanceof Song)
+        {
+            return this.songId == ((Song) obj).getSongId();
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
 }

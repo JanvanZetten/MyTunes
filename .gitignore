@@ -84,3 +84,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /MyTunes/nbproject/private/
+
+# Local DB
+/MyTunes/localDB/

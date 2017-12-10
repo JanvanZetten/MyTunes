@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -750,5 +752,263 @@ public class DatabaseDAO implements DAO
         {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
+    }
+
+    @Override
+    public void sync(DAO syncDAO) throws DALException
+    {
+        System.out.println("Syncing DatabaseDAO with " + syncDAO.getClass().getName() + ":");
+        // SYNC GENRE
+        List<Genre> newGenres = new ArrayList<>();
+        List<Integer> newGenresId = new ArrayList<>();
+        // Try loading database data
+        try
+        {
+            List<Genre> thisList = getAllGenres();
+            List<Genre> syncList = syncDAO.getAllGenres();
+            int index = 0;
+
+            for (Genre genre : syncList)
+            {
+                // Current list item is less than sync item.
+                while (index < thisList.size() - 1)
+                {
+                    if (thisList.get(index).getGenreId() < genre.getGenreId())
+                    {
+                        index++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                // Check if same id and add to database if different content.
+                if (thisList.get(index).getGenreId() == genre.getGenreId())
+                {
+                    if (!thisList.get(index).getGenre().equalsIgnoreCase(genre.getGenre()))
+                    {
+                        newGenres.add(addGenre(genre.getGenre()));
+                        newGenresId.add(genre.getGenreId());
+                    }
+                }
+
+                // If it still runs when it is at the end of thisList it should add all the rest from syncList.
+                else if (index == thisList.size() - 1)
+                {
+                    newGenres.add(addGenre(genre.getGenre()));
+                    newGenresId.add(genre.getGenreId());
+                }
+            }
+
+            System.out.println("Genres synced.");
+        }
+        catch (DALException e)
+        {
+            // Try loading data from sync
+            try
+            {
+                List<Genre> syncList = syncDAO.getAllGenres();
+
+                for (Genre genre : syncList)
+                {
+                    newGenres.add(addGenre(genre.getGenre()));
+                    newGenresId.add(genre.getGenreId());
+                }
+
+                System.out.println("Genres synced.");
+            }
+            catch (DALException ex)
+            {
+                System.out.println("Genres sync failed.");
+                throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
+            }
+        }
+
+        // SYNC SONG
+        List<Song> newSongs = new ArrayList<>();
+        List<Integer> newSongsId = new ArrayList<>();
+        try
+        {
+            List<Song> thisList = getAllSongs();
+            List<Song> syncList = syncDAO.getAllSongs();
+            int index = 0;
+
+            for (Song song : syncList)
+            {
+                // Current list item is less than sync item.
+                while (index < thisList.size() - 1)
+                {
+                    if (thisList.get(index).getSongId() < song.getSongId())
+                    {
+                        index++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                // Check if same id and add to database if different content.
+                if (thisList.get(index).getSongId() == song.getSongId())
+                {
+                    if (!thisList.get(index).getPath().equalsIgnoreCase(song.getPath()))
+                    {
+                        Genre tmpGenre;
+                        if (newGenresId.contains(song.getGenre().getGenreId()))
+                        {
+                            tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
+                        }
+                        else
+                        {
+                            tmpGenre = song.getGenre();
+                        }
+                        newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
+                        newSongsId.add(song.getSongId());
+                    }
+                }
+
+                // If it still runs when it is at the end of thisList it should add all the rest from syncList.
+                else if (index == thisList.size() - 1)
+                {
+                    Genre tmpGenre;
+                    if (newGenresId.contains(song.getGenre().getGenreId()))
+                    {
+                        tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
+                    }
+                    else
+                    {
+                        tmpGenre = song.getGenre();
+                    }
+                    newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
+                    newSongsId.add(song.getSongId());
+                }
+            }
+            System.out.println("Songs synced.");
+        }
+        catch (DALException e)
+        {
+            // Try loading data from sync
+            try
+            {
+                List<Song> syncList = syncDAO.getAllSongs();
+
+                for (Song song : syncList)
+                {
+                    Genre tmpGenre;
+                    if (newGenresId.contains(song.getGenre().getGenreId()))
+                    {
+                        tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
+                    }
+                    else
+                    {
+                        tmpGenre = song.getGenre();
+                    }
+                    newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
+                    newSongsId.add(song.getSongId());
+                }
+                System.out.println("Songs synced.");
+            }
+            catch (DALException ex)
+            {
+                System.out.println("Songs sync failed.");
+                throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
+            }
+        }
+
+        // SYNC PLAYLIST
+        try
+        {
+            List<Playlist> thisList = getAllPlaylists();
+            List<Playlist> syncList = syncDAO.getAllPlaylists();
+            int index = 0;
+
+            for (Playlist playlist : syncList)
+            {
+                // Current list item is less than sync item.
+                while (index < thisList.size() - 1)
+                {
+                    if (thisList.get(index).getPlaylistId() < playlist.getPlaylistId())
+                    {
+                        index++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                // Check if same id and add to database if different content.
+                if (thisList.get(index).getPlaylistId() == playlist.getPlaylistId())
+                {
+                    if (!thisList.get(index).getName().equalsIgnoreCase(playlist.getName()))
+                    {
+                        Playlist tmpPlaylist = addPlaylist(playlist.getName());
+                        for (Song song : playlist.getSongs())
+                        {
+                            if (newSongsId.contains(song.getSongId()))
+                            {
+                                addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
+                            }
+                            else
+                            {
+                                addSongToPlaylist(tmpPlaylist, song);
+                            }
+                        }
+                    }
+                }
+
+                // If it still runs when it is at the end of thisList it should add all the rest from syncList.
+                else if (index == thisList.size() - 1)
+                {
+                    Playlist tmpPlaylist = addPlaylist(playlist.getName());
+                    for (Song song : playlist.getSongs())
+                    {
+                        if (newSongsId.contains(song.getSongId()))
+                        {
+                            addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
+                        }
+                        else
+                        {
+                            addSongToPlaylist(tmpPlaylist, song);
+                        }
+                    }
+                }
+            }
+
+            System.out.println("Playlists synced.");
+        }
+        catch (DALException e)
+        {
+            // Try loading data from sync
+            try
+            {
+                List<Playlist> syncList = syncDAO.getAllPlaylists();
+
+                for (Playlist playlist : syncList)
+                {
+                    Playlist tmpPlaylist = addPlaylist(playlist.getName());
+                    for (Song song : playlist.getSongs())
+                    {
+                        if (newSongsId.contains(song.getSongId()))
+                        {
+                            addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
+                        }
+                        else
+                        {
+                            addSongToPlaylist(tmpPlaylist, song);
+                        }
+                    }
+                }
+                System.out.println("Playlists synced.");
+            }
+            catch (DALException ex)
+            {
+                System.out.println("Playlists sync failed.");
+                throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
+            }
+        }
+
+        System.out.println("Sync finished!");
     }
 }

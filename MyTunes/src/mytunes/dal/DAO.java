@@ -163,4 +163,6 @@ public interface DAO
      * @throws DALException
      */
     public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException;
+
+    public void sync(DAO syncDAO) throws DALException;
 }

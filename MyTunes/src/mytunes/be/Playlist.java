@@ -5,6 +5,7 @@
  */
 package mytunes.be;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,8 @@ import java.util.List;
  *
  * @author janvanzetten
  */
-public class Playlist
+public class Playlist implements Serializable
 {
-
     private final int playlistId;
     private List<Song> songs;
     private String name;
@@ -97,4 +97,17 @@ public class Playlist
         return name;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (obj instanceof Playlist)
+        {
+            return this.playlistId == ((Playlist) obj).getPlaylistId();
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
 }
