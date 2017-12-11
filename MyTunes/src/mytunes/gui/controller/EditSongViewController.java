@@ -132,7 +132,7 @@ public class EditSongViewController implements Initializable
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The song cannot be edited. Please fill out all the fields.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The song has not been edited. Please fill out all the fields and try again.", ButtonType.OK);
             alert.showAndWait();
         }
 
@@ -165,7 +165,6 @@ public class EditSongViewController implements Initializable
      * program needs to cut down the file path so that only the name of the file
      * is selected. If another file is selected through the FileChooser, then it
      * proceeds as normal.
-     * @return
      */
     private String directory()
     {
