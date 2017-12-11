@@ -156,7 +156,6 @@ public class EditSongViewController implements Initializable
             from = Paths.get(selectedFile.toURI());
             to = Paths.get(dir + "/music/" + selectedFile.getName());
             txtfieldFileLocation.setText(selectedFile.getName());
-            newFileSelected = true;
         }
     }
 
@@ -168,19 +167,12 @@ public class EditSongViewController implements Initializable
      */
     private String directory()
     {
-        if (newFileSelected == false)
-        {
             File dir = new File(selectedFile + "");
             String[] splitDir = dir.toString().split("\\\\");
             lastPart = splitDir[splitDir.length - 1];
             txtfieldFileLocation.setText(lastPart);
-            return lastPart;
-        }
-        else if (newFileSelected == true)
-        {
-            return "music/" + selectedFile;
-        }
-        return "Nothing";
+           
+            return "music/" + lastPart;
     }
 
     /**
