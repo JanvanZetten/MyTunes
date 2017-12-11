@@ -244,6 +244,7 @@ public class MainWindowController implements Initializable
     {
         startModalWindow("AddSongView");
         refreshAndSetElements();
+        refreshAndSetElements();
     }
 
     /**
@@ -511,6 +512,7 @@ public class MainWindowController implements Initializable
             catch (IOException ex)
             {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         });
 
@@ -541,7 +543,8 @@ public class MainWindowController implements Initializable
             }
             catch (IOException | BLLException ex)
             {
-                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Could not delete song: " + ex.getMessage() + ".", ButtonType.OK);
+                alert.showAndWait();
             }
         });
 
