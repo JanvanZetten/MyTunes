@@ -79,6 +79,7 @@ public class MediaHandler
                     }
                     catch (BLLException ex)
                     {
+                        stopMedia();
                         throw new RuntimeException(ex.getMessage(), ex.getCause());
                     }
                 }
@@ -195,6 +196,7 @@ public class MediaHandler
         }
         catch (BLLException ex)
         {
+            stopMedia();
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -208,6 +210,15 @@ public class MediaHandler
         {
             isPlaying = false;
             player.pauseMedia();
+        }
+    }
+
+    public void stopMedia()
+    {
+        if (player != null)
+        {
+            isPlaying = false;
+            player.stopMedia();
         }
     }
 
@@ -324,6 +335,7 @@ public class MediaHandler
             }
             catch (DALException ex)
             {
+                stopMedia();
                 throw new BLLException("Loading new media: " + songs.get(index).getPath() + ", " + ex.getMessage(), ex.getCause());
             }
 
@@ -394,6 +406,7 @@ public class MediaHandler
         }
         catch (BLLException ex)
         {
+            stopMedia();
             currentIndex = oldIndex;
             throw new BLLException("Could not switch to index: " + index + ", " + ex.getMessage(), ex.getCause());
         }
@@ -425,5 +438,10 @@ public class MediaHandler
 
             return min + ":0" + sec;
         }
+    }
+
+    public boolean isPlaying()
+    {
+        return isPlaying;
     }
 }

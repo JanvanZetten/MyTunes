@@ -49,7 +49,6 @@ public class MainWindowModel
     private Song chosenSong;
     private Playlist chosenPlaylist;
     private boolean muted = false;
-    private boolean playing = false;
     private String songOrPlaylist;
 
     /**
@@ -224,10 +223,10 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
+            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not play Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
-        playing = true;
     }
 
     /**
@@ -236,7 +235,6 @@ public class MainWindowModel
     public void pauseMedia()
     {
         mediaHandler.pauseMedia();
-        playing = false;
     }
 
     /**
@@ -250,6 +248,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
+            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -266,6 +265,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
+            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -282,6 +282,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
+            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -575,7 +576,7 @@ public class MainWindowModel
      */
     public boolean isPlaying()
     {
-        return playing;
+        return mediaHandler.isPlaying();
     }
 
     /**
@@ -626,7 +627,7 @@ public class MainWindowModel
                 }
                 catch (BLLException ex)
                 {
-                    Logger.getLogger(MainWindowModel.class.getName()).log(Level.SEVERE, null, ex);
+                    mediaHandler.stopMedia();
                 }
                 mediaHandler.setProgressing(true);
             }
@@ -644,6 +645,7 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
+            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
