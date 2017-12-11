@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="319.0" prefWidth="551.0" style="-fx-background-color: #91aab4;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="mytunes.gui.controller.AddSongToPlaylistController">
+<AnchorPane id="AnchorPane" prefHeight="319.0" prefWidth="551.0" style="-fx-background-color: #91aab4;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.AddSongToPlaylistController">
    <children>
-      <ListView fx:id="listviewPlaylist" layoutX="14.0" layoutY="14.0" prefHeight="292.0" prefWidth="257.0" />
+      <ListView fx:id="listviewPlaylist" layoutX="14.0" layoutY="14.0" onMouseClicked="#handleMouseClickedAction" prefHeight="292.0" prefWidth="257.0" />
       <Label layoutX="286.0" layoutY="16.0" text="Add song to a playlist" textFill="#193441">
          <font>
             <Font size="24.0" />

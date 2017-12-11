@@ -225,6 +225,7 @@ public class MainWindowController implements Initializable {
     private void addSongAction(ActionEvent event) throws IOException {
         startModalWindow("AddSongView");
         refreshAndSetElements();
+        refreshAndSetElements();
     }
 
     /**
@@ -445,6 +446,7 @@ public class MainWindowController implements Initializable {
 
             } catch (IOException ex) {
                 Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         });
 
@@ -466,8 +468,11 @@ public class MainWindowController implements Initializable {
                 -> {
             try {
                 deleteSongAction();
-            } catch (IOException | BLLException ex) {
-                Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (IOException | BLLException ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Could not delete song: " + ex.getMessage() + ".", ButtonType.OK);
+                alert.showAndWait();
             }
         });
 
@@ -592,12 +597,20 @@ public class MainWindowController implements Initializable {
     private void playSong() {
         if (model.isPlaying()) {
             model.pauseMedia();
-            File file = new File("src/mytunes/gui/view/pictures/play.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
-        } else {
+            if (!model.isPlaying())
+            {
+                File file = new File("src/mytunes/gui/view/pictures/play.png");
+                imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            }
+        }
+        else
+        {
             model.playMedia();
-            File file = new File("src/mytunes/gui/view/pictures/pause.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            if (model.isPlaying())
+            {
+                File file = new File("src/mytunes/gui/view/pictures/pause.png");
+                imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            }
         }
     }
 }
