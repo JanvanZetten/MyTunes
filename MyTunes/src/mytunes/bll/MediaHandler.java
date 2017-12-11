@@ -185,10 +185,17 @@ public class MediaHandler
      */
     public void playMedia() throws BLLException
     {
-        if (player != null)
+        try
         {
-            isPlaying = true;
-            player.playMedia();
+            if (player != null)
+            {
+                isPlaying = true;
+                player.playMedia();
+            }
+        }
+        catch (BLLException ex)
+        {
+            throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 

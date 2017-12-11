@@ -6,6 +6,7 @@
 package mytunes.dal;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
@@ -56,14 +57,30 @@ public class DALManager
                     else
                     {
                         System.out.println("Try getting playlist from local");
-                        return localDAO.getAllPlaylists();
+                        try
+                        {
+                            return localDAO.getAllPlaylists();
+                        }
+                        catch (DALException ex)
+                        {
+                            System.out.println("No localDB.");
+                            return new ArrayList<>();
+                        }
                     }
                 }
                 catch (SQLException e)
                 {
                     offlineMode = true;
                     System.out.println("Connection failed! Went offline mode!");
-                    return localDAO.getAllPlaylists();
+                    try
+                    {
+                        return localDAO.getAllPlaylists();
+                    }
+                    catch (DALException ex)
+                    {
+                        System.out.println("No localDB.");
+                        return new ArrayList<>();
+                    }
                 }
             }
             catch (DALException ex)
@@ -73,7 +90,15 @@ public class DALManager
         }
         else
         {
-            return localDAO.getAllPlaylists();
+            try
+            {
+                return localDAO.getAllPlaylists();
+            }
+            catch (DALException ex)
+            {
+                System.out.println("No localDB.");
+                return new ArrayList<>();
+            }
         }
     }
 
@@ -102,14 +127,30 @@ public class DALManager
                     else
                     {
                         System.out.println("Try getting songs from local");
-                        return localDAO.getAllSongs();
+                        try
+                        {
+                            return localDAO.getAllSongs();
+                        }
+                        catch (DALException ex)
+                        {
+                            System.out.println("No localDB.");
+                            return new ArrayList<>();
+                        }
                     }
                 }
                 catch (SQLException e)
                 {
                     offlineMode = true;
                     System.out.println("Connection failed! Went offline mode!");
-                    return localDAO.getAllSongs();
+                    try
+                    {
+                        return localDAO.getAllSongs();
+                    }
+                    catch (DALException ex)
+                    {
+                        System.out.println("No localDB.");
+                        return new ArrayList<>();
+                    }
                 }
             }
             catch (DALException ex)
@@ -119,7 +160,15 @@ public class DALManager
         }
         else
         {
-            return localDAO.getAllSongs();
+            try
+            {
+                return localDAO.getAllSongs();
+            }
+            catch (DALException ex)
+            {
+                System.out.println("No localDB.");
+                return new ArrayList<>();
+            }
         }
     }
 
@@ -148,14 +197,30 @@ public class DALManager
                     else
                     {
                         System.out.println("Try getting genres from local");
-                        return localDAO.getAllGenres();
+                        try
+                        {
+                            return localDAO.getAllGenres();
+                        }
+                        catch (DALException ex)
+                        {
+                            System.out.println("No localDB.");
+                            return new ArrayList<>();
+                        }
                     }
                 }
                 catch (SQLException e)
                 {
                     offlineMode = true;
                     System.out.println("Connection failed! Went offline mode!");
-                    return localDAO.getAllGenres();
+                    try
+                    {
+                        return localDAO.getAllGenres();
+                    }
+                    catch (DALException ex)
+                    {
+                        System.out.println("No localDB.");
+                        return new ArrayList<>();
+                    }
                 }
             }
             catch (DALException ex)
@@ -165,7 +230,15 @@ public class DALManager
         }
         else
         {
-            return localDAO.getAllGenres();
+            try
+            {
+                return localDAO.getAllGenres();
+            }
+            catch (DALException ex)
+            {
+                System.out.println("No localDB.");
+                return new ArrayList<>();
+            }
         }
     }
 
@@ -756,9 +829,24 @@ public class DALManager
             System.out.println("Try Connection");
             if (dc.getConnection().isValid(1))
             {
-                System.out.println("Try Syncing");
-                databaseDAO.sync(localDAO);
-                localDAO.sync(databaseDAO);
+                System.out.println("Try Syncing Database");
+                try
+                {
+                    databaseDAO.sync(localDAO);
+                }
+                catch (DALException ex)
+                {
+                    System.out.println("Sync failed");
+                }
+                System.out.println("Try Syncing Local");
+                try
+                {
+                    localDAO.sync(databaseDAO);
+                }
+                catch (DALException ex)
+                {
+                    System.out.println("Sync failed");
+                }
             }
         }
         catch (SQLException e)

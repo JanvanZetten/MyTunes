@@ -77,7 +77,10 @@ public class MainWindowModel
             genres = FXCollections.observableArrayList();
             shownSongs = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
-            setChosenPlaylist(playlists.get(0));
+            if (playlists.size() > 0)
+            {
+                setChosenPlaylist(playlists.get(0));
+            }
         }
         catch (BLLException ex)
         {
@@ -195,10 +198,13 @@ public class MainWindowModel
     {
 //        try
 //        {
-            //mediaHandler.setSongs(selectedItem);
+        //mediaHandler.setSongs(selectedItem);
+        if (selectedItem != null)
+        {
             shownSongs.clear();
             shownSongs.addAll(selectedItem.getSongs());
-            
+        }
+
 //        }
 //        catch (BLLException ex)
 //        {
@@ -626,17 +632,21 @@ public class MainWindowModel
             }
         });
     }
-    
+
     /**
      * Sets the currently shown songs for playing
      */
-    public void setCurrentShownSongsForPlaying(){
-        try {
+    public void setCurrentShownSongsForPlaying()
+    {
+        try
+        {
             mediaHandler.setSongs(shownSongs);
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
-        
+
     }
 }

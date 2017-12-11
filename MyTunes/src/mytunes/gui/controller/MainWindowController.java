@@ -187,7 +187,10 @@ public class MainWindowController implements Initializable
         tblviewMaster.setItems(model.getSongs());
         listViewPlaylists.setItems(model.getPlaylists());
         model.addAllPlaylistsToGUI();
-        setSongsOnTableview(model.getChosenPlaylist());
+        if (model.getChosenPlaylist() != null)
+        {
+            setSongsOnTableview(model.getChosenPlaylist());
+        }
     }
 
     /**
