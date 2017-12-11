@@ -428,39 +428,39 @@ public class LocalDAO implements DAO
     @Override
     public void sync(DAO syncDAO) throws DALException
     {
-        System.out.println("Syncing LocalDAO with " + syncDAO.getClass().getName() + ":");
+        //System.out.println("Syncing LocalDAO with " + syncDAO.getClass().getName() + ":");
         // SYNC GENRE
         try
         {
             saveAllGenres(syncDAO.getAllGenres());
-            System.out.println("Genre synced.");
+            //System.out.println("Genre synced.");
         }
         catch (DALException ex)
         {
-            System.out.println("Genre sync failed.");
+            //System.out.println("Genre sync failed.");
         }
 
         // SYNC SONG
         try
         {
             saveAllSongs(syncDAO.getAllSongs());
-            System.out.println("Songs synced.");
+            //System.out.println("Songs synced.");
         }
         catch (DALException ex)
         {
-            System.out.println("Songs sync failed.");
+            //System.out.println("Songs sync failed.");
         }
 
         // SYNC PLAYLIST
         try
         {
             saveAllPlaylists(syncDAO.getAllPlaylists());
-            System.out.println("Playlists synced.");
+            //System.out.println("Playlists synced.");
         }
         catch (DALException ex)
         {
-            System.out.println("Playlists sync failed.");
+            //System.out.println("Playlists sync failed.");
         }
-        System.out.println("Sync finished!");
+        //System.out.println("Sync finished!");
     }
 }

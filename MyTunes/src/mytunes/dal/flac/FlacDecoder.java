@@ -44,6 +44,7 @@ public class FlacDecoder implements PCMProcessor, FrameListener
     private long totalSamples;
     private int bitPerSamples;
     private double currentVolume = 1.0;
+    private int minFrame;
 
     private AudioFormat fmt;
     private DataLine.Info info;
@@ -153,22 +154,22 @@ public class FlacDecoder implements PCMProcessor, FrameListener
         SeekPoint from = null;
         if (fromSeekPoint >= 0 && fromSeekPoint <= 100)
         {
-            from = new SeekPoint((long) (totalSamples / 100.0 * fromSeekPoint), (long) (lengthOfFile * (fromSeekPoint / (totalSamples / sampleRate * 1.0))), bitPerSamples);
+            from = new SeekPoint((long) (totalSamples / 100.0 * fromSeekPoint), (long) (lengthOfFile * (fromSeekPoint / 100.0)), minFrame);
         }
         else
         {
-            from = new SeekPoint(0, 0, bitPerSamples);
+            from = new SeekPoint(0, 0, minFrame);
         }
 
         // Calculate end seek point.
         SeekPoint to = null;
         if (toSeekPoint >= 0 && toSeekPoint <= 100)
         {
-            to = new SeekPoint((long) (totalSamples / 100.0 * toSeekPoint), (long) (lengthOfFile * (toSeekPoint / (totalSamples / sampleRate * 1.0))), bitPerSamples);
+            to = new SeekPoint((long) (totalSamples / 100.0 * toSeekPoint), (long) (lengthOfFile * (toSeekPoint / 100.0)), minFrame);
         }
         else
         {
-            to = new SeekPoint(totalSamples, lengthOfFile, bitPerSamples);
+            to = new SeekPoint(totalSamples, lengthOfFile, minFrame);
         }
 
         // Run thread handling decoding.
@@ -295,10 +296,11 @@ public class FlacDecoder implements PCMProcessor, FrameListener
                 decoder = new FLACDecoder(is);
                 StreamInfo si = decoder.readStreamInfo();
 
+                minFrame = si.getMinFrameSize();
                 sampleRate = si.getSampleRate();
                 totalSamples = si.getTotalSamples();
                 bitPerSamples = si.getBitsPerSample();
-                durationTime.set((totalSamples / sampleRate) * 1000);
+                durationTime.set((totalSamples / sampleRate * 1.0) * 1000);
             }
             catch (IOException ex)
             {
