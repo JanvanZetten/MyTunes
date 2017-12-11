@@ -506,9 +506,15 @@ public class MainWindowModel
         return -1;
     }
 
-    public void editSongInformation(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
+    public void editSongInformation(Song song) throws BLLException
     {
-        bllManager.updateSong(songId, artist, title, album, year, genre, directory);
+        for (int i = 0; i < shownSongs.size(); i++) {
+            if (shownSongs.get(i).getSongId() == song.getSongId()){
+                shownSongs.set(i, song);
+            }
+            
+        }
+        bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
     }
 
     public void editPlaylistInformation(int PlaylistId, String text) throws BLLException

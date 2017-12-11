@@ -111,14 +111,14 @@ public class EditSongViewController implements Initializable
                 && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
                 || txtfieldFileLocation.getText().equals(lastPart))
         {
-
-            model.editSongInformation(model.getChosenSong().getSongId(),
-                    txtfieldArtist.getText(),
-                    txtfieldTitle.getText(),
-                    txtfieldAlbum.getText(),
-                    yearInInt,
-                    cmboboxGenre.getSelectionModel().getSelectedItem(),
-                    directory());
+            
+            model.getChosenSong().setArtist(txtfieldArtist.getText());
+            model.getChosenSong().setTitle(txtfieldTitle.getText());
+            model.getChosenSong().setAlbum(txtfieldAlbum.getText());
+            model.getChosenSong().setYear(yearInInt);
+            model.getChosenSong().setGenre(cmboboxGenre.getSelectionModel().getSelectedItem());
+            model.getChosenSong().setPath(directory());
+            model.editSongInformation(model.getChosenSong());
             if (newFileSelected == true)
             {
                 if (!from.toString().equals(to.toString()))

@@ -19,7 +19,7 @@ public class Song implements Serializable
     private String artist;
     private int year;
     private Genre genre;
-    private final String path;
+    private String path;
     private String duration;
 
     public Song(int songId, String title, String artist, String path)
@@ -170,6 +170,10 @@ public class Song implements Serializable
     public String getPath()
     {
         return path;
+    }
+    
+    public void setPath(String path){
+        this.path = path;
     }
 
     /**
