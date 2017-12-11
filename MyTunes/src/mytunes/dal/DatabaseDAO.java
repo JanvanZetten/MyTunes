@@ -656,12 +656,12 @@ public class DatabaseDAO implements DAO
         {
             try (Connection con = dbc.getConnection())
             {
-                String sql = "DELETE SongsInPlaylist WHERE songId=? AND playlistId=?;";
+                int sipId = getSipId(songId, playlistId);
+                String sql = "DELETE SongsInPlaylist WHERE sipId=?;";
 
                 PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setInt(1, songId);
-                statement.setInt(2, playlistId);
+                statement.setInt(1, sipId);
 
                 if (statement.executeUpdate() == 1)
                 {

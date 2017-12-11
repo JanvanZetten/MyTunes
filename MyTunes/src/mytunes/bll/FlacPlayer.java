@@ -5,8 +5,6 @@
  */
 package mytunes.bll;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleDoubleProperty;
 import mytunes.be.Song;
 import mytunes.dal.DALException;
