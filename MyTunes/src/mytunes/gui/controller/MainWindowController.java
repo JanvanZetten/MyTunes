@@ -296,6 +296,7 @@ public class MainWindowController implements Initializable
                 model.setSongOrPlaylist("Playlist");
 
                 startModalWindow("DeleteConfirmationView");
+                refreshAndSetElements();
             }
         }
     }
