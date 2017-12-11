@@ -12,7 +12,7 @@ import org.jflac.FLACDecoder;
 /**
  * Made to listen and change currentTime. Used and tested with custom JFlac
  * codec 1.5.3.
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class FlacProgressListener implements Runnable
 {

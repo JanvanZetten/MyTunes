@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class Song implements Serializable
 {

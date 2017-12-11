@@ -20,19 +20,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MainWindowModel;
@@ -40,7 +35,7 @@ import mytunes.gui.model.MainWindowModel;
 /**
  * FXML Controller class
  *
- * @author Alex
+ * @author Alex, Asbjørn og Jan
  */
 public class EditSongViewController implements Initializable
 {

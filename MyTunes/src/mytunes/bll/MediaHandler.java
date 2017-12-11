@@ -21,7 +21,7 @@ import mytunes.dal.flac.FlacDecoder;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class MediaHandler
 {

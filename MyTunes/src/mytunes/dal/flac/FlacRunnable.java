@@ -12,7 +12,7 @@ import org.jflac.metadata.SeekPoint;
 
 /**
  * Made to handle decoding. Used and tested with custom JFlac codec 1.5.3.
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class FlacRunnable implements Runnable
 {

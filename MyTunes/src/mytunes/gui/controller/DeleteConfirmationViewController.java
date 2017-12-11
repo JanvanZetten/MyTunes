@@ -20,7 +20,7 @@ import mytunes.gui.model.MainWindowModel;
 /**
  * FXML Controller class
  *
- * @author Alex
+ * @author Alex, Asbjørn og Jan
  */
 public class DeleteConfirmationViewController implements Initializable {
 

@@ -33,7 +33,7 @@ import org.jflac.util.ByteData;
 /**
  * JFlac implemented in MyTunes project. Used and tested with custom JFlac codec
  * 1.5.3.
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class FlacDecoder implements PCMProcessor, FrameListener
 {

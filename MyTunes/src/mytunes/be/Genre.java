@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class Genre implements Serializable
 {

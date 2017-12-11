@@ -11,7 +11,7 @@ import java.sql.Connection;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class DatabaseConnector
 {

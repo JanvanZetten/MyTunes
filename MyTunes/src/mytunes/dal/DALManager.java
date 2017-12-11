@@ -14,7 +14,7 @@ import mytunes.be.Song;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class DALManager
 {

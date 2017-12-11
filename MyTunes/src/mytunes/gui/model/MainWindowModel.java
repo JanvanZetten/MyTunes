@@ -32,7 +32,7 @@ import mytunes.bll.MediaHandler;
 
 /**
  *
- * @author Alex
+ * @author Alex, Asbjørn og Jan
  */
 public class MainWindowModel
 {
