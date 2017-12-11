@@ -472,6 +472,7 @@ public class MainWindowController implements Initializable
         }
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null)
         {
+            model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
         }
     }
 
