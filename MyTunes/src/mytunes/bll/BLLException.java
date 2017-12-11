@@ -7,7 +7,7 @@ package mytunes.bll;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class BLLException extends Exception
 {

@@ -15,7 +15,7 @@ import mytunes.gui.controller.MainWindowController;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class MyTunes extends Application
 {

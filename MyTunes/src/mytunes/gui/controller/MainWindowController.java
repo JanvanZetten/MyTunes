@@ -51,7 +51,7 @@ import mytunes.bll.BLLException;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class MainWindowController implements Initializable
 {

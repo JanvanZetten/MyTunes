@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Alex
+ * @author Alex, Asbjørn og Jan
  */
 public class CannotDeleteViewController implements Initializable {
 

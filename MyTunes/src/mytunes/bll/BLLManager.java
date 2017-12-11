@@ -14,7 +14,7 @@ import mytunes.dal.DALManager;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class BLLManager
 {

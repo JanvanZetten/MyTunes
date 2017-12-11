@@ -22,7 +22,7 @@ import org.jaudiotagger.tag.FieldKey;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class AudioMedia
 {

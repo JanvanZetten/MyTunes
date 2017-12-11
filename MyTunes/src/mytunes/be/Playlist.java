@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class Playlist implements Serializable
 {

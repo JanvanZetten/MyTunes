@@ -19,7 +19,7 @@ import mytunes.be.Song;
 
 /**
  *
- * @author Asbamz
+ * @author Alex, Asbjørn og Jan
  */
 public class LocalDAO implements DAO
 {
