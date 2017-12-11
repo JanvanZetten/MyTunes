@@ -490,6 +490,7 @@ public class MainWindowController implements Initializable
         {
             model.setCurrentShownSongsForPlaying();
             model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+
             if (!model.isPlaying())
             {
                 playSong();
@@ -666,6 +667,7 @@ public class MainWindowController implements Initializable
             {
                 model.setCurrentShownSongsForPlaying();
                 model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+
                 if (!model.isPlaying())
                 {
                     playSong();
@@ -682,14 +684,20 @@ public class MainWindowController implements Initializable
         if (model.isPlaying())
         {
             model.pauseMedia();
-            File file = new File("src/mytunes/gui/view/pictures/play.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            if (!model.isPlaying())
+            {
+                File file = new File("src/mytunes/gui/view/pictures/play.png");
+                imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            }
         }
         else
         {
             model.playMedia();
-            File file = new File("src/mytunes/gui/view/pictures/pause.png");
-            imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            if (model.isPlaying())
+            {
+                File file = new File("src/mytunes/gui/view/pictures/pause.png");
+                imageviewPlayPause.setImage(new Image(file.toURI().toString()));
+            }
         }
     }
 }

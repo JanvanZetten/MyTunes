@@ -219,7 +219,6 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not play Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -244,7 +243,6 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -261,7 +259,6 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -278,7 +275,6 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -641,7 +637,6 @@ public class MainWindowModel
         }
         catch (BLLException ex)
         {
-            mediaHandler.stopMedia();
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }

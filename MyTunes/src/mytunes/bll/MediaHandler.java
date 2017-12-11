@@ -13,11 +13,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
-import mytunes.dal.flac.FlacDecoder;
 
 /**
  *
@@ -41,6 +39,7 @@ public class MediaHandler
     private boolean isLooping;
     private boolean isShuffling;
     private boolean isPlaying;
+    private boolean wasPlaying;
     private boolean isProgressing;
     private final List<Integer> shuffleList;
 
@@ -168,6 +167,7 @@ public class MediaHandler
     public void setSongs(ObservableList<Song> selectedItem) throws BLLException
     {
         songs.clear();
+
         songs.addAll(selectedItem);
 
         if (songs.size() > 0)
@@ -178,6 +178,7 @@ public class MediaHandler
         {
             currentIndex = -1;
         }
+
         switchSong();
     }
 
@@ -186,18 +187,10 @@ public class MediaHandler
      */
     public void playMedia() throws BLLException
     {
-        try
+        if (player != null)
         {
-            if (player != null)
-            {
-                isPlaying = true;
-                player.playMedia();
-            }
-        }
-        catch (BLLException ex)
-        {
-            stopMedia();
-            throw new BLLException(ex.getMessage(), ex.getCause());
+            isPlaying = true;
+            player.playMedia();
         }
     }
 
@@ -282,9 +275,17 @@ public class MediaHandler
 
     public void seek(double value) throws BLLException
     {
-        if (player != null)
+        try
         {
-            player.seekMedia(value);
+            if (player != null)
+            {
+                player.seekMedia(value);
+            }
+        }
+        catch (BLLException ex)
+        {
+            stopMedia();
+            throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 
@@ -295,6 +296,13 @@ public class MediaHandler
     {
         if (currentIndex != -1)
         {
+            wasPlaying = isPlaying;
+            // Load new media.
+            if (player != null)
+            {
+                stopMedia();
+            }
+
             // Checks for shuffle.
             int index;
             if (isShuffling)
@@ -311,11 +319,6 @@ public class MediaHandler
             title.set(songs.get(index).getTitle());
             album.set(songs.get(index).getAlbum());
 
-            // Load new media.
-            if (player != null)
-            {
-                player.stopMedia();
-            }
             try
             {
                 audioMedia = new AudioMedia(new File(songs.get(index).getPath()));
@@ -339,12 +342,12 @@ public class MediaHandler
                 throw new BLLException("Loading new media: " + songs.get(index).getPath() + ", " + ex.getMessage(), ex.getCause());
             }
 
-            player.setVolume(currentVolume);
+            setVolume(currentVolume);
 
             // Auto play if player was already playing.
-            if (isPlaying)
+            if (wasPlaying)
             {
-                player.playMedia();
+                playMedia();
             }
         }
     }
@@ -398,7 +401,6 @@ public class MediaHandler
      */
     public void switchSong(int index) throws BLLException
     {
-        int oldIndex = currentIndex;
         currentIndex = index;
         try
         {
@@ -406,8 +408,10 @@ public class MediaHandler
         }
         catch (BLLException ex)
         {
+            boolean tmp = wasPlaying;
             stopMedia();
-            currentIndex = oldIndex;
+            isPlaying = tmp;
+            player = null;
             throw new BLLException("Could not switch to index: " + index + ", " + ex.getMessage(), ex.getCause());
         }
     }
