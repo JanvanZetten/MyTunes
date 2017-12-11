@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
@@ -757,7 +755,7 @@ public class DatabaseDAO implements DAO
     @Override
     public void sync(DAO syncDAO) throws DALException
     {
-        System.out.println("Syncing DatabaseDAO with " + syncDAO.getClass().getName() + ":");
+        //System.out.println("Syncing DatabaseDAO with " + syncDAO.getClass().getName() + ":");
         // SYNC GENRE
         List<Genre> newGenres = new ArrayList<>();
         List<Integer> newGenresId = new ArrayList<>();
@@ -801,7 +799,7 @@ public class DatabaseDAO implements DAO
                 }
             }
 
-            System.out.println("Genres synced.");
+            //System.out.println("Genres synced.");
         }
         catch (DALException e)
         {
@@ -816,11 +814,11 @@ public class DatabaseDAO implements DAO
                     newGenresId.add(genre.getGenreId());
                 }
 
-                System.out.println("Genres synced.");
+                //System.out.println("Genres synced.");
             }
             catch (DALException ex)
             {
-                System.out.println("Genres sync failed.");
+                //System.out.println("Genres sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }
         }
@@ -884,7 +882,7 @@ public class DatabaseDAO implements DAO
                     newSongsId.add(song.getSongId());
                 }
             }
-            System.out.println("Songs synced.");
+            //System.out.println("Songs synced.");
         }
         catch (DALException e)
         {
@@ -907,11 +905,11 @@ public class DatabaseDAO implements DAO
                     newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
                     newSongsId.add(song.getSongId());
                 }
-                System.out.println("Songs synced.");
+                //System.out.println("Songs synced.");
             }
             catch (DALException ex)
             {
-                System.out.println("Songs sync failed.");
+                //System.out.println("Songs sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }
         }
@@ -976,7 +974,7 @@ public class DatabaseDAO implements DAO
                 }
             }
 
-            System.out.println("Playlists synced.");
+            //System.out.println("Playlists synced.");
         }
         catch (DALException e)
         {
@@ -1000,15 +998,15 @@ public class DatabaseDAO implements DAO
                         }
                     }
                 }
-                System.out.println("Playlists synced.");
+                //System.out.println("Playlists synced.");
             }
             catch (DALException ex)
             {
-                System.out.println("Playlists sync failed.");
+                //System.out.println("Playlists sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }
         }
 
-        System.out.println("Sync finished!");
+        //System.out.println("Sync finished!");
     }
 }
