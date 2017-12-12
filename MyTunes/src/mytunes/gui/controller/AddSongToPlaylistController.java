@@ -44,8 +44,6 @@ public class AddSongToPlaylistController implements Initializable {
         playlists.addAll(model.getPlaylists());
         listviewPlaylist.setItems(playlists);
         listviewPlaylist.getItems().remove(0);
-        
-
     }
 
     /**
