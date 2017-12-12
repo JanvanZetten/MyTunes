@@ -453,13 +453,17 @@ public class MainWindowModel {
      * @throws BLLException
      */
     public void editSongInformation(Song song) throws BLLException {
-//        for (int i = 0; i < shownSongs.size(); i++) {
-//            if (shownSongs.get(i).getSongId() == song.getSongId()) {
-//                shownSongs.set(i, song);
-//            }
-//
-//        }
-        bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
+        Song songfrombll = bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
+        if (songfrombll != null){
+        chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setAlbum(song.getAlbum());
+        chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setArtist(song.getArtist());
+        chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setTitle(song.getTitle());
+        chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setYear(song.getYear());
+        chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setGenre(song.getGenre());
+        shownSongs.clear();
+        shownSongs.addAll(chosenPlaylist.getSongs());
+        }
+       
     }
 
     public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
