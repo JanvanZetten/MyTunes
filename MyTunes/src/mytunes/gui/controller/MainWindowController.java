@@ -1,4 +1,3 @@
-
 package mytunes.gui.controller;
 
 import java.io.File;
@@ -45,8 +44,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import mytunes.bll.BLLException;
 
-/** FXML Controller class
- * 
+/**
+ * FXML Controller class
+ *
  * This view handles the main menu of the program.
  *
  * @author Alex, Asbjørn og Jan
@@ -477,7 +477,8 @@ public class MainWindowController implements Initializable {
 
     /**
      * starts the edit window and refreshes the view
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     private void editWindow() throws IOException {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
@@ -530,35 +531,59 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * Keylistener
+     * Keylistener listens for keys and performs the assosiated tasks.
      *
-     * @param event
+     * @param event the keyevent
      * @throws IOException
      */
     @FXML
-    private void keyReleasedTable(KeyEvent event) throws IOException, BLLException {
+    private void keyReleasedTable(KeyEvent event) {
         KeyCode key = event.getCode();
 
         if (null != key) {
             switch (key) {
-                case LEFT:
-                    addSongToPlaylist();
-                    break;
+                case LEFT: {
+                    try {
+                        addSongToPlaylist();
+                    } catch (IOException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Could not add Song to playlist.", ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                }
+                break;
                 case UP:
-                    int indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
+                    int indeks = -1;
+                    try {
+                        indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
+                    } catch (BLLException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song up", ButtonType.OK);
+                        alert.showAndWait();
+                    }
                     if (indeks != -1) {
                         tblviewMaster.getSelectionModel().select(indeks);
                     }
                     break;
                 case DOWN:
-                    int indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
+                    int indeks2 = -1;
+                    try {
+                        indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
+                    } catch (BLLException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song down", ButtonType.OK);
+                        alert.showAndWait();
+                    }
                     if (indeks2 != -1) {
                         tblviewMaster.getSelectionModel().select(indeks2);
                     }
                     break;
-                case DELETE:
-                    deleteSongAction();
-                    break;
+                case DELETE: {
+                    try {
+                        deleteSongAction();
+                    } catch (IOException | BLLException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant delete.\n" + ex.getMessage(), ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                }
+                break;
                 default:
                     break;
             }
