@@ -34,7 +34,9 @@ public class AddSongToPlaylistController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
+        
         listviewPlaylist.setItems(model.getPlaylists());
 
     }

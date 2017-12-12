@@ -76,7 +76,9 @@ public class AddSongViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            //Using Singleton method to be sure there aren't 2 instances running.
             model = MainWindowModel.getInstance();
+            
             model.setCurrentAddMenu("song");
             cmboboxYear.setItems(yearGenerator());
             genreGetter();

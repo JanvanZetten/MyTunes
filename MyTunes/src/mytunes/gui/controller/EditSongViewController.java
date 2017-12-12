@@ -63,7 +63,9 @@ public class EditSongViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            //Using Singleton method to be sure there aren't 2 instances running.
             model = MainWindowModel.getInstance();
+            
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
             textSetter();

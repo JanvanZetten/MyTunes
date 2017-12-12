@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.io.File;
@@ -49,7 +45,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import mytunes.bll.BLLException;
 
-/**
+/** FXML Controller class
+ * 
+ * This view handles the main menu of the program.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -106,6 +104,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private Slider musicSlider;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     @Override
