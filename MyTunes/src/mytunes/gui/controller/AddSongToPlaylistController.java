@@ -3,6 +3,8 @@ package mytunes.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,7 +39,12 @@ public class AddSongToPlaylistController implements Initializable {
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
         
-        listviewPlaylist.setItems(model.getPlaylists());
+        //Sets the playlist options and removes My Library from the list.
+        ObservableList<Playlist> playlists = FXCollections.observableArrayList();
+        playlists.addAll(model.getPlaylists());
+        listviewPlaylist.setItems(playlists);
+        listviewPlaylist.getItems().remove(0);
+        
 
     }
 
@@ -61,6 +68,11 @@ public class AddSongToPlaylistController implements Initializable {
         stage.close();
     }
 
+    /**
+     * If the mouse is double clicked, it adds the song to the clicked playlist.
+     * @param event
+     * @throws BLLException 
+     */
     @FXML
     private void handleMouseClickedAction(MouseEvent event) throws BLLException {
         if (event.getButton().equals(MouseButton.PRIMARY)
