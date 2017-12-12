@@ -419,8 +419,6 @@ public class MainWindowModel {
         playlist.addSongToPlaylist(song);
         shownSongs.clear();
         shownSongs.addAll(chosenPlaylist.getSongs());
-        //mediaHandler.setSongs(playlist);
-
     }
 
     /**
