@@ -1,4 +1,3 @@
-
 package mytunes.gui.model;
 
 import java.util.ArrayList;
@@ -22,11 +21,12 @@ import mytunes.bll.BLLException;
 import mytunes.bll.BLLManager;
 import mytunes.bll.MediaHandler;
 
-/** FXML Model class
- * 
+/**
+ * FXML Model class
+ *
  * This class handles the data of the views.
  *
- * @author Alex, Asbjørn og Jan
+ * @author Alex, Asbjørn og Jan
  */
 public class MainWindowModel {
 
@@ -409,9 +409,10 @@ public class MainWindowModel {
 
     /**
      * Adds a song to a playlist.
+     *
      * @param playlist
      * @param song
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
@@ -447,20 +448,20 @@ public class MainWindowModel {
     }
 
     /**
-     * 
+     *
      * @param song
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void editSongInformation(Song song) throws BLLException {
-        for (int i = 0; i < shownSongs.size(); i++) {
-            if (shownSongs.get(i).getSongId() == song.getSongId()) {
-                shownSongs.set(i, song);
-            }
-
-        }
+//        for (int i = 0; i < shownSongs.size(); i++) {
+//            if (shownSongs.get(i).getSongId() == song.getSongId()) {
+//                shownSongs.set(i, song);
+//            }
+//
+//        }
         bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
     }
-    
+
     public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
         bllManager.updatePlaylist(PlaylistId, text);
     }
@@ -580,29 +581,31 @@ public class MainWindowModel {
             getAllGenres();
             playlists.clear();
             playlists.addAll(bllManager.getAllPlaylists());
+
+            Playlist copyOfChosenPlaylist = chosenPlaylist;
+            Song copyOfChosenSong = chosenSong;
+            for (Playlist playlist : playlists) {
+                if (playlist.getPlaylistId() == chosenPlaylist.getPlaylistId()) {
+                    shownSongs.clear();
+                    shownSongs.addAll(playlist.getSongs());
+                    for (Song shownSong : shownSongs) {
+                        if (shownSong.getSongId() == chosenSong.getSongId()) {
+                            chosenSong = shownSong;
+                        }
+                    }
+                    chosenPlaylist = playlist;
+                }
+            }
+            if (chosenPlaylist.equals(copyOfChosenPlaylist)) {
+                chosenPlaylist = playlists.get(0);
+            }
+            if (chosenSong.equals(copyOfChosenSong)) {
+                chosenSong = chosenPlaylist.getSongs().get(0);
+            }
         } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
             alert.showAndWait();
-        }
-        Playlist copyOfChosenPlaylist = chosenPlaylist;
-        Song copyOfChosenSong = chosenSong;
-        for (Playlist playlist : playlists) {
-            if (playlist.getPlaylistId() == chosenPlaylist.getPlaylistId()) {
-                shownSongs.clear();
-                shownSongs.addAll(playlist.getSongs());
-                for (Song shownSong : shownSongs) {
-                    if (shownSong.getSongId() == chosenSong.getSongId()) {
-                        chosenSong = shownSong;
-                    }
-                }
-                chosenPlaylist = playlist;
-            }
-        }
-        if (chosenPlaylist.equals(copyOfChosenPlaylist)) {
-            chosenPlaylist = playlists.get(0);
-        }
-        if (chosenSong.equals(copyOfChosenSong)) {
-            chosenSong = chosenPlaylist.getSongs().get(0);
+            return;
         }
 
     }
