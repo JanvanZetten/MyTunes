@@ -26,7 +26,7 @@ import mytunes.bll.MediaHandler;
  *
  * This class handles the data of the views.
  *
- * @author Alex, Asbjørn og Jan
+ * @author Alex, Asbjørn og Jan
  */
 public class MainWindowModel {
 

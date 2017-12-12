@@ -49,7 +49,7 @@ import mytunes.bll.BLLException;
  *
  * This view handles the main menu of the program.
  *
- * @author Alex, Asbjørn og Jan
+ * @author Alex, Asbjørn og Jan
  */
 public class MainWindowController implements Initializable {
 
