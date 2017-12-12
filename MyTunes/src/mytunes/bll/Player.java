@@ -15,6 +15,7 @@ public interface Player {
 
     /**
      * Play song.
+     * @throws mytunes.bll.BLLException
      */
     public void playMedia() throws BLLException;
 
