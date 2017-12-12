@@ -475,14 +475,15 @@ public class MainWindowController implements Initializable {
         tblviewMaster.setContextMenu(contextMenu);
     }
 
+    /**
+     * starts the edit window and refreshes the view
+     * @throws IOException 
+     */
     private void editWindow() throws IOException {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
             startModalWindow("EditSongView");
-            //model.addAllPlaylistsToGUI();
-        if (model.getChosenPlaylist() != null) {
-            setSongsOnTableview(model.getChosenPlaylist());
-        }
+            model.refreshFromDatabase();
         }
     }
 
