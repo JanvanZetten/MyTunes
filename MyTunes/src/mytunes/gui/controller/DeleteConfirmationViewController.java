@@ -39,7 +39,7 @@ public class DeleteConfirmationViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = MainWindowModel.getInstance();
         lblDeletedElement.setText(model.getSelectedElement() + "?");
-    }    
+    }
 
     @FXML
     private void handleButtonActionDelete(ActionEvent event) throws BLLException {
@@ -53,5 +53,5 @@ public class DeleteConfirmationViewController implements Initializable {
         Stage stage = (Stage) btnNo.getScene().getWindow();
         stage.close();
     }
-    
+
 }

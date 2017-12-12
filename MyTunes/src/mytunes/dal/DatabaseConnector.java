@@ -13,16 +13,14 @@ import java.sql.Connection;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class DatabaseConnector
-{
+public class DatabaseConnector {
 
     private SQLServerDataSource dataSource;
 
     /**
      * Constructor saves connection information.
      */
-    public DatabaseConnector()
-    {
+    public DatabaseConnector() {
         dataSource = new SQLServerDataSource();
 
         dataSource.setServerName("EASV-DB2");
@@ -38,8 +36,7 @@ public class DatabaseConnector
      * @return SQLServerDataSource.
      * @throws SQLServerException
      */
-    public Connection getConnection() throws SQLServerException
-    {
+    public Connection getConnection() throws SQLServerException {
         return dataSource.getConnection();
     }
 

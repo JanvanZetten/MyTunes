@@ -11,13 +11,12 @@ import java.io.Serializable;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class Genre implements Serializable
-{
+public class Genre implements Serializable {
+
     private final int genreId;
     private String genre;
 
-    public Genre(int genreId, String genre)
-    {
+    public Genre(int genreId, String genre) {
         this.genreId = genreId;
         this.genre = genre;
     }
@@ -27,8 +26,7 @@ public class Genre implements Serializable
      *
      * @return genre id
      */
-    public int getGenreId()
-    {
+    public int getGenreId() {
         return genreId;
     }
 
@@ -37,8 +35,7 @@ public class Genre implements Serializable
      *
      * @return genre
      */
-    public String getGenre()
-    {
+    public String getGenre() {
         return genre;
     }
 
@@ -47,26 +44,21 @@ public class Genre implements Serializable
      *
      * @param genre
      */
-    public void setGenre(String genre)
-    {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return genre;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == null)
-        {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        if (obj instanceof Genre)
-        {
+        if (obj instanceof Genre) {
             return this.genreId == ((Genre) obj).getGenreId();
         }
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.

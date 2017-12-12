@@ -16,18 +16,14 @@ import mytunes.dal.DALManager;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class BLLManager
-{
+public class BLLManager {
+
     DALManager dalManager;
 
-    public BLLManager() throws BLLException
-    {
-        try
-        {
+    public BLLManager() throws BLLException {
+        try {
             dalManager = new DALManager();
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -38,14 +34,10 @@ public class BLLManager
      * @return A list of Playlist objects.
      * @throws BLLException
      */
-    public List<Playlist> getAllPlaylists() throws BLLException
-    {
-        try
-        {
+    public List<Playlist> getAllPlaylists() throws BLLException {
+        try {
             return dalManager.getAllPlaylists();
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -56,14 +48,10 @@ public class BLLManager
      * @return A list of Song objects
      * @throws BLLException
      */
-    public List<Song> getAllSongs() throws BLLException
-    {
-        try
-        {
+    public List<Song> getAllSongs() throws BLLException {
+        try {
             return dalManager.getAllSongs();
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -74,14 +62,10 @@ public class BLLManager
      * @return A list of Genre.
      * @throws BLLException
      */
-    public List<Genre> getAllGenres() throws BLLException
-    {
-        try
-        {
+    public List<Genre> getAllGenres() throws BLLException {
+        try {
             return dalManager.getAllGenres();
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -93,14 +77,10 @@ public class BLLManager
      * @return Genre object with new information.
      * @throws BLLException
      */
-    public Genre addGenre(String genre) throws BLLException
-    {
-        try
-        {
+    public Genre addGenre(String genre) throws BLLException {
+        try {
             return dalManager.addGenre(genre);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -117,14 +97,10 @@ public class BLLManager
      * @return Song object with new information.
      * @throws BLLException
      */
-    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
-    {
-        try
-        {
+    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
+        try {
             return dalManager.addSong(artist, title, album, year, genre, directory);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -136,14 +112,10 @@ public class BLLManager
      * @return Playlist object with new information.
      * @throws BLLException
      */
-    public Playlist addPlaylist(String name) throws BLLException
-    {
-        try
-        {
+    public Playlist addPlaylist(String name) throws BLLException {
+        try {
             return dalManager.addPlaylist(name);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -156,14 +128,10 @@ public class BLLManager
      * @return true if song was added to playlist.
      * @throws BLLException
      */
-    public boolean addSongToPlaylist(Playlist playlist, Song song) throws BLLException
-    {
-        try
-        {
+    public boolean addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
+        try {
             return dalManager.addSongToPlaylist(playlist, song);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -176,14 +144,10 @@ public class BLLManager
      * @return updated Genre object.
      * @throws BLLException
      */
-    public Genre updateGenre(int genreId, String genre) throws BLLException
-    {
-        try
-        {
+    public Genre updateGenre(int genreId, String genre) throws BLLException {
+        try {
             return dalManager.updateGenre(genreId, genre);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -201,14 +165,10 @@ public class BLLManager
      * @return Song object with new information.
      * @throws BLLException
      */
-    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
-    {
-        try
-        {
+    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
+        try {
             return dalManager.updateSong(songId, artist, title, album, year, genre, directory);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -221,14 +181,10 @@ public class BLLManager
      * @return Playlist object with new information.
      * @throws BLLException
      */
-    public Playlist updatePlaylist(int playlistId, String name) throws BLLException
-    {
-        try
-        {
+    public Playlist updatePlaylist(int playlistId, String name) throws BLLException {
+        try {
             return dalManager.updatePlaylist(playlistId, name);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -240,14 +196,10 @@ public class BLLManager
      * @return succession boolean.
      * @throws BLLException
      */
-    public boolean deleteGenre(int genreId) throws BLLException
-    {
-        try
-        {
+    public boolean deleteGenre(int genreId) throws BLLException {
+        try {
             return dalManager.deleteGenre(genreId);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -259,14 +211,10 @@ public class BLLManager
      * @return succession boolean.
      * @throws BLLException
      */
-    public boolean deleteSong(int songId) throws BLLException
-    {
-        try
-        {
+    public boolean deleteSong(int songId) throws BLLException {
+        try {
             return dalManager.deleteSong(songId);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -278,14 +226,10 @@ public class BLLManager
      * @return succession boolean.
      * @throws BLLException
      */
-    public boolean deletePlaylist(int playlistId) throws BLLException
-    {
-        try
-        {
+    public boolean deletePlaylist(int playlistId) throws BLLException {
+        try {
             return dalManager.deletePlaylist(playlistId);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -298,34 +242,27 @@ public class BLLManager
      * @return succession boolean.
      * @throws BLLException
      */
-    public boolean deleteSongInPlaylist(int songId, int playlistId) throws BLLException
-    {
-        try
-        {
+    public boolean deleteSongInPlaylist(int songId, int playlistId) throws BLLException {
+        try {
             return dalManager.deleteSongInPlaylist(songId, playlistId);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
      * swab the placement of two songs in a playlist in the database
+     *
      * @param firstSongId
      * @param secondSongId
      * @param playlistId
      * @return
      * @throws BLLException
      */
-    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException
-    {
-        try
-        {
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws BLLException {
+        try {
             return dalManager.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
-        }
-        catch (DALException ex)
-        {
+        } catch (DALException ex) {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }

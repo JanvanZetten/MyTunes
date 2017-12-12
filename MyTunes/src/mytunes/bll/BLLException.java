@@ -9,20 +9,17 @@ package mytunes.bll;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class BLLException extends Exception
-{
-    public BLLException(String message)
-    {
+public class BLLException extends Exception {
+
+    public BLLException(String message) {
         super(message);
     }
 
-    public BLLException(String message, Throwable cause)
-    {
+    public BLLException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BLLException(Throwable cause)
-    {
+    public BLLException(Throwable cause) {
         super(cause);
     }
 

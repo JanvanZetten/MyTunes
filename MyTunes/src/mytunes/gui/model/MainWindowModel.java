@@ -30,8 +30,7 @@ import mytunes.bll.MediaHandler;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MainWindowModel
-{
+public class MainWindowModel {
 
     private static MainWindowModel instance;
 
@@ -53,32 +52,25 @@ public class MainWindowModel
      *
      * @return MainWindowModel
      */
-    public static MainWindowModel getInstance()
-    {
-        if (instance == null)
-        {
+    public static MainWindowModel getInstance() {
+        if (instance == null) {
             instance = new MainWindowModel();
         }
         return instance;
     }
 
-    public MainWindowModel()
-    {
-        try
-        {
+    public MainWindowModel() {
+        try {
             bllManager = new BLLManager();
             mediaHandler = new MediaHandler();
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             shownSongs = FXCollections.observableArrayList();
             playlists.addAll(bllManager.getAllPlaylists());
-            if (playlists.size() > 0)
-            {
+            if (playlists.size() > 0) {
                 setChosenPlaylist(playlists.get(0));
             }
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             throw new RuntimeException(ex.getMessage(), ex.getCause());
         }
     }
@@ -88,15 +80,11 @@ public class MainWindowModel
      * to call the getPlaylists() and assign the observable list to the element
      * in which it has to be shown
      */
-    public void addAllPlaylistsToGUI()
-    {
+    public void addAllPlaylistsToGUI() {
         playlists.clear();
-        try
-        {
+        try {
             playlists.addAll(bllManager.getAllPlaylists());
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not add Playlist: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -107,8 +95,7 @@ public class MainWindowModel
      *
      * @return a observablelist with Playlist objects
      */
-    public ObservableList<Playlist> getPlaylists()
-    {
+    public ObservableList<Playlist> getPlaylists() {
         return playlists;
     }
 
@@ -117,8 +104,7 @@ public class MainWindowModel
      *
      * @return a observablelist with Playlist objects
      */
-    public ObservableList<Song> getSongs()
-    {
+    public ObservableList<Song> getSongs() {
         //return mediaHandler.getSongs();
         return shownSongs;
     }
@@ -128,8 +114,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleStringProperty getArtist()
-    {
+    public SimpleStringProperty getArtist() {
         return mediaHandler.getArtist();
     }
 
@@ -138,8 +123,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleStringProperty getTitle()
-    {
+    public SimpleStringProperty getTitle() {
         return mediaHandler.getTitle();
     }
 
@@ -148,8 +132,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleStringProperty getAlbum()
-    {
+    public SimpleStringProperty getAlbum() {
         return mediaHandler.getAlbum();
     }
 
@@ -158,8 +141,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleStringProperty getCurrentTime()
-    {
+    public SimpleStringProperty getCurrentTime() {
         return mediaHandler.getCurrentTime();
     }
 
@@ -168,8 +150,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleStringProperty getDurationTime()
-    {
+    public SimpleStringProperty getDurationTime() {
         return mediaHandler.getDurationTime();
     }
 
@@ -178,8 +159,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public SimpleDoubleProperty getProgress()
-    {
+    public SimpleDoubleProperty getProgress() {
         return mediaHandler.getProgress();
     }
 
@@ -189,13 +169,11 @@ public class MainWindowModel
      *
      * @param selectedItem the playlist from which to take the song
      */
-    public void setSongs(Playlist selectedItem)
-    {
+    public void setSongs(Playlist selectedItem) {
 //        try
 //        {
         //mediaHandler.setSongs(selectedItem);
-        if (selectedItem != null)
-        {
+        if (selectedItem != null) {
             shownSongs.clear();
             shownSongs.addAll(selectedItem.getSongs());
         }
@@ -211,14 +189,10 @@ public class MainWindowModel
     /**
      * Play song.
      */
-    public void playMedia()
-    {
-        try
-        {
+    public void playMedia() {
+        try {
             mediaHandler.playMedia();
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not play Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -227,22 +201,17 @@ public class MainWindowModel
     /**
      * Pause song.
      */
-    public void pauseMedia()
-    {
+    public void pauseMedia() {
         mediaHandler.pauseMedia();
     }
 
     /**
      * Change to previous song in list.
      */
-    public void previousMedia()
-    {
-        try
-        {
+    public void previousMedia() {
+        try {
             mediaHandler.previousMedia();
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -251,14 +220,10 @@ public class MainWindowModel
     /**
      * Change to next song in list.
      */
-    public void nextMedia()
-    {
-        try
-        {
+    public void nextMedia() {
+        try {
             mediaHandler.nextMedia();
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -267,14 +232,10 @@ public class MainWindowModel
     /**
      * Switch song to index.
      */
-    public void switchSong(int index)
-    {
-        try
-        {
+    public void switchSong(int index) {
+        try {
             mediaHandler.switchSong(index);
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -285,8 +246,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public boolean switchLooping()
-    {
+    public boolean switchLooping() {
         return mediaHandler.switchLooping();
     }
 
@@ -295,8 +255,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public boolean switchShuffling()
-    {
+    public boolean switchShuffling() {
         return mediaHandler.switchShuffling();
     }
 
@@ -305,17 +264,13 @@ public class MainWindowModel
      *
      * @param volumeSlider the Slider who have to adjust the volume
      */
-    public void volumeSliderSetup(Slider volumeSlider)
-    {
+    public void volumeSliderSetup(Slider volumeSlider) {
         volumeSlider.setValue(mediaHandler.getVolume() * volumeSlider.getMax());
-        volumeSlider.valueProperty().addListener(new InvalidationListener()
-        {
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
-            public void invalidated(Observable observable)
-            {
+            public void invalidated(Observable observable) {
                 mediaHandler.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
-                if (volumeSlider.getValue() == 0)
-                {
+                if (volumeSlider.getValue() == 0) {
                 }
             }
         });
@@ -328,8 +283,7 @@ public class MainWindowModel
      *
      * @param SelectedElement
      */
-    public void selectedDeletedElements(String SelectedElement)
-    {
+    public void selectedDeletedElements(String SelectedElement) {
         selectedElement = SelectedElement;
     }
 
@@ -339,8 +293,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public String getSelectedElement()
-    {
+    public String getSelectedElement() {
         return selectedElement;
     }
 
@@ -351,15 +304,12 @@ public class MainWindowModel
      * @param text the text which should be found in the songs title or artist
      * for it to be shown
      */
-    public void filterSongList(String text)
-    {
+    public void filterSongList(String text) {
         List<Song> songsList = new ArrayList<>();
         songsList.addAll(shownSongs);
         shownSongs.clear();
-        for (Song song : songsList)
-        {
-            if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase()))
-            {
+        for (Song song : songsList) {
+            if (song.getTitle().toLowerCase().contains(text.toLowerCase()) || song.getArtist().toLowerCase().contains(text.toLowerCase())) {
                 shownSongs.add(song);
             }
         }
@@ -371,8 +321,7 @@ public class MainWindowModel
      * @param text
      * @throws mytunes.bll.BLLException
      */
-    public void createPlaylist(String text) throws BLLException
-    {
+    public void createPlaylist(String text) throws BLLException {
         bllManager.addPlaylist(text);
     }
 
@@ -382,8 +331,7 @@ public class MainWindowModel
      *
      * @throws BLLException
      */
-    public void getAllGenres() throws BLLException
-    {
+    public void getAllGenres() throws BLLException {
         genres.clear();
         genres.addAll(bllManager.getAllGenres());
     }
@@ -393,8 +341,7 @@ public class MainWindowModel
      *
      * @return
      */
-    public ObservableList<Genre> getGenres()
-    {
+    public ObservableList<Genre> getGenres() {
         return genres;
     }
 
@@ -410,8 +357,7 @@ public class MainWindowModel
      * @param directory
      * @throws mytunes.bll.BLLException
      */
-    public void createSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException
-    {
+    public void createSong(String artist, String title, String album, int year, Genre genre, String directory) throws BLLException {
         bllManager.addSong(artist, title, album, year, genre, directory);
     }
 
@@ -421,8 +367,7 @@ public class MainWindowModel
      * @param genre
      * @throws mytunes.bll.BLLException
      */
-    public void addGenre(String genre) throws BLLException
-    {
+    public void addGenre(String genre) throws BLLException {
         bllManager.addGenre(genre);
     }
 
@@ -432,8 +377,7 @@ public class MainWindowModel
      *
      * @param menu
      */
-    public void setCurrentAddMenu(String menu)
-    {
+    public void setCurrentAddMenu(String menu) {
         currentAddMenu = menu;
     }
 
@@ -443,31 +387,29 @@ public class MainWindowModel
      *
      * @return
      */
-    public String getCurrentAddMenu()
-    {
+    public String getCurrentAddMenu() {
         return currentAddMenu;
     }
 
     /**
      * Sets the chosen song call this when a song element is clicked
+     *
      * @param selectedSong a song object
      */
-    public void setChosenSong(Song selectedSong)
-    {
+    public void setChosenSong(Song selectedSong) {
         chosenSong = selectedSong;
     }
 
     /**
      * returns the latest song given in setChosenSong()
+     *
      * @return a song object
      */
-    public Song getChosenSong()
-    {
+    public Song getChosenSong() {
         return chosenSong;
     }
 
-    public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException
-    {
+    public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
         //mediaHandler.setSongs(playlist);
@@ -483,14 +425,12 @@ public class MainWindowModel
      * @return the new indeks of the moved elment. -1 if failed
      * @throws mytunes.bll.BLLException
      */
-    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException
-    {
+    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(shownSongs);
 
         int index = songsholder.indexOf(selectedItem);
-        if (index - i >= 0 && index - i + 1 <= songsholder.size())
-        {
+        if (index - i >= 0 && index - i + 1 <= songsholder.size()) {
             Song song = songsholder.get(index);
             songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
@@ -502,68 +442,57 @@ public class MainWindowModel
         return -1;
     }
 
-    public void editSongInformation(Song song) throws BLLException
-    {
+    public void editSongInformation(Song song) throws BLLException {
         for (int i = 0; i < shownSongs.size(); i++) {
-            if (shownSongs.get(i).getSongId() == song.getSongId()){
+            if (shownSongs.get(i).getSongId() == song.getSongId()) {
                 shownSongs.set(i, song);
             }
-            
+
         }
         bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
     }
 
-    public void editPlaylistInformation(int PlaylistId, String text) throws BLLException
-    {
+    public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
         bllManager.updatePlaylist(PlaylistId, text);
     }
 
-    public void setCurrentElementToBeDeleted(String element) throws BLLException
-    {
-        if ("Song".equals(element))
-        {
-            if (chosenPlaylist.getPlaylistId() == 1)
-            {
+    public void setCurrentElementToBeDeleted(String element) throws BLLException {
+        if ("Song".equals(element)) {
+            if (chosenPlaylist.getPlaylistId() == 1) {
                 bllManager.deleteSong(chosenSong.getSongId());
                 shownSongs.remove(chosenSong);
-            }
-            else
-            {
+            } else {
                 bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
                 chosenPlaylist.getSongs().remove(chosenSong);
             }
-        }
-        else if ("Playlist".equals(element))
-        {
+        } else if ("Playlist".equals(element)) {
             bllManager.deletePlaylist(chosenPlaylist.getPlaylistId());
         }
     }
 
     /**
      * change the muted varibel
+     *
      * @param mutedSetting true when muted false when unmuted
      */
-    public void setMuted(boolean mutedSetting)
-    {
+    public void setMuted(boolean mutedSetting) {
         muted = mutedSetting;
     }
 
     /**
      * returns the muted varibel
+     *
      * @return
      */
-    public boolean isMuted()
-    {
+    public boolean isMuted() {
         return muted;
     }
 
-    public void setSongOrPlaylist(String SongOrPlaylist)
-    {
+    public void setSongOrPlaylist(String SongOrPlaylist) {
         songOrPlaylist = SongOrPlaylist;
     }
 
-    public String getSongOrPlaylist()
-    {
+    public String getSongOrPlaylist() {
         return songOrPlaylist;
     }
 
@@ -572,8 +501,7 @@ public class MainWindowModel
      *
      * @return true if playing else false
      */
-    public boolean isPlaying()
-    {
+    public boolean isPlaying() {
         return mediaHandler.isPlaying();
     }
 
@@ -583,8 +511,7 @@ public class MainWindowModel
      *
      * @param chosenPlaylist
      */
-    public void setChosenPlaylist(Playlist chosenPlaylist)
-    {
+    public void setChosenPlaylist(Playlist chosenPlaylist) {
         this.chosenPlaylist = chosenPlaylist;
     }
 
@@ -593,38 +520,28 @@ public class MainWindowModel
      *
      * @return be.Playlist object
      */
-    public Playlist getChosenPlaylist()
-    {
+    public Playlist getChosenPlaylist() {
         return chosenPlaylist;
     }
 
-    public void musicSliderSetup(Slider musicSlider)
-    {
+    public void musicSliderSetup(Slider musicSlider) {
         musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
 
-        musicSlider.valueProperty().addListener(new InvalidationListener()
-        {
+        musicSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
-            public void invalidated(Observable observable)
-            {
-                if (musicSlider.pressedProperty().get())
-                {
+            public void invalidated(Observable observable) {
+                if (musicSlider.pressedProperty().get()) {
                     mediaHandler.setProgressing(false);
                 }
             }
         });
 
-        musicSlider.setOnMouseReleased(new EventHandler<MouseEvent>()
-        {
+        musicSlider.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event)
-            {
-                try
-                {
+            public void handle(MouseEvent event) {
+                try {
                     mediaHandler.seek(musicSlider.getValue());
-                }
-                catch (BLLException ex)
-                {
+                } catch (BLLException ex) {
                     mediaHandler.stopMedia();
                 }
                 mediaHandler.setProgressing(true);
@@ -635,14 +552,10 @@ public class MainWindowModel
     /**
      * Sets the currently shown songs for playing
      */
-    public void setCurrentShownSongsForPlaying()
-    {
-        try
-        {
+    public void setCurrentShownSongsForPlaying() {
+        try {
             mediaHandler.setSongs(shownSongs);
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }

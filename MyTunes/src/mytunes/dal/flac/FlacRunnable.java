@@ -12,22 +12,23 @@ import org.jflac.metadata.SeekPoint;
 
 /**
  * Made to handle decoding. Used and tested with custom JFlac codec 1.5.3.
+ *
  * @author Alex, Asbjørn og Jan
  */
-public class FlacRunnable implements Runnable
-{
+public class FlacRunnable implements Runnable {
+
     private FLACDecoder decoder;
     private SeekPoint from;
     private SeekPoint to;
 
     /**
      * Get needed resources.
+     *
      * @param decoder
      * @param from
      * @param to
      */
-    public FlacRunnable(FLACDecoder decoder, SeekPoint from, SeekPoint to)
-    {
+    public FlacRunnable(FLACDecoder decoder, SeekPoint from, SeekPoint to) {
         this.decoder = decoder;
         this.from = from;
         this.to = to;
@@ -37,14 +38,10 @@ public class FlacRunnable implements Runnable
      * Start decoding.
      */
     @Override
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             decoder.decode(from, to);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             throw new RuntimeException("Play Flac: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -52,24 +49,21 @@ public class FlacRunnable implements Runnable
     /**
      * Stop decoding.
      */
-    public void stop()
-    {
+    public void stop() {
         decoder.stop();
     }
 
     /**
      * Pause decoding.
      */
-    public void pause()
-    {
+    public void pause() {
         decoder.pause();
     }
 
     /**
      * Resume decoding.
      */
-    public void resume()
-    {
+    public void resume() {
         decoder.resume();
     }
 }

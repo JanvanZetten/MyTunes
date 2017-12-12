@@ -17,12 +17,10 @@ import mytunes.gui.controller.MainWindowController;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MyTunes extends Application
-{
+public class MyTunes extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception
-    {
+    public void start(Stage stage) throws Exception {
         //Get window.
         Stage newStage = new Stage();
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
@@ -49,8 +47,7 @@ public class MyTunes extends Application
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 

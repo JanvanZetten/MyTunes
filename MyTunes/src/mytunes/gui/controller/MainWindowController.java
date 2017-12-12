@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
@@ -468,9 +467,7 @@ public class MainWindowController implements Initializable {
                 -> {
             try {
                 deleteSongAction();
-            }
-            catch (IOException | BLLException ex)
-            {
+            } catch (IOException | BLLException ex) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Could not delete song: " + ex.getMessage() + ".", ButtonType.OK);
                 alert.showAndWait();
             }
@@ -597,17 +594,13 @@ public class MainWindowController implements Initializable {
     private void playSong() {
         if (model.isPlaying()) {
             model.pauseMedia();
-            if (!model.isPlaying())
-            {
+            if (!model.isPlaying()) {
                 File file = new File("src/mytunes/gui/view/pictures/play.png");
                 imageviewPlayPause.setImage(new Image(file.toURI().toString()));
             }
-        }
-        else
-        {
+        } else {
             model.playMedia();
-            if (model.isPlaying())
-            {
+            if (model.isPlaying()) {
                 File file = new File("src/mytunes/gui/view/pictures/pause.png");
                 imageviewPlayPause.setImage(new Image(file.toURI().toString()));
             }

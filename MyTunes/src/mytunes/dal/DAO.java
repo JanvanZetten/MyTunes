@@ -14,8 +14,8 @@ import mytunes.be.Song;
  *
  * @author Alex, Asbjørn og Jan
  */
-public interface DAO
-{
+public interface DAO {
+
     /**
      * Get all Playlists in data.
      *
@@ -156,6 +156,7 @@ public interface DAO
 
     /**
      * Swap songs in playlist to get wanted order.
+     *
      * @param firstSongId song wanted swapped.
      * @param secondSongId song wanted swapped.
      * @param playlistId playlist wanted affected.

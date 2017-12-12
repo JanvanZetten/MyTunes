@@ -12,10 +12,11 @@ import org.jflac.FLACDecoder;
 /**
  * Made to listen and change currentTime. Used and tested with custom JFlac
  * codec 1.5.3.
+ *
  * @author Alex, Asbjørn og Jan
  */
-public class FlacProgressListener implements Runnable
-{
+public class FlacProgressListener implements Runnable {
+
     private volatile Thread blinker;
 
     private final SimpleDoubleProperty currentTime;
@@ -24,12 +25,12 @@ public class FlacProgressListener implements Runnable
 
     /**
      * Get needed resources.
+     *
      * @param currentTime
      * @param decoder
      * @param sampleRate
      */
-    public FlacProgressListener(SimpleDoubleProperty currentTime, FLACDecoder decoder, int sampleRate)
-    {
+    public FlacProgressListener(SimpleDoubleProperty currentTime, FLACDecoder decoder, int sampleRate) {
         this.currentTime = currentTime;
         this.decoder = decoder;
         this.sampleRate = sampleRate;
@@ -38,8 +39,7 @@ public class FlacProgressListener implements Runnable
     /**
      * Stop listening.
      */
-    public void stop()
-    {
+    public void stop() {
         blinker = null;
     }
 
@@ -47,27 +47,20 @@ public class FlacProgressListener implements Runnable
      * Changing currentTime from decoded samples.
      */
     @Override
-    public void run()
-    {
+    public void run() {
         blinker = Thread.currentThread();
         Thread thisThread = Thread.currentThread();
-        while (blinker == thisThread)
-        {
-            Platform.runLater(new Runnable()
-            {
+        while (blinker == thisThread) {
+            Platform.runLater(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     currentTime.set(((decoder.getSamplesDecoded() * 1.0) / (sampleRate * 1.0)) * 1000);
                 }
             });
 
-            try
-            {
+            try {
                 Thread.sleep(100);
-            }
-            catch (InterruptedException ex)
-            {
+            } catch (InterruptedException ex) {
             }
         }
     }

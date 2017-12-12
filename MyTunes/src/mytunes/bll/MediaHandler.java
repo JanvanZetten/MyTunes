@@ -21,8 +21,8 @@ import mytunes.dal.DALException;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MediaHandler
-{
+public class MediaHandler {
+
     private final ObservableList<Song> songs;
     private final SimpleStringProperty artist;
     private final SimpleStringProperty title;
@@ -43,8 +43,7 @@ public class MediaHandler
     private boolean isProgressing;
     private final List<Integer> shuffleList;
 
-    public MediaHandler()
-    {
+    public MediaHandler() {
         this.songs = FXCollections.observableArrayList();
         artist = new SimpleStringProperty("");
         title = new SimpleStringProperty("");
@@ -66,18 +65,13 @@ public class MediaHandler
         currentTime.set(sec2minsec(currentTimeInDouble.doubleValue() / 1000));
 
         // A listener which checks if the value of currentTime changed. If so update it.
-        currentTimeInDouble.addListener((observable, oldValue, newValue) ->
-        {
-            if (isProgressing)
-            {
-                if (durationTimeInDouble.get() - newValue.doubleValue() <= 100)
-                {
-                    try
-                    {
+        currentTimeInDouble.addListener((observable, oldValue, newValue)
+                -> {
+            if (isProgressing) {
+                if (durationTimeInDouble.get() - newValue.doubleValue() <= 100) {
+                    try {
                         nextMedia();
-                    }
-                    catch (BLLException ex)
-                    {
+                    } catch (BLLException ex) {
                         stopMedia();
                         throw new RuntimeException(ex.getMessage(), ex.getCause());
                     }
@@ -88,8 +82,8 @@ public class MediaHandler
         });
 
         // A listener which checks if the value of durationTime changed. If so update it.
-        durationTimeInDouble.addListener((observableValue, oldDuration, newDuration) ->
-        {
+        durationTimeInDouble.addListener((observableValue, oldDuration, newDuration)
+                -> {
             durationTime.set(sec2minsec(newDuration.doubleValue() / 1000));
         });
     }
@@ -99,62 +93,61 @@ public class MediaHandler
      *
      * @return a observablelist with Playlist objects
      */
-    public ObservableList<Song> getSongs()
-    {
+    public ObservableList<Song> getSongs() {
         return songs;
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
-    public SimpleStringProperty getArtist()
-    {
+    public SimpleStringProperty getArtist() {
         return artist;
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
-    public SimpleStringProperty getTitle()
-    {
+    public SimpleStringProperty getTitle() {
         return title;
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
-    public SimpleStringProperty getAlbum()
-    {
+    public SimpleStringProperty getAlbum() {
         return album;
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
-    public SimpleStringProperty getCurrentTime()
-    {
+    public SimpleStringProperty getCurrentTime() {
         return currentTime;
     }
 
     /**
      * Get observable String
+     *
      * @return
      */
-    public SimpleStringProperty getDurationTime()
-    {
+    public SimpleStringProperty getDurationTime() {
         return durationTime;
     }
 
     /**
      * Get observable Double
+     *
      * @return
      */
-    public SimpleDoubleProperty getProgress()
-    {
+    public SimpleDoubleProperty getProgress() {
         return progress;
     }
 
@@ -164,18 +157,14 @@ public class MediaHandler
      * @param selectedItem the list of songs from which to take the song
      * @throws mytunes.bll.BLLException
      */
-    public void setSongs(ObservableList<Song> selectedItem) throws BLLException
-    {
+    public void setSongs(ObservableList<Song> selectedItem) throws BLLException {
         songs.clear();
 
         songs.addAll(selectedItem);
 
-        if (songs.size() > 0)
-        {
+        if (songs.size() > 0) {
             currentIndex = 0;
-        }
-        else
-        {
+        } else {
             currentIndex = -1;
         }
 
@@ -185,10 +174,8 @@ public class MediaHandler
     /**
      * Play song.
      */
-    public void playMedia() throws BLLException
-    {
-        if (player != null)
-        {
+    public void playMedia() throws BLLException {
+        if (player != null) {
             isPlaying = true;
             player.playMedia();
         }
@@ -197,19 +184,15 @@ public class MediaHandler
     /**
      * Pause song.
      */
-    public void pauseMedia()
-    {
-        if (player != null)
-        {
+    public void pauseMedia() {
+        if (player != null) {
             isPlaying = false;
             player.pauseMedia();
         }
     }
 
-    public void stopMedia()
-    {
-        if (player != null)
-        {
+    public void stopMedia() {
+        if (player != null) {
             isPlaying = false;
             player.stopMedia();
         }
@@ -217,17 +200,14 @@ public class MediaHandler
 
     /**
      * Change to previous song in list.
+     *
      * @throws mytunes.bll.BLLException
      */
-    public void previousMedia() throws BLLException
-    {
-        if (currentIndex - 1 < 0 && isLooping)
-        {
+    public void previousMedia() throws BLLException {
+        if (currentIndex - 1 < 0 && isLooping) {
             currentIndex = songs.size() - 1;
             switchSong();
-        }
-        else if (currentIndex - 1 >= 0)
-        {
+        } else if (currentIndex - 1 >= 0) {
             currentIndex--;
             switchSong();
         }
@@ -235,17 +215,14 @@ public class MediaHandler
 
     /**
      * Change to next song in list.
+     *
      * @throws mytunes.bll.BLLException
      */
-    public void nextMedia() throws BLLException
-    {
-        if (currentIndex + 1 >= songs.size() && isLooping)
-        {
+    public void nextMedia() throws BLLException {
+        if (currentIndex + 1 >= songs.size() && isLooping) {
             currentIndex = 0;
             switchSong();
-        }
-        else if (currentIndex + 1 < songs.size())
-        {
+        } else if (currentIndex + 1 < songs.size()) {
             currentIndex++;
             switchSong();
         }
@@ -253,37 +230,31 @@ public class MediaHandler
 
     /**
      * Get current volume of player.
+     *
      * @return current volume as double.
      */
-    public double getVolume()
-    {
+    public double getVolume() {
         return currentVolume;
     }
 
     /**
      * Set volume of player.
+     *
      * @param value new volume as double.
      */
-    public void setVolume(double value)
-    {
-        if (player != null)
-        {
+    public void setVolume(double value) {
+        if (player != null) {
             player.setVolume(value);
         }
         currentVolume = value;
     }
 
-    public void seek(double value) throws BLLException
-    {
-        try
-        {
-            if (player != null)
-            {
+    public void seek(double value) throws BLLException {
+        try {
+            if (player != null) {
                 player.seekMedia(value);
             }
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             stopMedia();
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
@@ -292,25 +263,19 @@ public class MediaHandler
     /**
      * Switch song to current index.
      */
-    private void switchSong() throws BLLException
-    {
-        if (currentIndex != -1)
-        {
+    private void switchSong() throws BLLException {
+        if (currentIndex != -1) {
             wasPlaying = isPlaying;
             // Load new media.
-            if (player != null)
-            {
+            if (player != null) {
                 stopMedia();
             }
 
             // Checks for shuffle.
             int index;
-            if (isShuffling)
-            {
+            if (isShuffling) {
                 index = shuffleList.get(currentIndex);
-            }
-            else
-            {
+            } else {
                 index = currentIndex;
             }
 
@@ -319,25 +284,17 @@ public class MediaHandler
             title.set(songs.get(index).getTitle());
             album.set(songs.get(index).getAlbum());
 
-            try
-            {
+            try {
                 audioMedia = new AudioMedia(new File(songs.get(index).getPath()));
-                if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("aiff"))
-                {
+                if (audioMedia.getExtension().equalsIgnoreCase("mp3") || audioMedia.getExtension().equalsIgnoreCase("wav") || audioMedia.getExtension().equalsIgnoreCase("aiff")) {
                     player = new AudioPlayer(songs.get(index), currentTimeInDouble, durationTimeInDouble);
-                }
-                else if (audioMedia.getExtension().equalsIgnoreCase("flac"))
-                {
+                } else if (audioMedia.getExtension().equalsIgnoreCase("flac")) {
                     player = new FlacPlayer(currentTimeInDouble, durationTimeInDouble);
                     player.setSong(songs.get(index));
-                }
-                else
-                {
+                } else {
                     return;
                 }
-            }
-            catch (DALException ex)
-            {
+            } catch (DALException ex) {
                 stopMedia();
                 throw new BLLException("Loading new media: " + songs.get(index).getPath() + ", " + ex.getMessage(), ex.getCause());
             }
@@ -345,8 +302,7 @@ public class MediaHandler
             setVolume(currentVolume);
 
             // Auto play if player was already playing.
-            if (wasPlaying)
-            {
+            if (wasPlaying) {
                 playMedia();
             }
         }
@@ -354,41 +310,35 @@ public class MediaHandler
 
     /**
      * Switch looping playlist.
+     *
      * @return isLooping.
      */
-    public boolean switchLooping()
-    {
+    public boolean switchLooping() {
         isLooping = !isLooping;
         return isLooping;
     }
 
     /**
      * Switch shuffling playlist.
+     *
      * @return isShuffling.
      */
-    public boolean switchShuffling()
-    {
+    public boolean switchShuffling() {
         isShuffling = !isShuffling;
-        if (isShuffling)
-        {
+        if (isShuffling) {
             shuffleList.clear();
             shuffleList.add(currentIndex);
             currentIndex = 0;
-            for (int i = 0; i < songs.size() - 1; i++)
-            {
-                while (true)
-                {
+            for (int i = 0; i < songs.size() - 1; i++) {
+                while (true) {
                     int randomIndex = new Random().nextInt(songs.size());
-                    if (!shuffleList.contains(randomIndex))
-                    {
+                    if (!shuffleList.contains(randomIndex)) {
                         shuffleList.add(randomIndex);
                         break;
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             currentIndex = songs.indexOf(songs.get(shuffleList.get(currentIndex)));
         }
         return isShuffling;
@@ -396,18 +346,15 @@ public class MediaHandler
 
     /**
      * Switch to wanted song on index.
+     *
      * @param index of song.
      * @throws BLLException if index does not run.
      */
-    public void switchSong(int index) throws BLLException
-    {
+    public void switchSong(int index) throws BLLException {
         currentIndex = index;
-        try
-        {
+        try {
             switchSong();
-        }
-        catch (BLLException ex)
-        {
+        } catch (BLLException ex) {
             boolean tmp = wasPlaying;
             stopMedia();
             isPlaying = tmp;
@@ -416,36 +363,31 @@ public class MediaHandler
         }
     }
 
-    public void setProgressing(boolean bool)
-    {
+    public void setProgressing(boolean bool) {
         isProgressing = bool;
     }
 
     /**
      * Turns double of seconds into a minutes second format 00:00
+     *
      * @param seconds
      * @return string formated 00:00.
      */
-    private String sec2minsec(double seconds)
-    {
+    private String sec2minsec(double seconds) {
         int min;
         int sec;
         min = (int) seconds / 60;
         sec = (int) seconds % 60;
 
-        if (sec > 9)
-        {
+        if (sec > 9) {
             return min + ":" + sec;
-        }
-        else
-        {
+        } else {
 
             return min + ":0" + sec;
         }
     }
 
-    public boolean isPlaying()
-    {
+    public boolean isPlaying() {
         return isPlaying;
     }
 }

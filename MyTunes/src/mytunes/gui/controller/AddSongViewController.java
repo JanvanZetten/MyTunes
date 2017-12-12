@@ -20,10 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -31,7 +28,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
@@ -121,14 +117,13 @@ public class AddSongViewController implements Initializable {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
 
-        if ((!txtfieldArtist.getText().isEmpty()) 
+        if ((!txtfieldArtist.getText().isEmpty())
                 && (!txtfieldTitle.getText().isEmpty())
                 && (!txtfieldAlbum.getText().isEmpty())
                 && (yearInInt != 0)
                 && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
                 && (!txtfieldFileLocation.getText().isEmpty())
-                && (txtfieldFileLocation.getText().equals(selectedFile.getName())))
-                        {
+                && (txtfieldFileLocation.getText().equals(selectedFile.getName()))) {
             model.createSong(
                     txtfieldArtist.getText(),
                     txtfieldTitle.getText(),
@@ -143,9 +138,7 @@ public class AddSongViewController implements Initializable {
 
             Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
             stage.close();
-        } 
-        else 
-        {
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "The song has not been created. Please fill out all the fields and try again.", ButtonType.OK);
             alert.showAndWait();
         }

@@ -27,7 +27,7 @@ public class EditPlaylistViewController implements Initializable {
     private TextField txtfieldTitle;
     @FXML
     private Button btnSaveChanges;
-    
+
     MainWindowModel model;
 
     /**
@@ -37,12 +37,12 @@ public class EditPlaylistViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = MainWindowModel.getInstance();
         textSetter();
-    }    
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws BLLException {
         model.editPlaylistInformation(
-                model.getChosenPlaylist().getPlaylistId(), 
+                model.getChosenPlaylist().getPlaylistId(),
                 txtfieldTitle.getText());
         Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
         stage.close();
@@ -51,5 +51,5 @@ public class EditPlaylistViewController implements Initializable {
     private void textSetter() {
         txtfieldTitle.setText(model.getChosenPlaylist().getName());
     }
-    
+
 }

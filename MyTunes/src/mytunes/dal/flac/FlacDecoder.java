@@ -33,10 +33,11 @@ import org.jflac.util.ByteData;
 /**
  * JFlac implemented in MyTunes project. Used and tested with custom JFlac codec
  * 1.5.3.
+ *
  * @author Alex, Asbjørn og Jan
  */
-public class FlacDecoder implements PCMProcessor, FrameListener
-{
+public class FlacDecoder implements PCMProcessor, FrameListener {
+
     private final SimpleDoubleProperty currentTime;
     private final SimpleDoubleProperty durationTime;
 
@@ -59,85 +60,82 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
     /**
      * Setup flac player.
+     *
      * @param currentTime
      * @param durationTime
      */
-    public FlacDecoder(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime)
-    {
+    public FlacDecoder(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime) {
         this.currentTime = currentTime;
         this.durationTime = durationTime;
     }
 
     /**
      * Process the StreamInfo block.
+     *
      * @param streamInfo the StreamInfo block
      */
     @Override
-    public void processStreamInfo(StreamInfo streamInfo)
-    {
-        try
-        {
+    public void processStreamInfo(StreamInfo streamInfo) {
+        try {
             fmt = streamInfo.getAudioFormat();
             info = new DataLine.Info(SourceDataLine.class, fmt, AudioSystem.NOT_SPECIFIED);
             line = (SourceDataLine) AudioSystem.getLine(info);
 
             line.open(fmt, AudioSystem.NOT_SPECIFIED);
             line.start();
-        }
-        catch (LineUnavailableException e)
-        {
+        } catch (LineUnavailableException e) {
             System.out.println("Flac Player -> processStreamInfor: Could not get line.");
         }
     }
 
     /**
      * Process the decoded PCM bytes.
+     *
      * @param pcm The decoded PCM data
      */
     @Override
-    public void processPCM(ByteData pcm)
-    {
+    public void processPCM(ByteData pcm) {
         setVolume(currentVolume);
         line.write(pcm.getData(), 0, pcm.getLen());
     }
 
     /**
      * Called for each Metadata frame read.
+     *
      * @param metadata The metadata frame read
      */
     @Override
-    public void processMetadata(Metadata metadata)
-    {
+    public void processMetadata(Metadata metadata) {
     }
 
     /**
      * Called for each data frame read.
+     *
      * @param frame The data frame read
      */
     @Override
-    public void processFrame(Frame frame)
-    {
+    public void processFrame(Frame frame) {
     }
 
     /**
      * Process a decoder error.
+     *
      * @param msg The error message
      */
     @Override
-    public void processError(String msg)
-    {
+    public void processError(String msg) {
         //System.out.println("FLAC Error: " + msg);
     }
 
     /**
      * Decode and play an input FLAC file.
+     *
      * @param fromSeekPoint The starting Seek Point in percent.
      * @param toSeekPoint The ending Seek Point in percent.
      * @throws IOException Thrown if error reading file.
      * @throws LineUnavailableException Thrown if error playing file.
      */
-    public void playFlac(double fromSeekPoint, double toSeekPoint) throws IOException, LineUnavailableException
-    {
+    public void playFlac(double fromSeekPoint, double toSeekPoint) throws IOException, LineUnavailableException {
         // Get stream.
         RandomFileInputStream is = new RandomFileInputStream(audioPath);
 
@@ -152,23 +150,17 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
         // Calculate start seek point.
         SeekPoint from = null;
-        if (fromSeekPoint >= 0 && fromSeekPoint <= 100)
-        {
+        if (fromSeekPoint >= 0 && fromSeekPoint <= 100) {
             from = new SeekPoint((long) (totalSamples / 100.0 * fromSeekPoint), (long) (lengthOfFile * (fromSeekPoint / 100.0)), minFrame);
-        }
-        else
-        {
+        } else {
             from = new SeekPoint(0, 0, minFrame);
         }
 
         // Calculate end seek point.
         SeekPoint to = null;
-        if (toSeekPoint >= 0 && toSeekPoint <= 100)
-        {
+        if (toSeekPoint >= 0 && toSeekPoint <= 100) {
             to = new SeekPoint((long) (totalSamples / 100.0 * toSeekPoint), (long) (lengthOfFile * (toSeekPoint / 100.0)), minFrame);
-        }
-        else
-        {
+        } else {
             to = new SeekPoint(totalSamples, lengthOfFile, minFrame);
         }
 
@@ -188,25 +180,19 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
     /**
      * Play loaded media.
+     *
      * @throws DALException
      */
-    public void playMedia() throws DALException
-    {
+    public void playMedia() throws DALException {
         // If the thread t is not instantiated.
-        if (t == null)
-        {
-            try
-            {
+        if (t == null) {
+            try {
                 // Play flac from beginning to end.
                 playFlac(0, -1);
-            }
-            catch (IOException | LineUnavailableException ex)
-            {
+            } catch (IOException | LineUnavailableException ex) {
                 throw new DALException("Playing Flac: " + ex.getMessage(), ex.getCause());
             }
-        }
-        else
-        {
+        } else {
             // Resume decoding.
             fr.resume();
         }
@@ -215,11 +201,9 @@ public class FlacDecoder implements PCMProcessor, FrameListener
     /**
      * Pause decoding.
      */
-    public void pauseMedia()
-    {
+    public void pauseMedia() {
         // If the thread t is instantiated.
-        if (fr != null)
-        {
+        if (fr != null) {
             // Pause decoding.
             fr.pause();
         }
@@ -228,11 +212,9 @@ public class FlacDecoder implements PCMProcessor, FrameListener
     /**
      * Stop decoding.
      */
-    public void stopMedia()
-    {
+    public void stopMedia() {
         // If the thread t is instantiated.
-        if (fr != null)
-        {
+        if (fr != null) {
             // Stop decoding and listening.
             fr.stop();
             fpl.stop();
@@ -248,32 +230,23 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
     /**
      * Seek media.
+     *
      * @param duration
      * @throws DALException
      */
-    public void seekMedia(double duration) throws DALException
-    {
+    public void seekMedia(double duration) throws DALException {
         // If the thread t is not instantiated.
-        if (t == null)
-        {
-            try
-            {
-                if (duration >= 0.0 || duration <= 1.0)
-                {
+        if (t == null) {
+            try {
+                if (duration >= 0.0 || duration <= 1.0) {
                     playFlac(duration * 100, -1);
-                }
-                else
-                {
+                } else {
                     playFlac(0, -1);
                 }
-            }
-            catch (IOException | LineUnavailableException ex)
-            {
+            } catch (IOException | LineUnavailableException ex) {
                 throw new DALException("Seek in Flac: " + ex.getMessage(), ex.getCause());
             }
-        }
-        else
-        {
+        } else {
             stopMedia();
             seekMedia(duration);
         }
@@ -281,16 +254,14 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
     /**
      * Add song to FileInputStream.
+     *
      * @param song.
      * @throws DALException
      */
-    public void setSong(Song song) throws DALException
-    {
+    public void setSong(Song song) throws DALException {
         // If the thread t is not instantiated.
-        if (t == null)
-        {
-            try
-            {
+        if (t == null) {
+            try {
                 audioPath = song.getPath();
                 FileInputStream is = new FileInputStream(audioPath);
                 decoder = new FLACDecoder(is);
@@ -301,14 +272,10 @@ public class FlacDecoder implements PCMProcessor, FrameListener
                 totalSamples = si.getTotalSamples();
                 bitPerSamples = si.getBitsPerSample();
                 durationTime.set((totalSamples / sampleRate * 1.0) * 1000);
-            }
-            catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 throw new DALException("Loading Flac: " + ex.getMessage(), ex.getCause());
             }
-        }
-        else
-        {
+        } else {
             stopMedia();
             setSong(song);
         }
@@ -316,42 +283,33 @@ public class FlacDecoder implements PCMProcessor, FrameListener
 
     /**
      * Sets volume of SourceDataLine.
+     *
      * @param value between 0 and 100.
      */
-    public void setVolume(double value)
-    {
+    public void setVolume(double value) {
         // If line exists.
-        if (line != null)
-        {
+        if (line != null) {
             // Adjust the volume of the output line.
-            if (line.isControlSupported(FloatControl.Type.MASTER_GAIN))
-            {
+            if (line.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                 FloatControl volume = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
                 BooleanControl mute = (BooleanControl) line.getControl(BooleanControl.Type.MUTE);
 
                 // calculate new volume from percent 0.0 - 1.0 to minimum - maximum.
-                if (value == 0.0)
-                {
+                if (value == 0.0) {
                     mute.setValue(true);
                     currentVolume = value;
-                }
-                else if (value > 0.0 || value <= 1.0)
-                {
+                } else if (value > 0.0 || value <= 1.0) {
                     mute.setValue(false);
                     float f = 0 - (volume.getMinimum() + 40);
                     volume.setValue((float) ((f / 100) * (value * 100)) + (volume.getMinimum() + 40));
                     currentVolume = value;
-                }
-                else
-                {
+                } else {
                     mute.setValue(false);
                     volume.setValue(0);
                     currentVolume = 1.0;
                 }
             }
-        }
-        else
-        {
+        } else {
             currentVolume = value;
         }
     }

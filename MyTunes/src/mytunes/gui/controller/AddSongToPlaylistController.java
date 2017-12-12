@@ -65,15 +65,13 @@ public class AddSongToPlaylistController implements Initializable {
         stage.close();
     }
 
-
-
     @FXML
     private void handleMouseClickedAction(MouseEvent event) throws BLLException {
-        if (event.getButton().equals(MouseButton.PRIMARY) 
-           && event.getClickCount() == 2) {
-                model.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), model.getChosenSong());
-                Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
-                stage.close();
+        if (event.getButton().equals(MouseButton.PRIMARY)
+                && event.getClickCount() == 2) {
+            model.addSongToPlaylist(listviewPlaylist.getSelectionModel().getSelectedItem(), model.getChosenSong());
+            Stage stage = (Stage) listviewPlaylist.getScene().getWindow();
+            stage.close();
         }
     }
 }

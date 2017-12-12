@@ -11,8 +11,8 @@ import mytunes.be.Song;
  *
  * @author Alex, Asbjørn og Jan
  */
-public interface Player
-{
+public interface Player {
+
     /**
      * Play song.
      */
@@ -30,12 +30,14 @@ public interface Player
 
     /**
      * Seek song.
+     *
      * @param duration
      */
     public void seekMedia(double duration) throws BLLException;
 
     /**
      * Set song to play.
+     *
      * @param song
      * @throws BLLException
      */
@@ -43,6 +45,7 @@ public interface Player
 
     /**
      * Set volume of player.
+     *
      * @param value new volume as double.
      */
     public void setVolume(double value);
