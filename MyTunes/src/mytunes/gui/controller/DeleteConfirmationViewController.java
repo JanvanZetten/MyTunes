@@ -33,7 +33,10 @@ public class DeleteConfirmationViewController implements Initializable {
     MainWindowModel model;
 
     /**
-     * Initializes the controller class.
+     * Initializes the controller class. This view is used when attempting to
+     * delete a song or playlist. If Yes is pressed, it uses the method in the
+     * model that initializes the deletion of the selected song or playlist. If
+     * No is pressed, the window simply closes and nothing happens.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,6 +44,9 @@ public class DeleteConfirmationViewController implements Initializable {
         lblDeletedElement.setText(model.getSelectedElement() + "?");
     }
 
+    /**
+     * Calls the method that initializes the deletion and then closes this view.
+     */
     @FXML
     private void handleButtonActionDelete(ActionEvent event) throws BLLException {
         model.setCurrentElementToBeDeleted(model.getSongOrPlaylist());
@@ -48,6 +54,9 @@ public class DeleteConfirmationViewController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Closes this view and does nothing else.
+     */
     @FXML
     private void handleButtonActionBack(ActionEvent event) {
         Stage stage = (Stage) btnNo.getScene().getWindow();
