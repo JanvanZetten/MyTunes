@@ -581,6 +581,18 @@ public class MainWindowController implements Initializable {
                         alert.showAndWait();
                     }
                     break;
+                case PLAY:
+                    playSong();
+                    break;
+                case PAUSE:
+                    model.pauseMedia();
+                    break;
+                case FAST_FWD:
+                    model.nextMedia();
+                    break;
+                case REWIND:
+                    model.previousMedia();
+                    break;
                 default:
                     break;
             }
