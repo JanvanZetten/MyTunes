@@ -28,6 +28,7 @@ public class EditPlaylistViewController implements Initializable {
     @FXML
     private Button btnSaveChanges;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**

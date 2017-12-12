@@ -67,6 +67,7 @@ public class AddSongViewController implements Initializable {
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**

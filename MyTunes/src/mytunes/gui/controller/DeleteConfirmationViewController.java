@@ -20,10 +20,10 @@ import mytunes.gui.model.MainWindowModel;
 /**
  * FXML Controller class
  * 
- * Initializes the controller class. This view is used when attempting to
- * delete a song or playlist. If Yes is pressed, it uses the method in the
- * model that initializes the deletion of the selected song or playlist. If
- * No is pressed, the window simply closes and nothing happens.
+ * This view is used when attempting to delete a song or playlist. If Yes is 
+ * pressed, it uses the method in the model that initializes the deletion of 
+ * the selected song or playlist. If No is pressed, the window simply closes 
+ * and nothing happens.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -35,6 +35,8 @@ public class DeleteConfirmationViewController implements Initializable {
     private Button btnYes;
     @FXML
     private Button btnNo;
+    
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**

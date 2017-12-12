@@ -26,6 +26,7 @@ public class AddSongToPlaylistController implements Initializable {
     @FXML
     private ListView<Playlist> listviewPlaylist;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**
