@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mytunes.bll.BLLException;
@@ -18,6 +20,8 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
+ *
+ * This view handles the editing of a playlist.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -39,15 +43,29 @@ public class EditPlaylistViewController implements Initializable {
         textSetter();
     }
 
+    /**
+     * When pressed, edits the playlist name to the newly given name. Not having
+     * anything entered in the text field resutls in an error.
+     */
     @FXML
     private void handleButtonAction(ActionEvent event) throws BLLException {
-        model.editPlaylistInformation(
-                model.getChosenPlaylist().getPlaylistId(),
-                txtfieldTitle.getText());
-        Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
-        stage.close();
+        if (!txtfieldTitle.getText().isEmpty()) {
+            model.editPlaylistInformation(
+                    model.getChosenPlaylist().getPlaylistId(),
+                    txtfieldTitle.getText());
+            Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
+            stage.close();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The playlist has not been edited. Please give the playlist a name and try again.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
+    /**
+     * Sets the text in the text field to be the same as the current name of
+     * the playlist.
+     */
     private void textSetter() {
         txtfieldTitle.setText(model.getChosenPlaylist().getName());
     }
