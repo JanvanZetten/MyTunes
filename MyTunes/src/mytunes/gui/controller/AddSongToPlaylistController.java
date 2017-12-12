@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.net.URL;
@@ -20,6 +16,8 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
+ * 
+ * This view handles the ability to add a song to a playlist.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -41,10 +39,7 @@ public class AddSongToPlaylistController implements Initializable {
     }
 
     /**
-     * for the button for adding a song to playlist
-     *
-     * @param event
-     * @throws BLLException
+     * For the button for adding a song to playlist
      */
     @FXML
     private void btnAddToPLaylistAction(ActionEvent event) throws BLLException {
@@ -55,9 +50,7 @@ public class AddSongToPlaylistController implements Initializable {
     }
 
     /**
-     * Cancel button, closes the window
-     *
-     * @param event
+     * Cancel button, closes the window and does nothing more.
      */
     @FXML
     private void btnCancelAction(ActionEvent event) {

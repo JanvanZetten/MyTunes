@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.io.File;
@@ -37,6 +33,8 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
+ * 
+ * This view handles the addition of a new song into the database.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -59,9 +57,12 @@ public class AddSongViewController implements Initializable {
     @FXML
     private Button btnSaveChanges;
 
+    //Variables used for the file chooser.
     private Path to;
     private Path from;
     private File selectedFile;
+    
+    //Variables for year and genre comboboxes.
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;

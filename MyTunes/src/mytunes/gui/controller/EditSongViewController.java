@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.io.File;
@@ -154,7 +150,7 @@ public class EditSongViewController implements Initializable {
      */
     private String directory() {
         File dir = new File(selectedFile + "");
-        String[] splitDir = dir.toString().split("\\\\");
+        String[] splitDir = dir.toString().split("/");
         lastPart = splitDir[splitDir.length - 1];
         txtfieldFileLocation.setText(lastPart);
 
