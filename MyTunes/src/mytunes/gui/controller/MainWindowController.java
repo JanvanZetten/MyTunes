@@ -483,7 +483,10 @@ public class MainWindowController implements Initializable {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
             startModalWindow("EditSongView");
-            refreshAndSetElements();
+            //model.addAllPlaylistsToGUI();
+        if (model.getChosenPlaylist() != null) {
+            setSongsOnTableview(model.getChosenPlaylist());
+        }
         }
     }
 
