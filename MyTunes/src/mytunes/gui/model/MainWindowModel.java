@@ -605,7 +605,6 @@ public class MainWindowModel {
         } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
             alert.showAndWait();
-            return;
         }
 
     }
