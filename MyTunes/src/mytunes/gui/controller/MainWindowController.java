@@ -274,9 +274,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * Opens the window for adding a song to a playlist
-     *
-     * @throws IOException
+     * Opens the window for adding a song to a playlist.
      */
     private void addSongToPlaylist() throws IOException {
         model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
@@ -284,7 +282,8 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * TO DO
+     * Filters the song list for matches in title or artist and then sets the
+     * button to clear the filter afterwards.
      */
     @FXML
     private void FilterButtonAction(ActionEvent event) {
@@ -326,7 +325,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * TO DO
+     * Sets the volume of the playing song.
      */
     @FXML
     private void sliderDragAction(MouseEvent event) {
@@ -392,9 +391,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * loads the clikced playlist to the song view
-     *
-     * @param event
+     * Loads the clikced playlist to the song view.
      */
     @FXML
     private void clickedPlaylist(MouseEvent event) {
@@ -593,6 +590,9 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    /**
+     * 
+     */
     @FXML
     private void tableviewMouseClicked(MouseEvent event) {
         updateSelected();
