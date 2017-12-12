@@ -455,13 +455,7 @@ public class MainWindowModel {
     public void editSongInformation(Song song) throws BLLException {
         Song songfrombll = bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
         if (songfrombll != null) {
-//            chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setAlbum(song.getAlbum());
-//            chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setArtist(song.getArtist());
-//            chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setTitle(song.getTitle());
-//            chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setYear(song.getYear());
-//            chosenPlaylist.getSongs().get(chosenPlaylist.getSongs().indexOf(song)).setGenre(song.getGenre());
             chosenPlaylist.getSongs().set(chosenPlaylist.getSongs().indexOf(song), songfrombll);
-            
             shownSongs.clear();
             shownSongs.addAll(chosenPlaylist.getSongs());
         }
