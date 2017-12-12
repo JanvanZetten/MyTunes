@@ -588,9 +588,11 @@ public class MainWindowModel {
                 if (playlist.getPlaylistId() == chosenPlaylist.getPlaylistId()) {
                     shownSongs.clear();
                     shownSongs.addAll(playlist.getSongs());
-                    for (Song shownSong : shownSongs) {
-                        if (shownSong.getSongId() == chosenSong.getSongId()) {
-                            chosenSong = shownSong;
+                    if (chosenSong != null) {
+                        for (Song shownSong : shownSongs) {
+                            if (shownSong.getSongId() == chosenSong.getSongId()) {
+                                chosenSong = shownSong;
+                            }
                         }
                     }
                     chosenPlaylist = playlist;
@@ -599,8 +601,10 @@ public class MainWindowModel {
             if (chosenPlaylist.equals(copyOfChosenPlaylist)) {
                 chosenPlaylist = playlists.get(0);
             }
-            if (chosenSong.equals(copyOfChosenSong)) {
-                chosenSong = chosenPlaylist.getSongs().get(0);
+            if (chosenSong != null) {
+                if (chosenSong.equals(copyOfChosenSong)) {
+                    chosenSong = chosenPlaylist.getSongs().get(0);
+                }
             }
         } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
