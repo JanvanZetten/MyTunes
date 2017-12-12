@@ -222,8 +222,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addSongAction(ActionEvent event) throws IOException {
         startModalWindow("AddSongView");
-        refreshAndSetElements();
-        refreshAndSetElements();
+        model.refreshFromDatabase();
     }
 
     /**
@@ -233,7 +232,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void addPlaylistAction(ActionEvent event) throws IOException {
         startModalWindow("AddPlaylistView");
-        refreshAndSetElements();
+        model.refreshFromDatabase();
     }
 
     /**
@@ -249,7 +248,7 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
 
             startModalWindow("DeleteConfirmationView");
-            refreshAndSetElements();
+            model.refreshFromDatabase();
         }
     }
 
@@ -268,7 +267,7 @@ public class MainWindowController implements Initializable {
                 model.setSongOrPlaylist("Playlist");
 
                 startModalWindow("DeleteConfirmationView");
-                refreshAndSetElements();
+                model.refreshFromDatabase();
             }
         }
     }
@@ -542,15 +541,14 @@ public class MainWindowController implements Initializable {
 
         if (null != key) {
             switch (key) {
-                case LEFT: {
+                case LEFT:
                     try {
                         addSongToPlaylist();
                     } catch (IOException ex) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Could not add Song to playlist.", ButtonType.OK);
                         alert.showAndWait();
                     }
-                }
-                break;
+                    break;
                 case UP:
                     int indeks = -1;
                     try {
@@ -575,15 +573,14 @@ public class MainWindowController implements Initializable {
                         tblviewMaster.getSelectionModel().select(indeks2);
                     }
                     break;
-                case DELETE: {
+                case DELETE:
                     try {
                         deleteSongAction();
                     } catch (IOException | BLLException ex) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Cant delete.\n" + ex.getMessage(), ButtonType.OK);
                         alert.showAndWait();
                     }
-                }
-                break;
+                    break;
                 default:
                     break;
             }
@@ -591,7 +588,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * 
+     *
      */
     @FXML
     private void tableviewMouseClicked(MouseEvent event) {
