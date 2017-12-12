@@ -417,6 +417,8 @@ public class MainWindowModel {
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
+        shownSongs.clear();
+        shownSongs.addAll(chosenPlaylist.getSongs());
         //mediaHandler.setSongs(playlist);
 
     }
