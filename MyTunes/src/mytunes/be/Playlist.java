@@ -13,18 +13,21 @@ import java.util.List;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class Playlist implements Serializable {
+public class Playlist implements Serializable
+{
 
     private final int playlistId;
     private List<Song> songs;
     private String name;
+    private String createdBy;
 
     /**
      * Constructer for a playlist
      *
      * @param name the name you want to give the playlist as a String
      */
-    public Playlist(int playlistId, String name) {
+    public Playlist(int playlistId, String name)
+    {
         this.playlistId = playlistId;
         this.name = name;
         songs = new ArrayList<>();
@@ -35,7 +38,8 @@ public class Playlist implements Serializable {
      *
      * @param newName the new name as a string
      */
-    public void renamePlaylist(String newName) {
+    public void renamePlaylist(String newName)
+    {
         name = newName;
     }
 
@@ -44,7 +48,8 @@ public class Playlist implements Serializable {
      *
      * @param song
      */
-    public void addSongToPlaylist(Song song) {
+    public void addSongToPlaylist(Song song)
+    {
         songs.add(song);
     }
 
@@ -53,8 +58,19 @@ public class Playlist implements Serializable {
      *
      * @param song
      */
-    public void addAllSongToPlaylist(List<Song> song) {
+    public void addAllSongToPlaylist(List<Song> song)
+    {
         songs.addAll(song);
+    }
+
+    /**
+     * Set the value of createdBy
+     *
+     * @param createdBy new value of createdBy
+     */
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy = createdBy;
     }
 
     /**
@@ -62,7 +78,8 @@ public class Playlist implements Serializable {
      *
      * @return a list of songs
      */
-    public List<Song> getSongs() {
+    public List<Song> getSongs()
+    {
         return songs;
     }
 
@@ -71,7 +88,8 @@ public class Playlist implements Serializable {
      *
      * @return a int with the id
      */
-    public int getPlaylistId() {
+    public int getPlaylistId()
+    {
         return playlistId;
     }
 
@@ -80,21 +98,36 @@ public class Playlist implements Serializable {
      *
      * @return a string with the name
      */
-    public String getName() {
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * Get the value of createdBy
+     *
+     * @return the value of createdBy
+     */
+    public String getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    @Override
+    public String toString()
+    {
         return name;
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
             return false;
         }
-        if (obj instanceof Playlist) {
+        if (obj instanceof Playlist)
+        {
             return this.playlistId == ((Playlist) obj).getPlaylistId();
         }
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.

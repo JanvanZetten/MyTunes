@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class Song implements Serializable {
+public class Song implements Serializable
+{
 
     private final int songId;
     private String title;
@@ -21,8 +22,10 @@ public class Song implements Serializable {
     private Genre genre;
     private String path;
     private String duration;
+    private String createdBy;
 
-    public Song(int songId, String title, String artist, String path) {
+    public Song(int songId, String title, String artist, String path)
+    {
         this.songId = songId;
         this.title = title;
         this.artist = artist;
@@ -34,7 +37,8 @@ public class Song implements Serializable {
      *
      * @param title as string
      */
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
@@ -43,7 +47,8 @@ public class Song implements Serializable {
      *
      * @param album as string
      */
-    public void setAlbum(String album) {
+    public void setAlbum(String album)
+    {
         this.album = album;
     }
 
@@ -52,7 +57,8 @@ public class Song implements Serializable {
      *
      * @param artist as string
      */
-    public void setArtist(String artist) {
+    public void setArtist(String artist)
+    {
         this.artist = artist;
     }
 
@@ -61,7 +67,8 @@ public class Song implements Serializable {
      *
      * @param year as int
      */
-    public void setYear(int year) {
+    public void setYear(int year)
+    {
         this.year = year;
     }
 
@@ -70,7 +77,8 @@ public class Song implements Serializable {
      *
      * @param genre as string
      */
-    public void setGenre(Genre genre) {
+    public void setGenre(Genre genre)
+    {
         this.genre = genre;
     }
 
@@ -79,17 +87,31 @@ public class Song implements Serializable {
      *
      * @param duration as double seconds.
      */
-    public void setDuration(double duration) {
+    public void setDuration(double duration)
+    {
         int min;
         int sec;
         min = (int) duration / 60;
         sec = (int) duration % 60;
 
-        if (sec > 9) {
+        if (sec > 9)
+        {
             this.duration = min + ":" + sec;
-        } else {
+        }
+        else
+        {
             this.duration = min + ":0" + sec;
         }
+    }
+
+    /**
+     * Set the value of createdBy
+     *
+     * @param createdBy new value of createdBy
+     */
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy = createdBy;
     }
 
     /**
@@ -97,7 +119,8 @@ public class Song implements Serializable {
      *
      * @return a int with the songId
      */
-    public int getSongId() {
+    public int getSongId()
+    {
         return songId;
     }
 
@@ -106,7 +129,8 @@ public class Song implements Serializable {
      *
      * @return a String with the title
      */
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
@@ -115,7 +139,8 @@ public class Song implements Serializable {
      *
      * @return a String with the album
      */
-    public String getAlbum() {
+    public String getAlbum()
+    {
         return album;
     }
 
@@ -124,7 +149,8 @@ public class Song implements Serializable {
      *
      * @return a String with the artist
      */
-    public String getArtist() {
+    public String getArtist()
+    {
         return artist;
     }
 
@@ -133,7 +159,8 @@ public class Song implements Serializable {
      *
      * @return a int with the year
      */
-    public int getYear() {
+    public int getYear()
+    {
         return year;
     }
 
@@ -142,7 +169,8 @@ public class Song implements Serializable {
      *
      * @return a Genre with the genre
      */
-    public Genre getGenre() {
+    public Genre getGenre()
+    {
         return genre;
     }
 
@@ -151,11 +179,13 @@ public class Song implements Serializable {
      *
      * @return string path
      */
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(String path)
+    {
         this.path = path;
     }
 
@@ -164,21 +194,36 @@ public class Song implements Serializable {
      *
      * @return string duration
      */
-    public String getDuration() {
+    public String getDuration()
+    {
         return duration;
     }
 
+    /**
+     * Get the value of createdBy
+     *
+     * @return the value of createdBy
+     */
+    public String getCreatedBy()
+    {
+        return createdBy;
+    }
+
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Song{" + "songId=" + songId + ", title=" + title + ", album=" + album + ", artist=" + artist + ", year=" + year + ", genre=" + genre + ", path=" + path + ", duration=" + duration + '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
             return false;
         }
-        if (obj instanceof Song) {
+        if (obj instanceof Song)
+        {
             return this.songId == ((Song) obj).getSongId();
         }
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
