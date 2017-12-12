@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -28,7 +22,9 @@ import mytunes.bll.BLLException;
 import mytunes.bll.BLLManager;
 import mytunes.bll.MediaHandler;
 
-/**
+/** FXML Model class
+ * 
+ * This class handles the data of the views.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -411,6 +407,12 @@ public class MainWindowModel {
         return chosenSong;
     }
 
+    /**
+     * Adds a song to a playlist.
+     * @param playlist
+     * @param song
+     * @throws BLLException 
+     */
     public void addSongToPlaylist(Playlist playlist, Song song) throws BLLException {
         bllManager.addSongToPlaylist(playlist, song);
         playlist.addSongToPlaylist(song);
@@ -444,6 +446,11 @@ public class MainWindowModel {
         return -1;
     }
 
+    /**
+     * 
+     * @param song
+     * @throws BLLException 
+     */
     public void editSongInformation(Song song) throws BLLException {
         for (int i = 0; i < shownSongs.size(); i++) {
             if (shownSongs.get(i).getSongId() == song.getSongId()) {
@@ -453,7 +460,7 @@ public class MainWindowModel {
         }
         bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
     }
-
+    
     public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
         bllManager.updatePlaylist(PlaylistId, text);
     }
