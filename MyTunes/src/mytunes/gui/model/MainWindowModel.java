@@ -7,6 +7,8 @@ package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -558,6 +560,42 @@ public class MainWindowModel {
         } catch (BLLException ex) {
             Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
+        }
+
+    }
+
+    /**
+     * Gets all information from the database. and assigns it to the diffrent
+     * observables
+     */
+    public void refreshFromDatabase() {
+        try {
+            getAllGenres();
+            playlists.clear();
+            playlists.addAll(bllManager.getAllPlaylists());
+        } catch (BLLException ex) {
+            Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
+            alert.showAndWait();
+        }
+        Playlist copyOfChosenPlaylist = chosenPlaylist;
+        Song copyOfChosenSong = chosenSong;
+        for (Playlist playlist : playlists) {
+            if (playlist.getPlaylistId() == chosenPlaylist.getPlaylistId()) {
+                shownSongs.clear();
+                shownSongs.addAll(playlist.getSongs());
+                for (Song shownSong : shownSongs) {
+                    if (shownSong.getSongId() == chosenSong.getSongId()) {
+                        chosenSong = shownSong;
+                    }
+                }
+                chosenPlaylist = playlist;
+            }
+        }
+        if (chosenPlaylist.equals(copyOfChosenPlaylist)) {
+            chosenPlaylist = playlists.get(0);
+        }
+        if (chosenSong.equals(copyOfChosenSong)) {
+            chosenSong = chosenPlaylist.getSongs().get(0);
         }
 
     }
