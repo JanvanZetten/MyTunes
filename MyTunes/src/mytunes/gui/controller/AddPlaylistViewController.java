@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.net.URL;
@@ -20,6 +16,8 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
+ * 
+ * This view handles the addition of a new playlist into the database.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -29,7 +27,8 @@ public class AddPlaylistViewController implements Initializable {
     private TextField txtfieldTitle;
     @FXML
     private Button btnCreatePlaylist;
-
+    
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**
@@ -37,9 +36,14 @@ public class AddPlaylistViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
     }
 
+    /**
+     * Sets the name of the playlist to the user submitted name. If no text is
+     * entered into the text field, an error will appear.
+     */
     @FXML
     public void handleButtonAction() throws BLLException {
         if (!txtfieldTitle.getText().isEmpty()) {

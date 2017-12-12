@@ -1,13 +1,8 @@
 
 package mytunes.gui.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.*;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mytunes.be.Genre;
 import mytunes.bll.BLLException;
@@ -30,6 +24,8 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
+ * 
+ * This view handles the editing of a song.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -51,16 +47,15 @@ public class EditSongViewController implements Initializable {
     private ComboBox<String> cmboboxYear;
     @FXML
     private Button btnSaveChanges;
-
-    MainWindowModel model;
+    
+    //Variables for year and genre comboboxes.
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
     private int yearInInt;
-    private File selectedFile;
-    private Path from;
-    private Path to;
-    private boolean newFileSelected;
-    private String lastPart;
+    
+    //Singleton variable to be able to use model information in this controller.
+    MainWindowModel model;
+    
 
     /**
      * Initializes the controller class.
@@ -68,14 +63,12 @@ public class EditSongViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            //Using Singleton method to be sure there aren't 2 instances running.
             model = MainWindowModel.getInstance();
+            
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
             textSetter();
-            File preset = new File(txtfieldFileLocation.getText());
-            selectedFile = preset;
-            directory();
-
         } catch (BLLException ex) {
             Logger.getLogger(EditSongViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,29 +83,20 @@ public class EditSongViewController implements Initializable {
         stringToInt(cmboboxYear.getSelectionModel().getSelectedItem());
         cmboboxYear.getSelectionModel().getSelectedItem();
 
-        System.out.println(selectedFile);
-
         if ((!txtfieldArtist.getText().isEmpty())
                 && (!txtfieldTitle.getText().isEmpty())
                 && (!txtfieldAlbum.getText().isEmpty())
                 && (yearInInt != 0)
                 && (cmboboxGenre.getSelectionModel().getSelectedItem() != null)
-                && (!txtfieldFileLocation.getText().isEmpty())
-                && (txtfieldFileLocation.getText().equals(selectedFile.getName()))
-                || txtfieldFileLocation.getText().equals(lastPart)) {
+                && (!txtfieldFileLocation.getText().isEmpty())) {
 
             model.getChosenSong().setArtist(txtfieldArtist.getText());
             model.getChosenSong().setTitle(txtfieldTitle.getText());
             model.getChosenSong().setAlbum(txtfieldAlbum.getText());
             model.getChosenSong().setYear(yearInInt);
             model.getChosenSong().setGenre(cmboboxGenre.getSelectionModel().getSelectedItem());
-            model.getChosenSong().setPath(directory());
             model.editSongInformation(model.getChosenSong());
-            if (newFileSelected == true) {
-                if (!from.toString().equals(to.toString())) {
-                    Files.copy(from, to, REPLACE_EXISTING);
-                }
-            }
+            
             Stage stage = (Stage) btnSaveChanges.getScene().getWindow();
             stage.close();
 
@@ -121,40 +105,6 @@ public class EditSongViewController implements Initializable {
             alert.showAndWait();
         }
 
-    }
-
-    /**
-     * Handles and opens a file searcher so a file path can be found.
-     */
-    @FXML
-    private void handleFileLocationSearcher() throws IOException {
-        FileChooser fc = new FileChooser();
-        String currentDir = System.getProperty("user.dir") + File.separator;
-        File dir = new File(currentDir);
-        fc.setInitialDirectory(dir);
-        fc.setTitle("Attach a file");
-        selectedFile = fc.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            from = Paths.get(selectedFile.toURI());
-            to = Paths.get(dir + "/music/" + selectedFile.getName());
-            txtfieldFileLocation.setText(selectedFile.getName());
-        }
-    }
-
-    /**
-     * If no new file has been selected through the FileChooser, then the
-     * program needs to cut down the file path so that only the name of the file
-     * is selected. If another file is selected through the FileChooser, then it
-     * proceeds as normal.
-     */
-    private String directory() {
-        File dir = new File(selectedFile + "");
-        String[] splitDir = dir.toString().split("/");
-        lastPart = splitDir[splitDir.length - 1];
-        txtfieldFileLocation.setText(lastPart);
-
-        return "music/" + lastPart;
     }
 
     /**

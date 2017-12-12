@@ -26,6 +26,7 @@ public class AddSongToPlaylistController implements Initializable {
     @FXML
     private ListView<Playlist> listviewPlaylist;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**
@@ -33,7 +34,9 @@ public class AddSongToPlaylistController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
+        
         listviewPlaylist.setItems(model.getPlaylists());
 
     }

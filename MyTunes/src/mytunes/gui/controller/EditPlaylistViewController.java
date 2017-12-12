@@ -28,6 +28,7 @@ public class EditPlaylistViewController implements Initializable {
     @FXML
     private Button btnSaveChanges;
 
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**
@@ -35,7 +36,9 @@ public class EditPlaylistViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
+        
         textSetter();
     }
 

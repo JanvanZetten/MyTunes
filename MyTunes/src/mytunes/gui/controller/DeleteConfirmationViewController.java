@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mytunes.gui.controller;
 
 import java.net.URL;
@@ -20,10 +16,10 @@ import mytunes.gui.model.MainWindowModel;
 /**
  * FXML Controller class
  * 
- * Initializes the controller class. This view is used when attempting to
- * delete a song or playlist. If Yes is pressed, it uses the method in the
- * model that initializes the deletion of the selected song or playlist. If
- * No is pressed, the window simply closes and nothing happens.
+ * This view is used when attempting to delete a song or playlist. If Yes is 
+ * pressed, it uses the method in the model that initializes the deletion of 
+ * the selected song or playlist. If No is pressed, the window simply closes 
+ * and nothing happens.
  *
  * @author Alex, Asbjørn og Jan
  */
@@ -35,6 +31,8 @@ public class DeleteConfirmationViewController implements Initializable {
     private Button btnYes;
     @FXML
     private Button btnNo;
+    
+    //Singleton variable to be able to use model information in this controller.
     MainWindowModel model;
 
     /**
@@ -42,7 +40,10 @@ public class DeleteConfirmationViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        //Using Singleton method to be sure there aren't 2 instances running.
         model = MainWindowModel.getInstance();
+        
         lblDeletedElement.setText(model.getSelectedElement() + "?");
     }
 
