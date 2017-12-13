@@ -25,7 +25,8 @@ public class MyTunesApplicationStart extends Application {
         Stage newStage = new Stage();
         FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
         Parent root = fxLoader.load();
-
+        
+        notifyPreloader(ProgressMessage.SUCCESSFULLY_DONE);
         //Instanciate Scene.
         Scene scene = new Scene(root);
 
@@ -39,6 +40,7 @@ public class MyTunesApplicationStart extends Application {
         //Get controller and run afterInitialize.
         MainWindowController cont = fxLoader.getController();
         cont.afterInitialize();
+        
 
         //Show Stage
         newStage.show();
