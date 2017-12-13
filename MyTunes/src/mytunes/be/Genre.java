@@ -11,12 +11,15 @@ import java.io.Serializable;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class Genre implements Serializable {
+public class Genre implements Serializable
+{
 
     private final int genreId;
     private String genre;
+    private String createdBy;
 
-    public Genre(int genreId, String genre) {
+    public Genre(int genreId, String genre)
+    {
         this.genreId = genreId;
         this.genre = genre;
     }
@@ -26,7 +29,8 @@ public class Genre implements Serializable {
      *
      * @return genre id
      */
-    public int getGenreId() {
+    public int getGenreId()
+    {
         return genreId;
     }
 
@@ -35,8 +39,19 @@ public class Genre implements Serializable {
      *
      * @return genre
      */
-    public String getGenre() {
+    public String getGenre()
+    {
         return genre;
+    }
+
+    /**
+     * Get the value of createdBy
+     *
+     * @return the value of createdBy
+     */
+    public String getCreatedBy()
+    {
+        return createdBy;
     }
 
     /**
@@ -44,21 +59,36 @@ public class Genre implements Serializable {
      *
      * @param genre
      */
-    public void setGenre(String genre) {
+    public void setGenre(String genre)
+    {
         this.genre = genre;
     }
 
+    /**
+     * Set the value of createdBy
+     *
+     * @param createdBy new value of createdBy
+     */
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy = createdBy;
+    }
+
     @Override
-    public String toString() {
+    public String toString()
+    {
         return genre;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
             return false;
         }
-        if (obj instanceof Genre) {
+        if (obj instanceof Genre)
+        {
             return this.genreId == ((Genre) obj).getGenreId();
         }
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
