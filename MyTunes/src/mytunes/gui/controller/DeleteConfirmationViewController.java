@@ -50,6 +50,8 @@ public class DeleteConfirmationViewController implements Initializable {
 
         lblDeletedElement.setText(model.getSelectedElement() + "?");
 
+        //Allows the user to press enter to delete the song or playlist instead
+        //of having to press a button with the mouse.
         btnYes.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
