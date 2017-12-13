@@ -107,7 +107,7 @@ public class MainWindowController implements Initializable {
 
     //Singleton variable to be able to use model information in this controller.
     MainModel model;
-    
+
     MediaControlModel mediaControlModel;
 
     @Override
@@ -115,7 +115,7 @@ public class MainWindowController implements Initializable {
 
         //Using Singleton method to be sure there aren't 2 instances running.
         model = MainModel.getInstance();
-        
+
         mediaControlModel = new MediaControlModel();
 
         //add the playlists to the view
@@ -316,16 +316,16 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void muteSongsAction(ActionEvent event) {
-        if (!model.isMuted()) {
+        if (!mediaControlModel.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
             volumeSlider.adjustValue(0);
-            model.setMuted(true);
-        } else if (model.isMuted()) {
+            mediaControlModel.setMuted(true);
+        } else if (mediaControlModel.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
             volumeSlider.adjustValue(100);
-            model.setMuted(false);
+            mediaControlModel.setMuted(false);
         }
     }
 
@@ -337,11 +337,11 @@ public class MainWindowController implements Initializable {
         if (volumeSlider.getValue() != volumeSlider.getMin()) {
             File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
-            model.setMuted(false);
+            mediaControlModel.setMuted(false);
         } else {
             File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
-            model.setMuted(true);
+            mediaControlModel.setMuted(true);
         }
     }
 
@@ -557,24 +557,14 @@ public class MainWindowController implements Initializable {
                     break;
                 case UP:
                     int indeks = -1;
-                    try {
-                        indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    } catch (BLLException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song up", ButtonType.OK);
-                        alert.showAndWait();
-                    }
+                    indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
                     if (indeks != -1) {
                         tblviewMaster.getSelectionModel().select(indeks);
                     }
                     break;
                 case DOWN:
                     int indeks2 = -1;
-                    try {
-                        indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    } catch (BLLException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song down", ButtonType.OK);
-                        alert.showAndWait();
-                    }
+                    indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
                     if (indeks2 != -1) {
                         tblviewMaster.getSelectionModel().select(indeks2);
                     }

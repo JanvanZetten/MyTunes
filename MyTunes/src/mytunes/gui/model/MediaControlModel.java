@@ -26,6 +26,7 @@ import mytunes.bll.MediaHandler;
 public class MediaControlModel {
 
     private MediaHandler mediaHandler;
+    private boolean muted = false;
 
     public MediaControlModel() {
         mediaHandler = new MediaHandler();
@@ -227,6 +228,24 @@ public class MediaControlModel {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
+    }
+
+    /**
+     * change the muted varibel
+     *
+     * @param mutedSetting true when muted false when unmuted
+     */
+    public void setMuted(boolean mutedSetting) {
+        muted = mutedSetting;
+    }
+
+    /**
+     * returns the muted varibel
+     *
+     * @return
+     */
+    public boolean isMuted() {
+        return muted;
     }
 
 }

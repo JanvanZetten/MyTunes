@@ -2,8 +2,6 @@ package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -34,7 +32,6 @@ public class MainModel {
     private String currentAddMenu;
     private Song chosenSong;
     private Playlist chosenPlaylist;
-    private boolean muted = false;
     private String songOrPlaylist;
 
     /**
@@ -324,24 +321,6 @@ public class MainModel {
         } else if ("Playlist".equals(element)) {
             bllManager.deletePlaylist(chosenPlaylist.getPlaylistId());
         }
-    }
-
-    /**
-     * change the muted varibel
-     *
-     * @param mutedSetting true when muted false when unmuted
-     */
-    public void setMuted(boolean mutedSetting) {
-        muted = mutedSetting;
-    }
-
-    /**
-     * returns the muted varibel
-     *
-     * @return
-     */
-    public boolean isMuted() {
-        return muted;
     }
 
     public void setSongOrPlaylist(String SongOrPlaylist) {
