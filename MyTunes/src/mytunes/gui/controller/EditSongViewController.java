@@ -108,13 +108,23 @@ public class EditSongViewController implements Initializable {
     }
 
     /**
-     * Handles the button that adds a new genre to the database.
+     * Handles the button that adds a new genre to the database. If the genre
+     * already exists, it auto-fills the combo box instead.
      */
     @FXML
-    private void handleAddGenreAction(ActionEvent event) throws BLLException {
-        model.addGenre(txtfieldNewGenre.getText());
-        genreGetter();
-        cmboboxGenre.getSelectionModel().selectLast();
+    private String handleAddGenreAction(ActionEvent event) throws BLLException {
+        for (int i = 0; i < genreOL.size(); i++) {
+                if (cmboboxGenre.getItems().get(i).toString().trim().equalsIgnoreCase(txtfieldNewGenre.getText())) {
+                    cmboboxGenre.getSelectionModel().select(i);
+                    System.out.println("The genre " + txtfieldNewGenre.getText() + " attempted to add at index " + i + " already exists.");
+                    return "Nothing";
+                }
+            }
+
+            model.addGenre(txtfieldNewGenre.getText());
+            genreGetter();
+            cmboboxGenre.getSelectionModel().selectLast();
+            return "Nothing";
     }
 
     /**

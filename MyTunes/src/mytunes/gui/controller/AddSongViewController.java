@@ -1,4 +1,3 @@
-
 package mytunes.gui.controller;
 
 import java.io.File;
@@ -33,7 +32,7 @@ import mytunes.gui.model.MainWindowModel;
 
 /**
  * FXML Controller class
- * 
+ *
  * This view handles the addition of a new song into the database.
  *
  * @author Alex, Asbjørn og Jan
@@ -61,7 +60,7 @@ public class AddSongViewController implements Initializable {
     private Path to;
     private Path from;
     private File selectedFile;
-    
+
     //Variables for year and genre comboboxes.
     private ObservableList<String> yearOL = FXCollections.observableArrayList();
     private ObservableList<Genre> genreOL = FXCollections.observableArrayList();
@@ -78,7 +77,7 @@ public class AddSongViewController implements Initializable {
         try {
             //Using Singleton method to be sure there aren't 2 instances running.
             model = MainWindowModel.getInstance();
-            
+
             model.setCurrentAddMenu("song");
             cmboboxYear.setItems(yearGenerator());
             genreGetter();
@@ -163,13 +162,23 @@ public class AddSongViewController implements Initializable {
     }
 
     /**
-     * Handles the button that adds a new genre to the database.
+     * Handles the button that adds a new genre to the database. If the genre
+     * already exists, it auto-fills the combo box instead.
      */
     @FXML
-    private void handleAddGenreAction(ActionEvent event) throws BLLException {
-        model.addGenre(txtfieldNewGenre.getText());
-        genreGetter();
-        cmboboxGenre.getSelectionModel().selectLast();
+    private String handleAddGenreAction(ActionEvent event) throws BLLException {
+            for (int i = 0; i < genreOL.size(); i++) {
+                if (cmboboxGenre.getItems().get(i).toString().trim().equalsIgnoreCase(txtfieldNewGenre.getText())) {
+                    cmboboxGenre.getSelectionModel().select(i);
+                    System.out.println("The genre " + txtfieldNewGenre.getText() + " attempted to add at index " + i + " already exists.");
+                    return "Nothing";
+                }
+            }
+
+            model.addGenre(txtfieldNewGenre.getText());
+            genreGetter();
+            cmboboxGenre.getSelectionModel().selectLast();
+            return "Nothing";
     }
 
     /**
