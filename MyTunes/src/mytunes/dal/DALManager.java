@@ -18,16 +18,16 @@ import mytunes.be.Song;
 public class DALManager
 {
 
-    DatabaseConnector dc;
-    DAO databaseDAO;
-    DAO localDAO;
-    boolean offlineMode;
+    private DatabaseConnector dbc;
+    private DAO databaseDAO;
+    private DAO localDAO;
+    private boolean offlineMode;
 
     public DALManager() throws DALException
     {
         databaseDAO = new DatabaseDAO();
         localDAO = new LocalDAO();
-        dc = new DatabaseConnector();
+        dbc = new DatabaseConnector();
         offlineMode = false;
         syncAll();
     }
@@ -47,7 +47,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try getting playlist from database");
                         List<Playlist> tmp = databaseDAO.getAllPlaylists();
@@ -114,7 +114,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try getting songs from database");
                         List<Song> tmp = databaseDAO.getAllSongs();
@@ -181,7 +181,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try getting genres from database");
                         List<Genre> tmp = databaseDAO.getAllGenres();
@@ -249,7 +249,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try adding genre to database");
                         Genre tmp = databaseDAO.addGenre(genre);
@@ -301,7 +301,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try adding song to database");
                         Song tmp = databaseDAO.addSong(artist, title, album, year, genre, directory);
@@ -348,7 +348,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try adding playlist to database");
                         Playlist tmp = databaseDAO.addPlaylist(name);
@@ -396,7 +396,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try adding song playlist relation to database");
                         boolean tmp = databaseDAO.addSongToPlaylist(playlist, song);
@@ -444,7 +444,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try updating genre in database");
                         Genre tmp = databaseDAO.updateGenre(genreId, genre);
@@ -497,7 +497,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try updating song in database");
                         Song tmp = databaseDAO.updateSong(songId, artist, title, album, year, genre, directory);
@@ -545,7 +545,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try updating playlist in database");
                         Playlist tmp = databaseDAO.updatePlaylist(playlistId, name);
@@ -592,7 +592,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try deleting genre from database");
                         boolean tmp = databaseDAO.deleteGenre(genreId);
@@ -639,7 +639,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try deleting song from database");
                         boolean tmp = databaseDAO.deleteSong(songId);
@@ -686,7 +686,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try deleting playlist from database");
                         boolean tmp = databaseDAO.deletePlaylist(playlistId);
@@ -734,7 +734,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try deleting song playlist relation in database");
                         boolean tmp = databaseDAO.deleteSongInPlaylist(songId, playlistId);
@@ -783,7 +783,7 @@ public class DALManager
                 try
                 {
                     System.out.println("Try Connection");
-                    if (dc.getConnection().isValid(1))
+                    if (dbc.getConnection().isValid(1))
                     {
                         System.out.println("Try swapping song in databse");
                         boolean tmp = databaseDAO.swapSongsInPlaylist(firstSongId, secondSongId, playlistId);
@@ -819,7 +819,7 @@ public class DALManager
         try
         {
             System.out.println("Try Connection");
-            if (dc.getConnection().isValid(1))
+            if (dbc.getConnection().isValid(1))
             {
                 System.out.println("Try Syncing Database");
                 try
@@ -853,7 +853,7 @@ public class DALManager
         try
         {
             System.out.println("Try Connection");
-            if (dc.getConnection().isValid(1))
+            if (dbc.getConnection().isValid(1))
             {
                 System.out.println("Try Syncing");
                 localDAO.sync(databaseDAO);
