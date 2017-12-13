@@ -5,12 +5,17 @@
  */
 package mytunes;
 
+import java.io.IOException;
+import java.net.URL;
 import javafx.application.Preloader;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -21,14 +26,14 @@ public class MyTunesPreloader extends Preloader {
 
     Stage stage;
 
-    private Scene createPreloaderScene() {
-
-        BorderPane p = new BorderPane();
+    private Scene createPreloaderScene() throws IOException {
+        FXMLLoader fxLoader;
+        fxLoader = new FXMLLoader(getClass().getResource("SplashScreen.fxml"));
+        Parent root = fxLoader.load();
+        Scene scene = new Scene(root);
+        System.out.println("should work");
         
-        
-        p.setCenter(new ImageView(new Image("mytunes/gui/view/pictures/logo.png")));
-        
-        return new Scene(p, 200, 200);
+        return scene;
     }
 
     @Override
