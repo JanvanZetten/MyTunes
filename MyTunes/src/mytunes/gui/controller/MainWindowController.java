@@ -141,15 +141,11 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("album"));
         tblviewGenre.setCellValueFactory(
                 new PropertyValueFactory("genre"));
-        tblviewYear.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Song, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Song, String> param) {
-                if (param.getValue().getYear() == -1) {
-                    return new ReadOnlyObjectWrapper<>("Unknown");
-                } else {
-                    return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
-                }
+        tblviewYear.setCellValueFactory((TableColumn.CellDataFeatures<Song, String> param) -> {
+            if (param.getValue().getYear() == -1) {
+                return new ReadOnlyObjectWrapper<>("Unknown");
+            } else {
+                return new ReadOnlyObjectWrapper<>(param.getValue().getYear() + "");
             }
         });
         tblviewTime.setCellValueFactory(
