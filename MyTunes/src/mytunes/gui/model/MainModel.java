@@ -2,24 +2,16 @@ package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
 import mytunes.be.Genre;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.BLLException;
 import mytunes.bll.BLLManager;
-import mytunes.bll.MediaHandler;
 
 /**
  * FXML Model class
@@ -28,12 +20,11 @@ import mytunes.bll.MediaHandler;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MainWindowModel {
+public class MainModel {
 
-    private static MainWindowModel instance;
+    private static MainModel instance;
 
     private BLLManager bllManager;
-    private MediaHandler mediaHandler;
     private ObservableList<Playlist> playlists;
     private ObservableList<Genre> genres;
     private ObservableList<Song> shownSongs;
@@ -41,26 +32,24 @@ public class MainWindowModel {
     private String currentAddMenu;
     private Song chosenSong;
     private Playlist chosenPlaylist;
-    private boolean muted = false;
     private String songOrPlaylist;
 
     /**
      * Singleton method which makes sure that two MainWindowModels cannot be
      * created by two different classes that make use of the class.
      *
-     * @return MainWindowModel
+     * @return MainModel
      */
-    public static MainWindowModel getInstance() {
+    public static MainModel getInstance() {
         if (instance == null) {
-            instance = new MainWindowModel();
+            instance = new MainModel();
         }
         return instance;
     }
 
-    public MainWindowModel() {
+    public MainModel() {
         try {
             bllManager = new BLLManager();
-            mediaHandler = new MediaHandler();
             playlists = FXCollections.observableArrayList();
             genres = FXCollections.observableArrayList();
             shownSongs = FXCollections.observableArrayList();
@@ -108,170 +97,17 @@ public class MainWindowModel {
     }
 
     /**
-     * Get observable String
-     *
-     * @return
-     */
-    public SimpleStringProperty getArtist() {
-        return mediaHandler.getArtist();
-    }
-
-    /**
-     * Get observable String
-     *
-     * @return
-     */
-    public SimpleStringProperty getTitle() {
-        return mediaHandler.getTitle();
-    }
-
-    /**
-     * Get observable String
-     *
-     * @return
-     */
-    public SimpleStringProperty getAlbum() {
-        return mediaHandler.getAlbum();
-    }
-
-    /**
-     * Get observable String
-     *
-     * @return
-     */
-    public SimpleStringProperty getCurrentTime() {
-        return mediaHandler.getCurrentTime();
-    }
-
-    /**
-     * Get observable String
-     *
-     * @return
-     */
-    public SimpleStringProperty getDurationTime() {
-        return mediaHandler.getDurationTime();
-    }
-
-    /**
-     * Get observable Double
-     *
-     * @return
-     */
-    public SimpleDoubleProperty getProgress() {
-        return mediaHandler.getProgress();
-    }
-
-    /**
      * set the songs from the given playlist in the observablelist. remember to
      * add the observablelist to the view with getSong()
      *
      * @param selectedItem the playlist from which to take the song
      */
     public void setSongs(Playlist selectedItem) {
-//        try
-//        {
-        //mediaHandler.setSongs(selectedItem);
+
         if (selectedItem != null) {
             shownSongs.clear();
             shownSongs.addAll(selectedItem.getSongs());
         }
-
-//        }
-//        catch (BLLException ex)
-//        {
-//            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
-//            alert.showAndWait();
-//        }
-    }
-
-    /**
-     * Play song.
-     */
-    public void playMedia() {
-        try {
-            mediaHandler.playMedia();
-        } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not play Media: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Pause song.
-     */
-    public void pauseMedia() {
-        mediaHandler.pauseMedia();
-    }
-
-    /**
-     * Change to previous song in list.
-     */
-    public void previousMedia() {
-        try {
-            mediaHandler.previousMedia();
-        } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Change to next song in list.
-     */
-    public void nextMedia() {
-        try {
-            mediaHandler.nextMedia();
-        } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Switch song to index.
-     */
-    public void switchSong(int index) {
-        try {
-            mediaHandler.switchSong(index);
-        } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-    /**
-     * Switch looping playlist.
-     *
-     * @return
-     */
-    public boolean switchLooping() {
-        return mediaHandler.switchLooping();
-    }
-
-    /**
-     * Switch shuffling playlist.
-     *
-     * @return
-     */
-    public boolean switchShuffling() {
-        return mediaHandler.switchShuffling();
-    }
-
-    /**
-     * links the volumeslider to the mediaplayers volume
-     *
-     * @param volumeSlider the Slider who have to adjust the volume
-     */
-    public void volumeSliderSetup(Slider volumeSlider) {
-        volumeSlider.setValue(mediaHandler.getVolume() * volumeSlider.getMax());
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                mediaHandler.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
-                if (volumeSlider.getValue() == 0) {
-                }
-            }
-        });
 
     }
 
@@ -425,24 +261,30 @@ public class MainWindowModel {
      * moves the song
      *
      * @param i -1 if it has to go one down and 1 if it has to go one up
-     * @param selectedItem
-     * @param selectedItem0
+     * @param selectedSong
+     * @param selectedPlaylist
      * @return the new indeks of the moved elment. -1 if failed
-     * @throws mytunes.bll.BLLException
+     *
      */
-    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException {
+    public int moveSong(int i, Song selectedSong, Playlist selectedPlaylist) {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(shownSongs);
 
-        int index = songsholder.indexOf(selectedItem);
+        int index = songsholder.indexOf(selectedSong);
         if (index - i >= 0 && index - i + 1 <= songsholder.size()) {
             Song song = songsholder.get(index);
             songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
             shownSongs.clear();
             shownSongs.addAll(songsholder);
-            bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
-            return index;
+            try {
+                if (bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedPlaylist.getPlaylistId())) {
+                    return index;
+                }
+            } catch (BLLException ex) {
+                Alert alert = new Alert(AlertType.WARNING, "Could not move songs in database.\n message: " + ex.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+            }
         }
         return -1;
     }
@@ -454,7 +296,7 @@ public class MainWindowModel {
      */
     public void editSongInformation(Song song) throws BLLException {
         Song songfrombll = bllManager.updateSong(song.getSongId(), song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), song.getGenre(), song.getPath());
-        
+
         if (songfrombll != null) { //if song is not null
             chosenPlaylist.getSongs().set(chosenPlaylist.getSongs().indexOf(song), songfrombll);
             shownSongs.clear();
@@ -481,39 +323,12 @@ public class MainWindowModel {
         }
     }
 
-    /**
-     * change the muted varibel
-     *
-     * @param mutedSetting true when muted false when unmuted
-     */
-    public void setMuted(boolean mutedSetting) {
-        muted = mutedSetting;
-    }
-
-    /**
-     * returns the muted varibel
-     *
-     * @return
-     */
-    public boolean isMuted() {
-        return muted;
-    }
-
     public void setSongOrPlaylist(String SongOrPlaylist) {
         songOrPlaylist = SongOrPlaylist;
     }
 
     public String getSongOrPlaylist() {
         return songOrPlaylist;
-    }
-
-    /**
-     * a boolean for if the song is playing
-     *
-     * @return true if playing else false
-     */
-    public boolean isPlaying() {
-        return mediaHandler.isPlaying();
     }
 
     /**
@@ -533,44 +348,6 @@ public class MainWindowModel {
      */
     public Playlist getChosenPlaylist() {
         return chosenPlaylist;
-    }
-
-    public void musicSliderSetup(Slider musicSlider) {
-        musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
-
-        musicSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                if (musicSlider.pressedProperty().get()) {
-                    mediaHandler.setProgressing(false);
-                }
-            }
-        });
-
-        musicSlider.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    mediaHandler.seek(musicSlider.getValue());
-                } catch (BLLException ex) {
-                    mediaHandler.stopMedia();
-                }
-                mediaHandler.setProgressing(true);
-            }
-        });
-    }
-
-    /**
-     * Sets the currently shown songs for playing
-     */
-    public void setCurrentShownSongsForPlaying() {
-        try {
-            mediaHandler.setSongs(shownSongs);
-        } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
-            alert.showAndWait();
-        }
-
     }
 
     /**
@@ -608,7 +385,7 @@ public class MainWindowModel {
                 }
             }
         } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
+            Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
 

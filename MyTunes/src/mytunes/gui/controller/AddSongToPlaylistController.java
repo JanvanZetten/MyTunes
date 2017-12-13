@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.bll.BLLException;
-import mytunes.gui.model.MainWindowModel;
+import mytunes.gui.model.MainModel;
 
 /**
  * FXML Controller class
@@ -29,7 +29,7 @@ public class AddSongToPlaylistController implements Initializable {
     private ListView<Playlist> listviewPlaylist;
 
     //Singleton variable to be able to use model information in this controller.
-    MainWindowModel model;
+    MainModel model;
 
     /**
      * Initializes the controller class.
@@ -37,7 +37,7 @@ public class AddSongToPlaylistController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Using Singleton method to be sure there aren't 2 instances running.
-        model = MainWindowModel.getInstance();
+        model = MainModel.getInstance();
         
         //Sets the playlist options and removes My Library from the list.
         ObservableList<Playlist> playlists = FXCollections.observableArrayList();

@@ -37,12 +37,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.gui.model.MainWindowModel;
+import mytunes.gui.model.MainModel;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import mytunes.bll.BLLException;
+import mytunes.gui.model.MediaControlModel;
 
 /**
  * FXML Controller class
@@ -105,13 +106,17 @@ public class MainWindowController implements Initializable {
     private Slider musicSlider;
 
     //Singleton variable to be able to use model information in this controller.
-    MainWindowModel model;
+    MainModel model;
+
+    MediaControlModel mediaControlModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         //Using Singleton method to be sure there aren't 2 instances running.
-        model = MainWindowModel.getInstance();
+        model = MainModel.getInstance();
+
+        mediaControlModel = new MediaControlModel();
 
         //add the playlists to the view
         model.addAllPlaylistsToGUI();
@@ -120,12 +125,12 @@ public class MainWindowController implements Initializable {
         refreshAndSetElements();
         listViewPlaylists.getSelectionModel().selectFirst();
         model.setChosenPlaylist(listViewPlaylists.getSelectionModel().getSelectedItem());
-        lblSongArtistTopBar.textProperty().bind(Bindings.convert(model.getArtist()));
-        lblSongTitleTopBar.textProperty().bind(Bindings.convert(model.getTitle()));
-        lblSongAlbumTopBar.textProperty().bind(Bindings.convert(model.getAlbum()));
-        lblCurrentTime.textProperty().bind(Bindings.convert(model.getCurrentTime()));
-        lblTotalTimeSong.textProperty().bind(Bindings.convert(model.getDurationTime()));
-        progressBar.progressProperty().bind(model.getProgress().add(0.01));
+        lblSongArtistTopBar.textProperty().bind(Bindings.convert(mediaControlModel.getArtist()));
+        lblSongTitleTopBar.textProperty().bind(Bindings.convert(mediaControlModel.getTitle()));
+        lblSongAlbumTopBar.textProperty().bind(Bindings.convert(mediaControlModel.getAlbum()));
+        lblCurrentTime.textProperty().bind(Bindings.convert(mediaControlModel.getCurrentTime()));
+        lblTotalTimeSong.textProperty().bind(Bindings.convert(mediaControlModel.getDurationTime()));
+        progressBar.progressProperty().bind(mediaControlModel.getProgress().add(0.01));
 
         //add the songs to the view
         tblviewSong.setCellValueFactory(
@@ -151,14 +156,15 @@ public class MainWindowController implements Initializable {
                 new PropertyValueFactory("duration"));
 
         //volumeSlider
-        model.volumeSliderSetup(volumeSlider);
-        model.musicSliderSetup(musicSlider);
+        mediaControlModel.volumeSliderSetup(volumeSlider);
+        //musicSlider
+        mediaControlModel.musicSliderSetup(musicSlider);
 
         //Sets the context menus for playlists and songs.
         contextSongMenuHandler();
         contextPlaylistMenuHandler();
 
-        model.setCurrentShownSongsForPlaying();
+        mediaControlModel.setListOfSongsForPlaying(model.getSongs());
 
     }
 
@@ -310,16 +316,16 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void muteSongsAction(ActionEvent event) {
-        if (!model.isMuted()) {
+        if (!mediaControlModel.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
             volumeSlider.adjustValue(0);
-            model.setMuted(true);
-        } else if (model.isMuted()) {
+            mediaControlModel.setMuted(true);
+        } else if (mediaControlModel.isMuted()) {
             File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
             volumeSlider.adjustValue(100);
-            model.setMuted(false);
+            mediaControlModel.setMuted(false);
         }
     }
 
@@ -331,11 +337,11 @@ public class MainWindowController implements Initializable {
         if (volumeSlider.getValue() != volumeSlider.getMin()) {
             File file = new File("src/mytunes/gui/view/pictures/speaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
-            model.setMuted(false);
+            mediaControlModel.setMuted(false);
         } else {
             File file = new File("src/mytunes/gui/view/pictures/mutedspeaker.png");
             imageviewMute.setImage(new Image(file.toURI().toString()));
-            model.setMuted(true);
+            mediaControlModel.setMuted(true);
         }
     }
 
@@ -343,7 +349,7 @@ public class MainWindowController implements Initializable {
      * Pauses the song on button press.
      */
     private void pauseSongAction(ActionEvent event) {
-        model.pauseMedia();
+        mediaControlModel.pauseMedia();
     }
 
     /**
@@ -351,7 +357,7 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void previusSongAction(ActionEvent event) {
-        model.previousMedia();
+        mediaControlModel.previousMedia();
     }
 
     /**
@@ -359,7 +365,7 @@ public class MainWindowController implements Initializable {
      */
     @FXML
     private void nextSongAction(ActionEvent event) {
-        model.nextMedia();
+        mediaControlModel.nextMedia();
     }
 
     /**
@@ -368,7 +374,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void repeatSongsAction(ActionEvent event) {
         BtnRepeat.setStyle("-fx-background-color: orange;}");
-        if (model.switchLooping()) {
+        if (mediaControlModel.switchLooping()) {
             BtnRepeat.setStyle("-fx-background-color: orange;}");
         } else {
             BtnRepeat.setStyle("-fx-background-color: #3E606F;}");
@@ -381,7 +387,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private void shuffleSongsAction(ActionEvent event) {
         Btnshuffle.setStyle("-fx-background-color: orange;}");
-        if (model.switchShuffling()) {
+        if (mediaControlModel.switchShuffling()) {
             Btnshuffle.setStyle("-fx-background-color: orange;}");
         } else {
             Btnshuffle.setStyle("-fx-background-color: #3E606F;}");
@@ -424,9 +430,9 @@ public class MainWindowController implements Initializable {
         MenuItem item1 = new MenuItem("Play");
         item1.setOnAction((ActionEvent e)
                 -> {
-            model.setCurrentShownSongsForPlaying();
-            model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
-            if (!model.isPlaying()) {
+            mediaControlModel.setListOfSongsForPlaying(model.getSongs());
+            mediaControlModel.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+            if (!mediaControlModel.isPlaying()) {
                 playSong();
             }
         });
@@ -551,24 +557,14 @@ public class MainWindowController implements Initializable {
                     break;
                 case UP:
                     int indeks = -1;
-                    try {
-                        indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    } catch (BLLException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song up", ButtonType.OK);
-                        alert.showAndWait();
-                    }
+                    indeks = model.moveSong(1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
                     if (indeks != -1) {
                         tblviewMaster.getSelectionModel().select(indeks);
                     }
                     break;
                 case DOWN:
                     int indeks2 = -1;
-                    try {
-                        indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
-                    } catch (BLLException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Cant move song down", ButtonType.OK);
-                        alert.showAndWait();
-                    }
+                    indeks2 = model.moveSong(-1, tblviewMaster.getSelectionModel().getSelectedItem(), listViewPlaylists.getSelectionModel().getSelectedItem());
                     if (indeks2 != -1) {
                         tblviewMaster.getSelectionModel().select(indeks2);
                     }
@@ -585,13 +581,13 @@ public class MainWindowController implements Initializable {
                     playSong();
                     break;
                 case PAUSE:
-                    model.pauseMedia();
+                    mediaControlModel.pauseMedia();
                     break;
                 case FAST_FWD:
-                    model.nextMedia();
+                    mediaControlModel.nextMedia();
                     break;
                 case REWIND:
-                    model.previousMedia();
+                    mediaControlModel.previousMedia();
                     break;
                 default:
                     break;
@@ -616,9 +612,9 @@ public class MainWindowController implements Initializable {
     private void doubleClickTblview(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             if (event.getClickCount() == 2) {
-                model.setCurrentShownSongsForPlaying();
-                model.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
-                if (!model.isPlaying()) {
+                mediaControlModel.setListOfSongsForPlaying(model.getSongs());
+                mediaControlModel.switchSong(tblviewMaster.getSelectionModel().getSelectedIndex());
+                if (!mediaControlModel.isPlaying()) {
                     playSong();
                 }
             }
@@ -629,15 +625,15 @@ public class MainWindowController implements Initializable {
      * Plays the song and handels the button image
      */
     private void playSong() {
-        if (model.isPlaying()) {
-            model.pauseMedia();
-            if (!model.isPlaying()) {
+        if (mediaControlModel.isPlaying()) {
+            mediaControlModel.pauseMedia();
+            if (!mediaControlModel.isPlaying()) {
                 File file = new File("src/mytunes/gui/view/pictures/play.png");
                 imageviewPlayPause.setImage(new Image(file.toURI().toString()));
             }
         } else {
-            model.playMedia();
-            if (model.isPlaying()) {
+            mediaControlModel.playMedia();
+            if (mediaControlModel.isPlaying()) {
                 File file = new File("src/mytunes/gui/view/pictures/pause.png");
                 imageviewPlayPause.setImage(new Image(file.toURI().toString()));
             }

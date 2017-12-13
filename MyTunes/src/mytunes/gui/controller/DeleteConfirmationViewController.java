@@ -15,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import mytunes.bll.BLLException;
 
-import mytunes.gui.model.MainWindowModel;
+import mytunes.gui.model.MainModel;
 
 /**
  * FXML Controller class
@@ -37,7 +37,7 @@ public class DeleteConfirmationViewController implements Initializable {
     private Button btnNo;
 
     //Singleton variable to be able to use model information in this controller.
-    MainWindowModel model;
+    MainModel model;
 
     /**
      * Initializes the controller class.
@@ -46,7 +46,7 @@ public class DeleteConfirmationViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         //Using Singleton method to be sure there aren't 2 instances running.
-        model = MainWindowModel.getInstance();
+        model = MainModel.getInstance();
 
         lblDeletedElement.setText(model.getSelectedElement() + "?");
 
