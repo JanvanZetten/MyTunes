@@ -24,10 +24,10 @@ import mytunes.be.Song;
 public class LocalDAO implements DAO
 {
 
-    File playlistFile;
-    File songFile;
-    File genreFile;
-    File songsInPlaylistFile;
+    private File playlistFile;
+    private File songFile;
+    private File genreFile;
+    private File songsInPlaylistFile;
 
     public LocalDAO()
     {

@@ -14,11 +14,13 @@ import mytunes.dal.flac.FlacDecoder;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class FlacPlayer implements Player {
+public class FlacPlayer implements Player
+{
 
-    FlacDecoder fd;
+    private FlacDecoder fd;
 
-    public FlacPlayer(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime) {
+    public FlacPlayer(SimpleDoubleProperty currentTime, SimpleDoubleProperty durationTime)
+    {
         fd = new FlacDecoder(currentTime, durationTime);
     }
 
@@ -28,10 +30,14 @@ public class FlacPlayer implements Player {
      * @throws BLLException
      */
     @Override
-    public void playMedia() throws BLLException {
-        try {
+    public void playMedia() throws BLLException
+    {
+        try
+        {
             fd.playMedia();
-        } catch (DALException ex) {
+        }
+        catch (DALException ex)
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -40,7 +46,8 @@ public class FlacPlayer implements Player {
      * Pause decoding.
      */
     @Override
-    public void pauseMedia() {
+    public void pauseMedia()
+    {
         fd.pauseMedia();
     }
 
@@ -48,7 +55,8 @@ public class FlacPlayer implements Player {
      * Stop decoding.
      */
     @Override
-    public void stopMedia() {
+    public void stopMedia()
+    {
         fd.stopMedia();
     }
 
@@ -59,10 +67,14 @@ public class FlacPlayer implements Player {
      * @throws BLLException
      */
     @Override
-    public void seekMedia(double duration) throws BLLException {
-        try {
+    public void seekMedia(double duration) throws BLLException
+    {
+        try
+        {
             fd.seekMedia(duration);
-        } catch (DALException ex) {
+        }
+        catch (DALException ex)
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -74,10 +86,14 @@ public class FlacPlayer implements Player {
      * @throws BLLException
      */
     @Override
-    public void setSong(Song song) throws BLLException {
-        try {
+    public void setSong(Song song) throws BLLException
+    {
+        try
+        {
             fd.setSong(song);
-        } catch (DALException ex) {
+        }
+        catch (DALException ex)
+        {
             throw new BLLException(ex.getMessage(), ex.getCause());
         }
     }
@@ -88,7 +104,8 @@ public class FlacPlayer implements Player {
      * @param value between 0 and 100.
      */
     @Override
-    public void setVolume(double value) {
+    public void setVolume(double value)
+    {
         fd.setVolume(value);
     }
 }
