@@ -2,6 +2,8 @@ package mytunes.gui.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -262,24 +264,30 @@ public class MainModel {
      * moves the song
      *
      * @param i -1 if it has to go one down and 1 if it has to go one up
-     * @param selectedItem
-     * @param selectedItem0
+     * @param selectedSong
+     * @param selectedPlaylist
      * @return the new indeks of the moved elment. -1 if failed
-     * @throws mytunes.bll.BLLException
+     *
      */
-    public int moveSong(int i, Song selectedItem, Playlist selectedItem0) throws BLLException {
+    public int moveSong(int i, Song selectedSong, Playlist selectedPlaylist) {
         List<Song> songsholder = new ArrayList<>();
         songsholder.addAll(shownSongs);
 
-        int index = songsholder.indexOf(selectedItem);
+        int index = songsholder.indexOf(selectedSong);
         if (index - i >= 0 && index - i + 1 <= songsholder.size()) {
             Song song = songsholder.get(index);
             songsholder.set(index, songsholder.get(index - i));
             songsholder.set(index - i, song);
             shownSongs.clear();
             shownSongs.addAll(songsholder);
-            bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedItem0.getPlaylistId());
-            return index;
+            try {
+                if (bllManager.swapSongsInPlaylist(songsholder.get(index).getSongId(), songsholder.get(index - i).getSongId(), selectedPlaylist.getPlaylistId())) {
+                    return index;
+                }
+            } catch (BLLException ex) {
+                Alert alert = new Alert(AlertType.WARNING, "Could not move songs in database.\n message: " + ex.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+            }
         }
         return -1;
     }
@@ -398,7 +406,7 @@ public class MainModel {
                 }
             }
         } catch (BLLException ex) {
-            Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database", ButtonType.OK);
+            Alert alert = new Alert(AlertType.WARNING, "Could not reload information,\n check connecetion to database\n message: " + ex.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
 
