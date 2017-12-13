@@ -29,7 +29,7 @@ import mytunes.be.Genre;
 import mytunes.bll.BLLException;
 import mytunes.dal.AudioMedia;
 import mytunes.dal.DALException;
-import mytunes.gui.model.MainWindowModel;
+import mytunes.gui.model.MainModel;
 
 /**
  * FXML Controller class
@@ -68,7 +68,7 @@ public class AddSongViewController implements Initializable {
     private int yearInInt;
 
     //Singleton variable to be able to use model information in this controller.
-    MainWindowModel model;
+    MainModel model;
 
     /**
      * Initializes the controller class.
@@ -77,7 +77,7 @@ public class AddSongViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             //Using Singleton method to be sure there aren't 2 instances running.
-            model = MainWindowModel.getInstance();
+            model = MainModel.getInstance();
             
             model.setCurrentAddMenu("song");
             cmboboxYear.setItems(yearGenerator());
