@@ -327,11 +327,11 @@ public class MainModel {
                 }
             }
         } else if ("Playlist".equals(element)) {
-            if (bllManager.deletePlaylist(chosenPlaylist.getPlaylistId())){
+            if (bllManager.deletePlaylist(chosenPlaylist.getPlaylistId())) {
                 playlists.remove(chosenPlaylist);
                 chosenPlaylist = playlists.get(0);
             }
-            
+
         }
     }
 
