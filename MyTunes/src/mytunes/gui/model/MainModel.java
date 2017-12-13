@@ -312,14 +312,26 @@ public class MainModel {
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
             if (chosenPlaylist.getPlaylistId() == 1) {
-                bllManager.deleteSong(chosenSong.getSongId());
-                shownSongs.remove(chosenSong);
+                if (bllManager.deleteSong(chosenSong.getSongId())) {
+                    chosenPlaylist.getSongs().remove(chosenSong);
+                    shownSongs.clear();
+                    shownSongs.addAll(chosenPlaylist.getSongs());
+                    chosenSong = null;
+                }
             } else {
-                bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId());
-                chosenPlaylist.getSongs().remove(chosenSong);
+                if (bllManager.deleteSongInPlaylist(chosenSong.getSongId(), chosenPlaylist.getPlaylistId())) {
+                    chosenPlaylist.getSongs().remove(chosenSong);
+                    shownSongs.clear();
+                    shownSongs.addAll(chosenPlaylist.getSongs());
+                    chosenSong = null;
+                }
             }
         } else if ("Playlist".equals(element)) {
-            bllManager.deletePlaylist(chosenPlaylist.getPlaylistId());
+            if (bllManager.deletePlaylist(chosenPlaylist.getPlaylistId())){
+                playlists.remove(chosenPlaylist);
+                chosenPlaylist = playlists.get(0);
+            }
+            
         }
     }
 

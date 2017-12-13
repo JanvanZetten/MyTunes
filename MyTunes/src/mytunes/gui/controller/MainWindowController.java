@@ -254,7 +254,7 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
 
             startModalWindow("DeleteConfirmationView");
-            model.refreshFromDatabase();
+            //model.refreshFromDatabase();
         }
     }
 
@@ -273,7 +273,7 @@ public class MainWindowController implements Initializable {
                 model.setSongOrPlaylist("Playlist");
 
                 startModalWindow("DeleteConfirmationView");
-                model.refreshFromDatabase();
+                //model.refreshFromDatabase();
             }
         }
     }
