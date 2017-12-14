@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class MyTunesPreloader extends Preloader {
         
         Stage newStage;
-        SplashScreenController controller;
+        
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,7 +30,6 @@ public class MyTunesPreloader extends Preloader {
         Scene scene = new Scene(root);
         System.out.println("should work");
         
-        controller = fxLoader.getController();
         newStage.setScene(scene);
         newStage.show();
         
@@ -44,10 +43,5 @@ public class MyTunesPreloader extends Preloader {
             newStage.hide();
         }
     }
-    
-    @Override
-    public void handleProgressNotification(ProgressNotification pn) {
-        controller.setProgress(pn.getProgress());
-    }  
 
 }
