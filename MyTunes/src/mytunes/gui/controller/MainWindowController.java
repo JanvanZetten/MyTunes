@@ -584,9 +584,6 @@ public class MainWindowController implements Initializable {
                 case REWIND:
                     mediaControlModel.previousMedia();
                     break;
-                case ENTER:
-                    FilterButtonAction();
-                    break;
                 default:
                     break;
             }
