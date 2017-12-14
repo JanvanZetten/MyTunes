@@ -18,18 +18,32 @@ import mytunes.gui.controller.MainWindowController;
  * @author Alex, Asbjørn og Jan
  */
 public class MyTunesApplication extends Application {
+    Scene scene;
+    FXMLLoader fxLoader;
+    
+    @Override
+    public void init() throws Exception {
+        //load FXML
+        fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
+        Parent root = fxLoader.load();
+        
+        //Instanciate Scene.
+        scene = new Scene(root);
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
         //Get window.
         Stage newStage = new Stage();
-        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
-        Parent root = fxLoader.load();
         
-        notifyPreloader(ProgressMessage.SUCCESSFULLY_DONE);
-        
-        //Instanciate Scene.
-        Scene scene = new Scene(root);
+//        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
+//        Parent root = fxLoader.load();
+//        
+//        //notifyPreloader(ProgressMessage.SUCCESSFULLY_DONE);
+//        
+//        //Instanciate Scene.
+//        Scene scene = new Scene(root);
+//
 
         //Set Stage properties.
         newStage.setScene(scene);

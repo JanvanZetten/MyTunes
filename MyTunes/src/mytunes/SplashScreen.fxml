@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="482.0" style="-fx-background-color: #CBDBD7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="482.0" style="-fx-background-color: #CBDBD7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.SplashScreenController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -18,10 +19,11 @@
             <Font size="78.0" />
          </font>
       </Label>
-      <Label layoutX="26.0" layoutY="179.0" prefHeight="71.0" prefWidth="330.0" text="Loading information..." textFill="#193441">
+      <Label layoutX="26.0" layoutY="164.0" prefHeight="71.0" prefWidth="330.0" text="Loading..." textFill="#193441">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
+      <ProgressBar fx:id="progressBar" layoutX="19.0" layoutY="226.0" prefHeight="20.0" prefWidth="474.0" progress="0.0" />
    </children>
 </AnchorPane>
