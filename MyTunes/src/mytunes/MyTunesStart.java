@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class MyTunesStart extends Application{
 
@@ -19,14 +19,6 @@ public class MyTunesStart extends Application{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                LauncherImpl.launchApplication(MyTunesPreloader.class, args);
-//            }
-//        });
-//        t.start();
-//        LauncherImpl.launchApplication(MyTunesApplication.class, args);
         LauncherImpl.launchApplication(MyTunesApplication.class, MyTunesPreloader.class, args);
 
     }
