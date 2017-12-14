@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-12-2017, 11:37:33
+    Author     : janvanzetten
+*/
+
+.progress-bar {
+    -fx-background-color: #FCFFF5;
+}
+
+.progress-bar .track{
+    -fx-background-color: #FCFFF5;
+}
+
+.progress-bar .bar{
+    -fx-background-color: linear-gradient(to right, #3E606F, transparent);
+}

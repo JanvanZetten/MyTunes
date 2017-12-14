@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
@@ -26,4 +27,7 @@
       </Label>
       <ProgressBar layoutX="26.0" layoutY="225.0" prefHeight="20.0" prefWidth="455.0" />
    </children>
+   <stylesheets>
+        <URL value="@SplashCSS.css" />
+    </stylesheets>
 </AnchorPane>

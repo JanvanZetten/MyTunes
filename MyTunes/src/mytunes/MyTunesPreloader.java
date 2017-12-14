@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -30,6 +31,7 @@ public class MyTunesPreloader extends Preloader {
         Parent root = fxLoader.load();
         Scene scene = new Scene(root);
         
+        newStage.initStyle(StageStyle.UNDECORATED); //removes the close buttons, drag functonality and border
         newStage.setScene(scene);
         newStage.setTitle("MyTunes");
         newStage.getIcons().add(new Image("mytunes/gui/view/pictures/logo.png"));
