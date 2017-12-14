@@ -11,13 +11,13 @@ import com.sun.javafx.application.LauncherImpl;
  *
  * @author janvanzetten
  */
-public class MyTunes {
+public class MyTunesStart {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LauncherImpl.launchApplication(MyTunesApplicationStart.class, MyTunesPreloader.class, args);
+        LauncherImpl.launchApplication(MyTunesApplication.class, MyTunesPreloader.class, args);
     }
 
 }

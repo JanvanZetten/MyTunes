@@ -5,17 +5,10 @@
  */
 package mytunes;
 
-import java.io.IOException;
-import java.net.URL;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -23,24 +16,22 @@ import javafx.stage.Stage;
  * @author janvanzetten
  */
 public class MyTunesPreloader extends Preloader {
+        
+        Stage newStage;
 
-    Stage stage;
-
-    private Scene createPreloaderScene() throws IOException {
+    @Override
+    public void start(Stage stage) throws Exception {
+        newStage = new Stage();
+        
         FXMLLoader fxLoader;
         fxLoader = new FXMLLoader(getClass().getResource("SplashScreen.fxml"));
         Parent root = fxLoader.load();
         Scene scene = new Scene(root);
         System.out.println("should work");
         
-        return scene;
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
-        stage.setScene(createPreloaderScene());
-        stage.show();
+        newStage.setScene(scene);
+        newStage.show();
+        
 
     }
 
@@ -55,7 +46,7 @@ public class MyTunesPreloader extends Preloader {
         ProgressMessage progressMessage = (ProgressMessage) info;
 
         if (progressMessage.isDone()) {
-            stage.hide();
+            newStage.hide();
         }
     }
 

@@ -17,7 +17,7 @@ import mytunes.gui.controller.MainWindowController;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MyTunesApplicationStart extends Application {
+public class MyTunesApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -27,6 +27,7 @@ public class MyTunesApplicationStart extends Application {
         Parent root = fxLoader.load();
         
         notifyPreloader(ProgressMessage.SUCCESSFULLY_DONE);
+        
         //Instanciate Scene.
         Scene scene = new Scene(root);
 

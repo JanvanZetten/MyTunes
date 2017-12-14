@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.SplashScreenController">
+<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="482.0" style="-fx-background-color: #CBDBD7;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@gui/view/pictures/logo.png" />
          </image>
       </ImageView>
-      <Label layoutX="176.0" layoutY="58.0" prefHeight="88.0" prefWidth="339.0" text="Mytunes">
+      <Label layoutX="176.0" layoutY="58.0" prefHeight="88.0" prefWidth="339.0" text="Mytunes" textFill="#193441">
          <font>
             <Font size="78.0" />
          </font>
       </Label>
-      <Label layoutX="26.0" layoutY="179.0" prefHeight="71.0" prefWidth="330.0" text="Loading information...">
+      <Label layoutX="26.0" layoutY="179.0" prefHeight="71.0" prefWidth="330.0" text="Loading information..." textFill="#193441">
          <font>
             <Font size="30.0" />
          </font>
