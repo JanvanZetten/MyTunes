@@ -29,6 +29,10 @@ public class MyTunesApplication extends Application {
         
         //Instanciate Scene.
         scene = new Scene(root);
+        
+        //Get controller and run afterInitialize.
+        MainWindowController cont = fxLoader.getController();
+        cont.afterInitialize();
     }
 
     @Override
@@ -36,14 +40,6 @@ public class MyTunesApplication extends Application {
         //Get window.
         Stage newStage = new Stage();
         
-//        FXMLLoader fxLoader = new FXMLLoader(getClass().getResource("gui/view/MainWindow.fxml"));
-//        Parent root = fxLoader.load();
-//        
-//        //notifyPreloader(ProgressMessage.SUCCESSFULLY_DONE);
-//        
-//        //Instanciate Scene.
-//        Scene scene = new Scene(root);
-//
 
         //Set Stage properties.
         newStage.setScene(scene);
@@ -51,11 +47,6 @@ public class MyTunesApplication extends Application {
         newStage.getIcons().add(new Image("mytunes/gui/view/pictures/logo.png"));
         newStage.setMinWidth(836);
         newStage.setMinHeight(606);
-
-        //Get controller and run afterInitialize.
-        MainWindowController cont = fxLoader.getController();
-        cont.afterInitialize();
-        
 
         //Show Stage
         newStage.show();

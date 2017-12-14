@@ -9,11 +9,12 @@ import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
  *
- * @author janvanzetten
+ * @author Alex, Asbjørn og Jan
  */
 public class MyTunesPreloader extends Preloader {
         
@@ -28,15 +29,18 @@ public class MyTunesPreloader extends Preloader {
         fxLoader = new FXMLLoader(getClass().getResource("SplashScreen.fxml"));
         Parent root = fxLoader.load();
         Scene scene = new Scene(root);
-        System.out.println("should work");
         
         newStage.setScene(scene);
+        newStage.setTitle("MyTunes");
+        newStage.getIcons().add(new Image("mytunes/gui/view/pictures/logo.png"));
+        newStage.setResizable(false);
         newStage.show();
-        
-
     }  
     
-    
+    /**
+     * Closes the window when application starts
+     * @param scn 
+     */
     @Override
     public void handleStateChangeNotification(StateChangeNotification scn) {
         if (scn.getType() == StateChangeNotification.Type.BEFORE_START) {
