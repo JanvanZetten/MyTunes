@@ -287,7 +287,7 @@ public class MainWindowController implements Initializable {
      * button to clear the filter afterwards.
      */
     @FXML
-    private void FilterButtonAction(ActionEvent event) {
+    private void FilterButtonAction() {
         if (!textfieldFilter.getText().trim().equals("") && btnFilter.getText().equals("Filter")) {
             model.filterSongList(textfieldFilter.getText().trim());
             btnFilter.setText("Clear");
@@ -296,7 +296,6 @@ public class MainWindowController implements Initializable {
             listViewPlaylists.getSelectionModel().select(0);
             btnFilter.setText("Filter");
         }
-
     }
 
     /**
@@ -584,6 +583,9 @@ public class MainWindowController implements Initializable {
                     break;
                 case REWIND:
                     mediaControlModel.previousMedia();
+                    break;
+                case ENTER:
+                    FilterButtonAction();
                     break;
                 default:
                     break;
