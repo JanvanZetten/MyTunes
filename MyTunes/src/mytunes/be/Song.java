@@ -184,10 +184,6 @@ public class Song implements Serializable
         return path;
     }
 
-    public void setPath(String path)
-    {
-        this.path = path;
-    }
 
     /**
      * returns the duration
