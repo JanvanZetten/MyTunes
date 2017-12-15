@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,7 +40,6 @@ import mytunes.gui.model.MainModel;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
 import mytunes.bll.BLLException;
 import mytunes.gui.model.MediaControlModel;
 
@@ -250,7 +248,6 @@ public class MainWindowController implements Initializable {
             model.selectedDeletedElements(selectedTitle + " by " + selectedArtist);
 
             startModalWindow("DeleteConfirmationView");
-            //model.refreshFromDatabase();
         }
     }
 
@@ -269,7 +266,6 @@ public class MainWindowController implements Initializable {
                 model.setSongOrPlaylist("Playlist");
 
                 startModalWindow("DeleteConfirmationView");
-                //model.refreshFromDatabase();
             }
         }
     }
@@ -484,7 +480,6 @@ public class MainWindowController implements Initializable {
         if (tblviewMaster.getSelectionModel().getSelectedItem() != null) {
             model.setChosenSong(tblviewMaster.getSelectionModel().getSelectedItem());
             startModalWindow("EditSongView");
-            //model.refreshFromDatabase();
         }
     }
 
