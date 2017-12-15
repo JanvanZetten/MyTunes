@@ -19,9 +19,14 @@ import javafx.stage.StageStyle;
  */
 public class MyTunesPreloader extends Preloader {
         
-        Stage newStage;
+        private Stage newStage;
         
 
+        /**
+         * Preloader starts method loads fxml and shows window
+         * @param stage
+         * @throws Exception 
+         */
     @Override
     public void start(Stage stage) throws Exception {
         newStage = new Stage();
@@ -40,7 +45,7 @@ public class MyTunesPreloader extends Preloader {
     }  
     
     /**
-     * Closes the window when application starts
+     * Closes the window when main application start method is called
      * @param scn 
      */
     @Override

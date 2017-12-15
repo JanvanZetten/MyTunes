@@ -19,12 +19,13 @@ public class MyTunesStart extends Application{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        LauncherImpl.launchApplication(MyTunesApplication.class, MyTunesPreloader.class, args);
+        LauncherImpl.launchApplication(MyTunesApplication.class, MyTunesPreloader.class, args); // not supportet in java 9
 
     }
 
+    
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception { //JavaFX wants this before it can be standard applictaion start
         
     }
 

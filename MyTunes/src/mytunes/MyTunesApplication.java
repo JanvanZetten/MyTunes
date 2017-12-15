@@ -18,9 +18,13 @@ import mytunes.gui.controller.MainWindowController;
  * @author Alex, Asbjørn og Jan
  */
 public class MyTunesApplication extends Application {
-    Scene scene;
-    FXMLLoader fxLoader;
+    private Scene scene;
+    private FXMLLoader fxLoader;
     
+    /**
+     * this does the slow stuff because of preloader
+     * @throws Exception 
+     */
     @Override
     public void init() throws Exception {
         //load FXML
@@ -35,6 +39,11 @@ public class MyTunesApplication extends Application {
         cont.afterInitialize();
     }
 
+    /**
+     * shows main program window
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         //Get window.
