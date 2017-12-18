@@ -21,11 +21,13 @@ import mytunes.be.Song;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class DatabaseDAO implements DAO {
+public class DatabaseDAO implements DAO
+{
 
     private final DatabaseConnector dbc;
 
-    public DatabaseDAO() throws DALException {
+    public DatabaseDAO() throws DALException
+    {
         dbc = new DatabaseConnector();
     }
 
@@ -36,8 +38,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public List<Playlist> getAllPlaylists() throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public List<Playlist> getAllPlaylists() throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT * FROM Playlist;";
 
             Statement st = con.createStatement();
@@ -45,7 +49,8 @@ public class DatabaseDAO implements DAO {
 
             List<Playlist> playlists = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int id = rs.getInt("playlistId");
                 Playlist playlist = new Playlist(
                         id,
@@ -57,7 +62,9 @@ public class DatabaseDAO implements DAO {
             }
 
             return playlists;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -69,8 +76,10 @@ public class DatabaseDAO implements DAO {
      * @return All Song objects in Playlist.
      * @throws DALException
      */
-    private List<Song> getAllSongsInPlaylist(int playlistId) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    private List<Song> getAllSongsInPlaylist(int playlistId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT * FROM Song "
                     + "INNER JOIN Genre ON Song.genreId = Genre.genreId "
                     + "INNER JOIN SongsInPlaylist ON SongsInPlaylist.songId = Song.songId "
@@ -82,7 +91,8 @@ public class DatabaseDAO implements DAO {
 
             List<Song> songs = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 Song song = new Song(
                         rs.getInt("songId"),
                         rs.getString("title"),
@@ -93,10 +103,13 @@ public class DatabaseDAO implements DAO {
                 song.setYear(rs.getInt("year"));
                 song.setGenre(new Genre(rs.getInt("genreId"), rs.getString("genre")));
 
-                try {
+                try
+                {
                     AudioMedia am = new AudioMedia(new File(rs.getString("directory")));
                     song.setDuration(am.getDuration());
-                } catch (DALException ex) {
+                }
+                catch (DALException ex)
+                {
                     song.setDuration(0.0);
                 }
                 song.setCreatedBy(this.getClass().getName());
@@ -105,7 +118,9 @@ public class DatabaseDAO implements DAO {
             }
 
             return songs;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException("SQLException: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -117,8 +132,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public List<Song> getAllSongs() throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public List<Song> getAllSongs() throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT * FROM Song INNER JOIN Genre ON Song.genreId = Genre.genreId;";
 
             Statement st = con.createStatement();
@@ -126,7 +143,8 @@ public class DatabaseDAO implements DAO {
 
             List<Song> songs = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 Song song = new Song(
                         rs.getInt("songId"),
                         rs.getString("title"),
@@ -137,10 +155,13 @@ public class DatabaseDAO implements DAO {
                 song.setYear(rs.getInt("year"));
                 song.setGenre(new Genre(rs.getInt("genreId"), rs.getString("genre")));
 
-                try {
+                try
+                {
                     AudioMedia am = new AudioMedia(new File(rs.getString("directory")));
                     song.setDuration(am.getDuration());
-                } catch (DALException ex) {
+                }
+                catch (DALException ex)
+                {
                     song.setDuration(0.0);
                 }
                 song.setCreatedBy(this.getClass().getName());
@@ -149,7 +170,9 @@ public class DatabaseDAO implements DAO {
             }
 
             return songs;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -161,8 +184,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public List<Genre> getAllGenres() throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public List<Genre> getAllGenres() throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT * FROM Genre;";
 
             Statement st = con.createStatement();
@@ -170,14 +195,17 @@ public class DatabaseDAO implements DAO {
 
             List<Genre> genres = new ArrayList<>();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 Genre g = new Genre(rs.getInt("genreId"), rs.getString("genre"));
                 g.setCreatedBy(this.getClass().getName());
                 genres.add(g);
             }
 
             return genres;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -190,24 +218,31 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Genre addGenre(String genre) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Genre addGenre(String genre) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "INSERT INTO Genre VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, genre);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 Genre newGenre = new Genre(rs.getInt(1), genre);
                 newGenre.setCreatedBy(this.getClass().getName());
                 return newGenre;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not add genre: " + genre);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -225,8 +260,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Song addSong(String artist, String title, String album, int year, Genre genre, String directory) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "INSERT INTO Song VALUES (?, ?, ?, ?, ?, ?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -238,7 +275,8 @@ public class DatabaseDAO implements DAO {
             statement.setInt(5, genre.getGenreId());
             statement.setString(6, directory);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
@@ -248,19 +286,26 @@ public class DatabaseDAO implements DAO {
                 newSong.setGenre(genre);
                 addSongToPlaylist(new Playlist(1, "My Library"), newSong);
 
-                try {
+                try
+                {
                     AudioMedia am = new AudioMedia(new File(directory));
                     newSong.setDuration(am.getDuration());
-                } catch (DALException ex) {
+                }
+                catch (DALException ex)
+                {
                     newSong.setDuration(0.0);
                 }
                 newSong.setCreatedBy(this.getClass().getName());
 
                 return newSong;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not add song: " + artist + " - " + title + ", DIR: " + directory);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -273,24 +318,31 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Playlist addPlaylist(String name) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Playlist addPlaylist(String name) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "INSERT INTO Playlist VALUES (?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, name);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 ResultSet rs = statement.getGeneratedKeys();
                 rs.next();
                 Playlist newPlaylist = new Playlist(rs.getInt(1), name);
                 newPlaylist.setCreatedBy(this.getClass().getName());
                 return newPlaylist;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not add playlist: " + name);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -304,8 +356,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public boolean addSongToPlaylist(Playlist playlist, Song song) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "INSERT INTO SongsInPlaylist VALUES (?, ?);";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -313,12 +367,17 @@ public class DatabaseDAO implements DAO {
             statement.setInt(1, song.getSongId());
             statement.setInt(2, playlist.getPlaylistId());
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not add song to playlist: " + playlist.getName() + " to " + song.getArtist() + " - " + song.getTitle());
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -332,8 +391,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Genre updateGenre(int genreId, String genre) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Genre updateGenre(int genreId, String genre) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "UPDATE Genre SET genre=? WHERE genreId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -341,14 +402,19 @@ public class DatabaseDAO implements DAO {
             statement.setString(1, genre);
             statement.setInt(2, genreId);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 Genre newGenre = new Genre(genreId, genre);
                 newGenre.setCreatedBy(this.getClass().getName());
                 return newGenre;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not update genre: " + genreId);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -367,8 +433,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Song updateSong(int songId, String artist, String title, String album, int year, Genre genre, String directory) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "UPDATE Song SET artist=?, title=?, album=?, year=?, genreId=?, directory=? WHERE songId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -381,25 +449,33 @@ public class DatabaseDAO implements DAO {
             statement.setString(6, directory);
             statement.setInt(7, songId);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 Song newSong = new Song(songId, title, artist, directory);
                 newSong.setAlbum(album);
                 newSong.setYear(year);
                 newSong.setGenre(genre);
 
-                try {
+                try
+                {
                     AudioMedia am = new AudioMedia(new File(directory));
                     newSong.setDuration(am.getDuration());
-                } catch (DALException ex) {
+                }
+                catch (DALException ex)
+                {
                     newSong.setDuration(0.0);
                 }
 
                 newSong.setCreatedBy(this.getClass().getName());
                 return newSong;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not update song: " + songId + " - " + artist + " - " + title + ", DIR: " + directory);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -413,8 +489,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public Playlist updatePlaylist(int playlistId, String name) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public Playlist updatePlaylist(int playlistId, String name) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "UPDATE Playlist SET name=? WHERE playlistId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -422,14 +500,19 @@ public class DatabaseDAO implements DAO {
             statement.setString(1, name);
             statement.setInt(2, playlistId);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 Playlist newPlaylist = new Playlist(playlistId, name);
                 newPlaylist.setCreatedBy(this.getClass().getName());
                 return newPlaylist;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not add playlist: " + playlistId + " - " + name);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -442,8 +525,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean deleteGenre(int genreId) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public boolean deleteGenre(int genreId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT COUNT(*) as count FROM Song WHERE genreId = ?;";
 
             PreparedStatement statement = con.prepareStatement(sql);
@@ -453,26 +538,37 @@ public class DatabaseDAO implements DAO {
             rs.next();
             int count = rs.getInt("count");
 
-            if (count > 0) {
-                try {
+            if (count > 0)
+            {
+                try
+                {
                     sql = "DELETE Genre WHERE genreId=?;";
 
                     statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
                     statement.setInt(1, genreId);
 
-                    if (statement.executeUpdate() == 1) {
+                    if (statement.executeUpdate() == 1)
+                    {
                         return true;
-                    } else {
+                    }
+                    else
+                    {
                         throw new DALException("Could not delete genre: " + genreId);
                     }
-                } catch (SQLException ex) {
+                }
+                catch (SQLException ex)
+                {
                     throw new DALException("Deleting genre: " + ex.getMessage(), ex.getCause());
                 }
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not delete genre: " + genreId + ", genre is used by one or many songs!");
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException("Getting genre used count: " + ex.getMessage(), ex.getCause());
         }
     }
@@ -485,8 +581,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean deleteSong(int songId) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public boolean deleteSong(int songId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "DELETE SongsInPlaylist WHERE songId=?; DELETE Song WHERE songId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -494,12 +592,17 @@ public class DatabaseDAO implements DAO {
             statement.setInt(1, songId);
             statement.setInt(2, songId);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not delete song: " + songId);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -512,9 +615,12 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean deletePlaylist(int playlistId) throws DALException {
-        if (playlistId != 1) {
-            try (Connection con = dbc.getConnection()) {
+    public boolean deletePlaylist(int playlistId) throws DALException
+    {
+        if (playlistId != 1)
+        {
+            try (Connection con = dbc.getConnection())
+            {
                 String sql = "DELETE SongsInPlaylist WHERE playlistId=?; DELETE Playlist WHERE playlistId=?;";
 
                 PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -522,15 +628,22 @@ public class DatabaseDAO implements DAO {
                 statement.setInt(1, playlistId);
                 statement.setInt(2, playlistId);
 
-                if (statement.executeUpdate() == 1) {
+                if (statement.executeUpdate() == 1)
+                {
                     return true;
-                } else {
+                }
+                else
+                {
                     throw new DALException("Could not delete playlist: " + playlistId);
                 }
-            } catch (SQLException ex) {
+            }
+            catch (SQLException ex)
+            {
                 throw new DALException(ex.getMessage(), ex.getCause());
             }
-        } else {
+        }
+        else
+        {
             throw new DALException("Cannot delete Main Playlist!");
         }
     }
@@ -545,9 +658,12 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException {
-        if (playlistId != 1) {
-            try (Connection con = dbc.getConnection()) {
+    public boolean deleteSongInPlaylist(int songId, int playlistId) throws DALException
+    {
+        if (playlistId != 1)
+        {
+            try (Connection con = dbc.getConnection())
+            {
                 int sipId = getSipId(songId, playlistId);
                 String sql = "DELETE SongsInPlaylist WHERE sipId=?;";
 
@@ -555,15 +671,22 @@ public class DatabaseDAO implements DAO {
 
                 statement.setInt(1, sipId);
 
-                if (statement.executeUpdate() == 1) {
+                if (statement.executeUpdate() == 1)
+                {
                     return true;
-                } else {
+                }
+                else
+                {
                     throw new DALException("Could not delete song from playlist: " + songId + " from " + playlistId);
                 }
-            } catch (SQLException ex) {
+            }
+            catch (SQLException ex)
+            {
                 throw new DALException(ex.getMessage(), ex.getCause());
             }
-        } else {
+        }
+        else
+        {
             throw new DALException("Cannot delete song from Main Playlist!");
         }
     }
@@ -578,8 +701,10 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    public boolean swapSongsInPlaylist(int firstSongId, int secondSongId, int playlistId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             int firstSipId = getSipId(firstSongId, playlistId);
             int secondSipId = getSipId(secondSongId, playlistId);
 
@@ -593,26 +718,34 @@ public class DatabaseDAO implements DAO {
             statement.setInt(3, firstSongId);
             statement.setInt(4, secondSipId);
 
-            if (statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 throw new DALException("Could not swap songs: " + firstSongId + " and " + secondSongId + " in " + playlistId);
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
 
     /**
-     * Gets SongInPlaylist Id.
+     * Gets SongInPlaylist Id. Sync changes as new entry. Does not sync removed
+     * entries.
      *
      * @param songId
      * @param playlistId
      * @return
      * @throws DALException
      */
-    private int getSipId(int songId, int playlistId) throws DALException {
-        try (Connection con = dbc.getConnection()) {
+    private int getSipId(int songId, int playlistId) throws DALException
+    {
+        try (Connection con = dbc.getConnection())
+        {
             String sql = "SELECT sipId FROM SongsInPlaylist WHERE songId=? AND playlistId=?;";
 
             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -625,7 +758,9 @@ public class DatabaseDAO implements DAO {
             int id = rs.getInt("sipID");
             return id;
 
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             throw new DALException(ex.getMessage(), ex.getCause());
         }
     }
@@ -637,36 +772,47 @@ public class DatabaseDAO implements DAO {
      * @throws DALException
      */
     @Override
-    public void sync(DAO syncDAO) throws DALException {
+    public void sync(DAO syncDAO) throws DALException
+    {
         //System.out.println("Syncing DatabaseDAO with " + syncDAO.getClass().getName() + ":");
         // SYNC GENRE
         List<Genre> newGenres = new ArrayList<>();
         List<Integer> newGenresId = new ArrayList<>();
         // Try loading database data
-        try {
+        try
+        {
             List<Genre> thisList = getAllGenres();
             List<Genre> syncList = syncDAO.getAllGenres();
             int index = 0;
 
-            for (Genre genre : syncList) {
-                if (!genre.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+            for (Genre genre : syncList)
+            {
+                if (!genre.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                {
                     // Current list item is less than sync item.
-                    while (index < thisList.size() - 1) {
-                        if (thisList.get(index).getGenreId() < genre.getGenreId()) {
+                    while (index < thisList.size() - 1)
+                    {
+                        if (thisList.get(index).getGenreId() < genre.getGenreId())
+                        {
                             index++;
-                        } else {
+                        }
+                        else
+                        {
                             break;
                         }
                     }
 
                     // Check if same id and add to database if different content.
-                    if (thisList.get(index).getGenreId() == genre.getGenreId()) {
-                        if (!thisList.get(index).getGenre().equalsIgnoreCase(genre.getGenre())) {
+                    if (thisList.get(index).getGenreId() == genre.getGenreId())
+                    {
+                        if (!thisList.get(index).getGenre().equalsIgnoreCase(genre.getGenre()))
+                        {
                             newGenres.add(addGenre(genre.getGenre()));
                             newGenresId.add(genre.getGenreId());
                         }
                     } // If it still runs when it is at the end of thisList it should add all the rest from syncList.
-                    else if (index == thisList.size() - 1) {
+                    else if (index == thisList.size() - 1)
+                    {
                         newGenres.add(addGenre(genre.getGenre()));
                         newGenresId.add(genre.getGenreId());
                     }
@@ -674,20 +820,27 @@ public class DatabaseDAO implements DAO {
             }
 
             //System.out.println("Genres synced.");
-        } catch (DALException e) {
+        }
+        catch (DALException e)
+        {
             // Try loading data from sync
-            try {
+            try
+            {
                 List<Genre> syncList = syncDAO.getAllGenres();
 
-                for (Genre genre : syncList) {
-                    if (!genre.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+                for (Genre genre : syncList)
+                {
+                    if (!genre.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                    {
                         newGenres.add(addGenre(genre.getGenre()));
                         newGenresId.add(genre.getGenreId());
                     }
                 }
 
                 //System.out.println("Genres synced.");
-            } catch (DALException ex) {
+            }
+            catch (DALException ex)
+            {
                 //System.out.println("Genres sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }
@@ -696,45 +849,61 @@ public class DatabaseDAO implements DAO {
         // SYNC SONG
         List<Song> newSongs = new ArrayList<>();
         List<Integer> newSongsId = new ArrayList<>();
-        try {
+        try
+        {
             List<Song> thisList = getAllSongs();
             List<Song> syncList = syncDAO.getAllSongs();
             int index = 0;
 
-            for (Song song : syncList) {
-                if (!song.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+            for (Song song : syncList)
+            {
+                if (!song.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                {
                     // Current list item is less than sync item.
-                    while (index < thisList.size() - 1) {
-                        if (thisList.get(index).getSongId() < song.getSongId()) {
+                    while (index < thisList.size() - 1)
+                    {
+                        if (thisList.get(index).getSongId() < song.getSongId())
+                        {
                             index++;
-                        } else {
+                        }
+                        else
+                        {
                             break;
                         }
                     }
 
                     // Check if same id and add to database if different content.
-                    if (thisList.get(index).getSongId() == song.getSongId()) {
+                    if (thisList.get(index).getSongId() == song.getSongId())
+                    {
                         if (!(thisList.get(index).getTitle().equalsIgnoreCase(song.getTitle())
                                 && thisList.get(index).getArtist().equalsIgnoreCase(song.getArtist())
                                 && thisList.get(index).getAlbum().equalsIgnoreCase(song.getAlbum())
                                 && thisList.get(index).getYear() == song.getYear()
                                 && thisList.get(index).getGenre().getGenreId() == song.getGenre().getGenreId()
-                                && thisList.get(index).getPath().equalsIgnoreCase(song.getPath()))) {
+                                && thisList.get(index).getPath().equalsIgnoreCase(song.getPath())))
+                        {
                             Genre tmpGenre;
-                            if (newGenresId.contains(song.getGenre().getGenreId())) {
+                            if (newGenresId.contains(song.getGenre().getGenreId()))
+                            {
                                 tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
-                            } else {
+                            }
+                            else
+                            {
                                 tmpGenre = song.getGenre();
                             }
                             newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
                             newSongsId.add(song.getSongId());
                         }
                     } // If it still runs when it is at the end of thisList it should add all the rest from syncList.
-                    else if (index == thisList.size() - 1) {
+                    else if (index == thisList.size() - 1)
+                    {
                         Genre tmpGenre;
-                        if (newGenresId.contains(song.getGenre().getGenreId())) {
+                        if (newGenresId.contains(song.getGenre().getGenreId()))
+                        {
                             tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
-                        } else {
+                        }
+                        else
+                        {
                             tmpGenre = song.getGenre();
                         }
                         newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
@@ -743,17 +912,25 @@ public class DatabaseDAO implements DAO {
                 }
             }
             //System.out.println("Songs synced.");
-        } catch (DALException e) {
+        }
+        catch (DALException e)
+        {
             // Try loading data from sync
-            try {
+            try
+            {
                 List<Song> syncList = syncDAO.getAllSongs();
 
-                for (Song song : syncList) {
-                    if (!song.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+                for (Song song : syncList)
+                {
+                    if (!song.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                    {
                         Genre tmpGenre;
-                        if (newGenresId.contains(song.getGenre().getGenreId())) {
+                        if (newGenresId.contains(song.getGenre().getGenreId()))
+                        {
                             tmpGenre = newGenres.get(newGenresId.indexOf(song.getGenre().getGenreId()));
-                        } else {
+                        }
+                        else
+                        {
                             tmpGenre = song.getGenre();
                         }
                         newSongs.add(addSong(song.getArtist(), song.getTitle(), song.getAlbum(), song.getYear(), tmpGenre, song.getPath()));
@@ -761,77 +938,116 @@ public class DatabaseDAO implements DAO {
                     }
                 }
                 //System.out.println("Songs synced.");
-            } catch (DALException ex) {
+            }
+            catch (DALException ex)
+            {
                 //System.out.println("Songs sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }
         }
 
         // SYNC PLAYLIST
-        try {
+        try
+        {
             List<Playlist> thisList = getAllPlaylists();
             List<Playlist> syncList = syncDAO.getAllPlaylists();
             int index = 0;
 
-            for (Playlist playlist : syncList) {
-                if (playlist.getPlaylistId() == 1) {
+            for (Playlist playlist : syncList)
+            {
+                if (playlist.getPlaylistId() == 1)
+                {
                     continue;
                 }
 
                 // Current list item is less than sync item.
-                while (index < thisList.size() - 1) {
-                    if (thisList.get(index).getPlaylistId() < playlist.getPlaylistId()) {
+                while (index < thisList.size() - 1)
+                {
+                    if (thisList.get(index).getPlaylistId() < playlist.getPlaylistId())
+                    {
                         index++;
-                    } else {
+                    }
+                    else
+                    {
                         break;
                     }
                 }
 
                 // Check if same id and add to database if different content.
-                if (thisList.get(index).getPlaylistId() == playlist.getPlaylistId()) {
-                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+                if (thisList.get(index).getPlaylistId() == playlist.getPlaylistId())
+                {
+                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                    {
                         Playlist tmpPlaylist = addPlaylist(playlist.getName());
-                        for (Song song : playlist.getSongs()) {
-                            if (newSongsId.contains(song.getSongId())) {
+                        for (Song song : playlist.getSongs())
+                        {
+                            if (newSongsId.contains(song.getSongId()))
+                            {
                                 addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                            } else {
+                            }
+                            else
+                            {
                                 addSongToPlaylist(tmpPlaylist, song);
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         Playlist tmpPlaylist = new Playlist(playlist.getPlaylistId(), "tmp");
-                        for (Song song : playlist.getSongs()) {
-                            try {
+                        for (Song song : playlist.getSongs())
+                        {
+                            try
+                            {
                                 getSipId(song.getSongId(), tmpPlaylist.getPlaylistId());
-                            } catch (DALException ex) {
-                                if (newSongsId.contains(song.getSongId())) {
+                            }
+                            catch (DALException ex)
+                            {
+                                if (newSongsId.contains(song.getSongId()))
+                                {
                                     addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                                } else {
+                                }
+                                else
+                                {
                                     addSongToPlaylist(tmpPlaylist, song);
                                 }
                             }
                         }
                     }
                 } // If it still runs when it is at the end of thisList it should add all the rest from syncList.
-                else if (index == thisList.size() - 1) {
-                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+                else if (index == thisList.size() - 1)
+                {
+                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                    {
                         Playlist tmpPlaylist = addPlaylist(playlist.getName());
-                        for (Song song : playlist.getSongs()) {
-                            if (newSongsId.contains(song.getSongId())) {
+                        for (Song song : playlist.getSongs())
+                        {
+                            if (newSongsId.contains(song.getSongId()))
+                            {
                                 addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                            } else {
+                            }
+                            else
+                            {
                                 addSongToPlaylist(tmpPlaylist, song);
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         Playlist tmpPlaylist = new Playlist(playlist.getPlaylistId(), "tmp");
-                        for (Song song : playlist.getSongs()) {
-                            try {
+                        for (Song song : playlist.getSongs())
+                        {
+                            try
+                            {
                                 getSipId(song.getSongId(), tmpPlaylist.getPlaylistId());
-                            } catch (DALException ex) {
-                                if (newSongsId.contains(song.getSongId())) {
+                            }
+                            catch (DALException ex)
+                            {
+                                if (newSongsId.contains(song.getSongId()))
+                                {
                                     addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                                } else {
+                                }
+                                else
+                                {
                                     addSongToPlaylist(tmpPlaylist, song);
                                 }
                             }
@@ -841,33 +1057,52 @@ public class DatabaseDAO implements DAO {
             }
 
             //System.out.println("Playlists synced.");
-        } catch (DALException e) {
+        }
+        catch (DALException e)
+        {
             // Try loading data from sync
-            try {
+            try
+            {
                 List<Playlist> syncList = syncDAO.getAllPlaylists();
 
-                for (Playlist playlist : syncList) {
-                    if (playlist.getPlaylistId() == 1) {
+                for (Playlist playlist : syncList)
+                {
+                    if (playlist.getPlaylistId() == 1)
+                    {
                         continue;
                     }
-                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName())) {
+                    if (!playlist.getCreatedBy().equalsIgnoreCase(this.getClass().getName()))
+                    {
                         Playlist tmpPlaylist = addPlaylist(playlist.getName());
-                        for (Song song : playlist.getSongs()) {
-                            if (newSongsId.contains(song.getSongId())) {
+                        for (Song song : playlist.getSongs())
+                        {
+                            if (newSongsId.contains(song.getSongId()))
+                            {
                                 addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                            } else {
+                            }
+                            else
+                            {
                                 addSongToPlaylist(tmpPlaylist, song);
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         Playlist tmpPlaylist = new Playlist(playlist.getPlaylistId(), "tmp");
-                        for (Song song : playlist.getSongs()) {
-                            try {
+                        for (Song song : playlist.getSongs())
+                        {
+                            try
+                            {
                                 getSipId(song.getSongId(), tmpPlaylist.getPlaylistId());
-                            } catch (DALException ex) {
-                                if (newSongsId.contains(song.getSongId())) {
+                            }
+                            catch (DALException ex)
+                            {
+                                if (newSongsId.contains(song.getSongId()))
+                                {
                                     addSongToPlaylist(tmpPlaylist, newSongs.get(newSongsId.indexOf(song.getSongId())));
-                                } else {
+                                }
+                                else
+                                {
                                     addSongToPlaylist(tmpPlaylist, song);
                                 }
                             }
@@ -875,7 +1110,9 @@ public class DatabaseDAO implements DAO {
                     }
                 }
                 //System.out.println("Playlists synced.");
-            } catch (DALException ex) {
+            }
+            catch (DALException ex)
+            {
                 //System.out.println("Playlists sync failed.");
                 throw new DALException("Syncing database genres with other DAO: " + syncDAO.getClass().getName() + " " + ex.getMessage(), ex.getCause());
             }

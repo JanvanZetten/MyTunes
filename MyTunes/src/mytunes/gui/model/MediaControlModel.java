@@ -23,22 +23,28 @@ import mytunes.bll.MediaHandler;
  *
  * @author Alex, Asbjørn og Jan
  */
-public class MediaControlModel {
+public class MediaControlModel
+{
 
     private MediaHandler mediaHandler;
     private boolean muted = false;
 
-    public MediaControlModel() {
+    public MediaControlModel()
+    {
         mediaHandler = new MediaHandler();
     }
 
     /**
      * Play song.
      */
-    public void playMedia() {
-        try {
+    public void playMedia()
+    {
+        try
+        {
             mediaHandler.playMedia();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not play Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -47,17 +53,22 @@ public class MediaControlModel {
     /**
      * Pause song.
      */
-    public void pauseMedia() {
+    public void pauseMedia()
+    {
         mediaHandler.pauseMedia();
     }
 
     /**
      * Change to previous song in list.
      */
-    public void previousMedia() {
-        try {
+    public void previousMedia()
+    {
+        try
+        {
             mediaHandler.previousMedia();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -66,10 +77,14 @@ public class MediaControlModel {
     /**
      * Change to next song in list.
      */
-    public void nextMedia() {
-        try {
+    public void nextMedia()
+    {
+        try
+        {
             mediaHandler.nextMedia();
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -78,10 +93,14 @@ public class MediaControlModel {
     /**
      * Switch song to index.
      */
-    public void switchSong(int index) {
-        try {
+    public void switchSong(int index)
+    {
+        try
+        {
             mediaHandler.switchSong(index);
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not load Media: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
@@ -92,7 +111,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public boolean switchLooping() {
+    public boolean switchLooping()
+    {
         return mediaHandler.switchLooping();
     }
 
@@ -101,7 +121,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public boolean switchShuffling() {
+    public boolean switchShuffling()
+    {
         return mediaHandler.switchShuffling();
     }
 
@@ -110,7 +131,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleStringProperty getArtist() {
+    public SimpleStringProperty getArtist()
+    {
         return mediaHandler.getArtist();
     }
 
@@ -119,7 +141,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleStringProperty getTitle() {
+    public SimpleStringProperty getTitle()
+    {
         return mediaHandler.getTitle();
     }
 
@@ -128,7 +151,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleStringProperty getAlbum() {
+    public SimpleStringProperty getAlbum()
+    {
         return mediaHandler.getAlbum();
     }
 
@@ -137,7 +161,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleStringProperty getCurrentTime() {
+    public SimpleStringProperty getCurrentTime()
+    {
         return mediaHandler.getCurrentTime();
     }
 
@@ -146,7 +171,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleStringProperty getDurationTime() {
+    public SimpleStringProperty getDurationTime()
+    {
         return mediaHandler.getDurationTime();
     }
 
@@ -155,7 +181,8 @@ public class MediaControlModel {
      *
      * @return
      */
-    public SimpleDoubleProperty getProgress() {
+    public SimpleDoubleProperty getProgress()
+    {
         return mediaHandler.getProgress();
     }
 
@@ -164,13 +191,17 @@ public class MediaControlModel {
      *
      * @param volumeSlider the Slider who have to adjust the volume
      */
-    public void volumeSliderSetup(Slider volumeSlider) {
+    public void volumeSliderSetup(Slider volumeSlider)
+    {
         volumeSlider.setValue(mediaHandler.getVolume() * volumeSlider.getMax());
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+        volumeSlider.valueProperty().addListener(new InvalidationListener()
+        {
             @Override
-            public void invalidated(Observable observable) {
+            public void invalidated(Observable observable)
+            {
                 mediaHandler.setVolume(volumeSlider.getValue() / volumeSlider.getMax());
-                if (volumeSlider.getValue() == 0) {
+                if (volumeSlider.getValue() == 0)
+                {
                 }
             }
         });
@@ -182,24 +213,33 @@ public class MediaControlModel {
      *
      * @param musicSlider
      */
-    public void musicSliderSetup(Slider musicSlider) {
+    public void musicSliderSetup(Slider musicSlider)
+    {
         musicSlider.valueProperty().bindBidirectional(mediaHandler.getProgress());
 
-        musicSlider.valueProperty().addListener(new InvalidationListener() {
+        musicSlider.valueProperty().addListener(new InvalidationListener()
+        {
             @Override
-            public void invalidated(Observable observable) {
-                if (musicSlider.pressedProperty().get()) {
+            public void invalidated(Observable observable)
+            {
+                if (musicSlider.pressedProperty().get())
+                {
                     mediaHandler.setProgressing(false);
                 }
             }
         });
 
-        musicSlider.setOnMouseReleased(new EventHandler<MouseEvent>() {
+        musicSlider.setOnMouseReleased(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent event) {
-                try {
+            public void handle(MouseEvent event)
+            {
+                try
+                {
                     mediaHandler.seek(musicSlider.getValue());
-                } catch (BLLException ex) {
+                }
+                catch (BLLException ex)
+                {
                     mediaHandler.stopMedia();
                 }
                 mediaHandler.setProgressing(true);
@@ -212,39 +252,46 @@ public class MediaControlModel {
      *
      * @return true if playing else false
      */
-    public boolean isPlaying() {
+    public boolean isPlaying()
+    {
         return mediaHandler.isPlaying();
     }
 
     /**
-     * Sets the given observablelist for the songs in the que
+     * Sets the given observablelist for the songs in the queue
      *
      * @param songs a obervable list
      */
-    public void setListOfSongsForPlaying(ObservableList<Song> songs) {
-        try {
+    public void setListOfSongsForPlaying(ObservableList<Song> songs)
+    {
+        try
+        {
             mediaHandler.setSongs(songs);
-        } catch (BLLException ex) {
+        }
+        catch (BLLException ex)
+        {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Could not set Songs: " + ex.getMessage() + ".", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
     /**
-     * change the muted varibel
+     * change the muted variable
      *
      * @param mutedSetting true when muted false when unmuted
      */
-    public void setMuted(boolean mutedSetting) {
+    public void setMuted(boolean mutedSetting)
+    {
         muted = mutedSetting;
     }
 
     /**
-     * returns the muted varibel
+     * returns the muted variable
      *
      * @return
      */
-    public boolean isMuted() {
+    public boolean isMuted()
+    {
         return muted;
     }
 

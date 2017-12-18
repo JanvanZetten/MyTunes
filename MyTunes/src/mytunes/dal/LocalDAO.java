@@ -29,6 +29,9 @@ public class LocalDAO implements DAO
     private File genreFile;
     private File songsInPlaylistFile;
 
+    /**
+     * Creates files and directory on construction.
+     */
     public LocalDAO()
     {
         this.playlistFile = new File("localDB/playlist.dao");
@@ -99,7 +102,7 @@ public class LocalDAO implements DAO
     }
 
     /**
-     * saves all the playlists in the list of playlists
+     * saves all the playlists to file.
      * @param playlists
      * @throws DALException
      */
@@ -120,7 +123,7 @@ public class LocalDAO implements DAO
     }
 
     /**
-     * saves all the songs in the given list of songs
+     * saves all the songs to file.
      * @param songs
      * @throws DALException
      */
@@ -141,7 +144,7 @@ public class LocalDAO implements DAO
     }
 
     /**
-     * saves all genres in the list of genres
+     * saves all genres to file.
      * @param genres
      * @throws DALException
      */
@@ -453,6 +456,11 @@ public class LocalDAO implements DAO
         throw new DALException("Could not swap songs in playlist on local: " + firstSongId + " and " + secondSongId + " in " + playlistId);
     }
 
+    /**
+     * Clone syncDAO to this DAO.
+     * @param syncDAO
+     * @throws DALException
+     */
     @Override
     public void sync(DAO syncDAO) throws DALException
     {

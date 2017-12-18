@@ -23,6 +23,10 @@ public class DALManager
     private DAO localDAO;
     private boolean offlineMode;
 
+    /**
+     * Instantiates instances and sync data.
+     * @throws DALException
+     */
     public DALManager() throws DALException
     {
         databaseDAO = new DatabaseDAO();
@@ -815,9 +819,10 @@ public class DALManager
     }
 
     /**
-     * Tries to sync with online database if this suceeds it will try to sync the local database with the online database
-     * if it cant get a connection to the online database it will connect to local database
-     * @throws DALException 
+     * Tries to sync with online database if this succeeds it will try to sync
+     * the local database with the online database if it cant get a connection
+     * to the online database it will connect to local database
+     * @throws DALException
      */
     private void syncAll() throws DALException
     {
@@ -855,7 +860,7 @@ public class DALManager
 
     /**
      * syncs local database with online database
-     * @throws DALException 
+     * @throws DALException
      */
     private void syncLocal() throws DALException
     {

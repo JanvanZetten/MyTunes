@@ -64,6 +64,7 @@ public class MediaHandler
         isProgressing = true;
         shuffleList = new ArrayList<>();
 
+        // Set currentTime.
         currentTime.set(sec2minsec(currentTimeInDouble.doubleValue() / 1000));
 
         // A listener which checks if the value of currentTime changed. If so update it.
@@ -221,7 +222,7 @@ public class MediaHandler
             player.pauseMedia();
         }
     }
-    
+
     /**
      * Stops the song
      */
@@ -298,8 +299,9 @@ public class MediaHandler
 
     /**
      * Sets the songs player to the given value
-     * @param value a value from 0 to 1 where 0 is the songs start and 1 is the songs end
-     * @throws BLLException 
+     * @param value a value from 0 to 1 where 0 is the songs start and 1 is the
+     * songs end
+     * @throws BLLException
      */
     public void seek(double value) throws BLLException
     {
