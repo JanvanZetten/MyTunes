@@ -107,6 +107,10 @@ public class AudioMedia
         return duration;
     }
 
+    /**
+     * The last part of the filename
+     * @return 
+     */
     public String getExtension()
     {
         return extension;

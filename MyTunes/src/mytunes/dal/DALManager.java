@@ -814,6 +814,11 @@ public class DALManager
         }
     }
 
+    /**
+     * Tries to sync with online database if this suceeds it will try to sync the local database with the online database
+     * if it cant get a connection to the online database it will connect to local database
+     * @throws DALException 
+     */
     private void syncAll() throws DALException
     {
         try
@@ -848,6 +853,10 @@ public class DALManager
         }
     }
 
+    /**
+     * syncs local database with online database
+     * @throws DALException 
+     */
     private void syncLocal() throws DALException
     {
         try

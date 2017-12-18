@@ -290,8 +290,8 @@ public class MainModel {
     }
 
     /**
-     *
-     * @param song
+     * edits the song in DAL and viewd list
+     * @param song the updated Song object
      * @throws BLLException
      */
     public void editSongInformation(Song song) throws BLLException {
@@ -305,10 +305,21 @@ public class MainModel {
 
     }
 
-    public void editPlaylistInformation(int PlaylistId, String text) throws BLLException {
-        bllManager.updatePlaylist(PlaylistId, text);
+    /**
+     * edit the name of the playlist, with the given playlist id, to be the given name
+     * @param PlaylistId
+     * @param name
+     * @throws BLLException
+     */
+    public void editPlaylistInformation(int PlaylistId, String name) throws BLLException {
+        bllManager.updatePlaylist(PlaylistId, name);
     }
 
+    /**
+     * Deleting a song or playlist dedending on element is == "Song" or "Playlist"
+     * @param element
+     * @throws BLLException
+     */
     public void setCurrentElementToBeDeleted(String element) throws BLLException {
         if ("Song".equals(element)) {
             if (chosenPlaylist.getPlaylistId() == 1) {
@@ -335,10 +346,18 @@ public class MainModel {
         }
     }
 
+    /**
+     * Sets the song or playlist to the given string
+     * @param SongOrPlaylist
+     */
     public void setSongOrPlaylist(String SongOrPlaylist) {
         songOrPlaylist = SongOrPlaylist;
     }
 
+    /**
+     * Gets the last send string by setSongOrPlaylist()
+     * @return
+     */
     public String getSongOrPlaylist() {
         return songOrPlaylist;
     }

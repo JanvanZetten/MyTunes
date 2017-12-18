@@ -98,6 +98,11 @@ public class LocalDAO implements DAO
         }
     }
 
+    /**
+     * saves all the playlists in the list of playlists
+     * @param playlists
+     * @throws DALException
+     */
     public void saveAllPlaylists(List<Playlist> playlists) throws DALException
     {
         try
@@ -114,6 +119,11 @@ public class LocalDAO implements DAO
         }
     }
 
+    /**
+     * saves all the songs in the given list of songs
+     * @param songs
+     * @throws DALException
+     */
     public void saveAllSongs(List<Song> songs) throws DALException
     {
         try
@@ -130,6 +140,11 @@ public class LocalDAO implements DAO
         }
     }
 
+    /**
+     * saves all genres in the list of genres
+     * @param genres
+     * @throws DALException
+     */
     public void saveAllGenres(List<Genre> genres) throws DALException
     {
         try

@@ -85,11 +85,5 @@ public class DeleteConfirmationViewController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    public void buttonPressed(KeyEvent e) throws BLLException {
-        if (e.getCode().toString().equals("ENTER")) {
-            handleButtonActionDelete();
-        }
-    }
 
 }

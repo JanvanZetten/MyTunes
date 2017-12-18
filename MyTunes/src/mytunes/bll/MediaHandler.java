@@ -221,7 +221,10 @@ public class MediaHandler
             player.pauseMedia();
         }
     }
-
+    
+    /**
+     * Stops the song
+     */
     public void stopMedia()
     {
         if (player != null)
@@ -293,6 +296,11 @@ public class MediaHandler
         currentVolume = value;
     }
 
+    /**
+     * Sets the songs player to the given value
+     * @param value a value from 0 to 1 where 0 is the songs start and 1 is the songs end
+     * @throws BLLException 
+     */
     public void seek(double value) throws BLLException
     {
         try

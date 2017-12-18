@@ -183,7 +183,7 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     * sets the songs from the given playlist in the table view and updates the
+     * Sets the songs from the given playlist in the table view and updates the
      * labels to match with the playlist
      *
      * @param playlist the playlist to show
@@ -586,7 +586,8 @@ public class MainWindowController implements Initializable {
     }
 
     /**
-     *
+     * Handels all the stuff for when the mouse is cliked on the tableview
+     * @param event the mouse event
      */
     @FXML
     private void tableviewMouseClicked(MouseEvent event) {
